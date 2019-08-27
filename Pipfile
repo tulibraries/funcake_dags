@@ -9,6 +9,11 @@ pytest = "*"
 apache-airflow = "*"
 
 [packages]
+tulflow = "*"
+pexpect = "*"
+xmltodict = "*"
+sickle = "*"
+awscli = "*"
 
 [requires]
-python_version = "2.7"
+python_version = "3.6"

@@ -1,3 +1,5 @@
+#/bin/bash --login
+
 language: python
 python:
 - '3.6'
@@ -5,7 +7,7 @@ install:
 - pip install pipenv
 - SLUGIFY_USES_TEXT_UNIDECODE=yes pipenv install --dev
 script:
-- pipenv run pylint funcake_dags -E
+- pipenv run pylint combine_index_dag -E
 - pipenv run pytest
 
 

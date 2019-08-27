@@ -7,7 +7,7 @@ This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Air
 ## Repository Structure
 
 This repository has 3 main groups of files:
-- Airflow DAG definition python files (starting with `dag_`);
+- Airflow DAG definition python files (ending with `_dag.py`);
 - Airflow DAG tasks python files used by the above (starting with `task_`);
 - and required local development, test, deployment, and CI files (`tests`, `configs`, `.travis`, Pipfile, etc.).
 
@@ -17,10 +17,12 @@ These the Airflow expectations for these Funnel Cake DAGs to successfully run:
 
 **Libraries & Packages**
 
-- Python 3.6
+- Python 3.6 (limited by apache-airflow requirements)
 - Python Packages: see the [Pipfile](Pipfile)
 
 **Airflow Variables**
+
+- `FUNCAKE_COLLECTION`: The SolrCloud Collection to be indexed to then aliased.
 
 **Airflow Connections**
 
