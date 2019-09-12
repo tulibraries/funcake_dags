@@ -1,6 +1,7 @@
 # Funnel Cake DAGs
 
-![pylint Score](https://mperlet.github.io/pybadge/badges/4.46.svg) [![Build Status](https://travis-ci.com/tulibraries/funcake_dags.svg?branch=qa)](https://travis-ci.com/tulibraries/funcake_dags)
+[![CircleCI](https://circleci.com/gh/tulibraries/funcake_dags.svg?style=svg)](https://circleci.com/gh/tulibraries/funcake_dags)
+![pylint Score](https://mperlet.github.io/pybadge/badges/9.47.svg)
 
 This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Airflow DAGs (Directed Acyclic Graphs, e.g., data processing workflows) for data indexing to Solr + related jobs. These DAGs are expecting to be run within an Airflow installation akin to the one built by our [TUL Airflow Playbook (private repository)](https://github.com/tulibraries/ansible-playbook-airflow).
 
