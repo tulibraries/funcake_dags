@@ -22,10 +22,9 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
-      - run:
-          add_ssh_keys:
-            fingerprints:
-              - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
+      - add_ssh_keys:
+          fingerprints:
+            - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
       - run:
           name: 'Run Ansible Airflow Playbook for QA'
           command: |
@@ -45,10 +44,9 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
-      - run:
-          add_ssh_keys:
-            fingerprints:
-              - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
+      - add_ssh_keys:
+          fingerprints:
+            - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
       - run:
           name: 'Run Ansible Airflow Playbook for Stage'
           command: |
@@ -68,10 +66,9 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
-      - run:
-          add_ssh_keys:
-            fingerprints:
-              - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
+      - add_ssh_keys:
+          fingerprints:
+            - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
       - run:
           name: 'Run Ansible Airflow Playbook for Prod'
           command: |
