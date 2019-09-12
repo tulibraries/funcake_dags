@@ -23,18 +23,21 @@ These the Airflow expectations for these Funnel Cake DAGs to successfully run:
 
 **Airflow Variables**
 
-- `FUNCAKE_COLLECTION`: The SolrCloud Collection to be indexed to then aliased.
+- `FUNCAKE_CONFIGSET`: The SolrCloud Configset identifier to use for creating new Funnel Cake Collections & updating Aliases. Based on the https://github.com/tulibraries/funcake-solr latest release
+- `FUNCAKE_OAI_ENDPT`: The OAI Endpoint to be harvested for indexing.
+- `FUNCAKE_OAI_SET`: The OAI set used for harvesting from the OAI Endpoint (above). If all sets wanted, set to "" (but you have to set).
+- `FUNCAKE_MD_PREFIX`: The OAI metadata prefix used for harvesting from the OAI Endpoint (above). This is required, per OAI-PMH specifications.
+- `AIRFLOW_DATA_BUCKET`: The AWS S3 Bucket label (label / name, not ARN or URI) the harvested OAI-PMH XML data is put into / indexed from.
+- `AIRFLOW_HOME`: The Airflow system home directory path. Used here for locating our `scripts` repository when running the indexing bash script.
 
 **Airflow Connections**
-
-
-**Environment Variables**
-
+- `SOLRCLOUD`: An HTTP Connection used to connect to SolrCloud.
+- `AIRFLOW_S3`: An AWS (not S3 with latest Airflow upgrade) Connection used to manage AWS credentials (which we use to interact with our Airflow Data S3 Bucket).
 
 **Infrastructure & Integration**
 
-- Accessible DPLAH OAI-PMH API Endpoint
-- Accessible Solr (SolrCloud) Endpoint
+- Accessible DPLAH OAI-PMH API Endpoint (or whatever endpoint you're indexing from, as set by the Airflow Variable `FUNCAKE_OAI_ENDPT`)
+- Accessible SolrCloud Endpoint, with created ConfigSet for the referenced `FUNCAKE_CONFIGSET`. The SolrCloud Collection is created and the SolrCloud Alias is created/updated based upon this Configset by this DAG.
 
 ## Local Development
 
@@ -105,4 +108,16 @@ $ pipenv run pytest
 
 ## Deployment
 
-to be written up.
+CircleCI is used for CI and CD.
+
+### CI
+
+We run pylint and pytest to check the basics. These are run within a Pipenv shell to manage expected packages across all possibly environments.
+
+### CD
+
+We deploy via the tulibraries/ansible-playbook-airflow ansible playbook. This runs, pointing at the appropriate tulibraries/funcake_dags branch (qa or master) to clone & set up (run pip install based on the Pipenv files) within the relevant Airflow deployed environment.
+
+PRs merged to QA cause a QA environment deploy of tulibraries/ansible-playbook-airflow ansible playbook; PRs merged to Master cause a Stage Environment deploy using that airflow playbook. PRs merged to Master also queue up a Production Environment deploy, that waits for user input before running.
+
+The idea is to eventually touch the airflow ansible playbook as little as possible, and have DAG changes occur here & deploy from here. 
