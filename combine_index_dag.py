@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.hooks import BaseHook
 from airflow.models import Variable
-from airflow.operators.http_operator import SimpleHttpOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from tulflow import harvest, tasks
@@ -35,7 +34,7 @@ AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 
 # Indexing Script to Solr
 AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
-FUNCAKE_INDEX_BASH = Variable.get("AIRFLOW_HOME") + "/dags/funcake_dags/scripts/index.sh "
+FUNCAKE_INDEX_BASH = AIRFLOW_HOME + "/dags/funcake_dags/scripts/index.sh "
 
 #
 # CREATE DAG
