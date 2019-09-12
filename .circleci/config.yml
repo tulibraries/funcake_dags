@@ -9,6 +9,7 @@ jobs:
     steps:
       - checkout
       - run:
+          name: 'Run Pylint & Pytest'
           command: |
             sudo pip install pipenv
             SLUGIFY_USES_TEXT_UNIDECODE=yes pipenv install --dev
@@ -22,10 +23,11 @@ jobs:
     steps:
       - checkout
       - run:
-          - add_ssh_keys:
-              fingerprints:
-                - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
+          add_ssh_keys:
+            fingerprints:
+              - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
       - run:
+          name: 'Run Ansible Airflow Playbook for QA'
           command: |
             cd ..
             git clone --single-branch --branch qa https://github.com/tulibraries/ansible-playbook-airflow.git
@@ -44,10 +46,11 @@ jobs:
     steps:
       - checkout
       - run:
-          - add_ssh_keys:
-              fingerprints:
-                - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
+          add_ssh_keys:
+            fingerprints:
+              - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
       - run:
+          name: 'Run Ansible Airflow Playbook for Stage'
           command: |
             cd ..
             git clone --single-branch --branch master https://github.com/tulibraries/ansible-playbook-airflow.git
@@ -66,10 +69,11 @@ jobs:
     steps:
       - checkout
       - run:
-          - add_ssh_keys:
-              fingerprints:
-                - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
+          add_ssh_keys:
+            fingerprints:
+              - "2f:37:66:17:11:ae:f9:0f:9e:52:98:41:fe:d0:0c:78"
       - run:
+          name: 'Run Ansible Airflow Playbook for Prod'
           command: |
             cd ..
             git clone --single-branch --branch master https://github.com/tulibraries/ansible-playbook-airflow.git
