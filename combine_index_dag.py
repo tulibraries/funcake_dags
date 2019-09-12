@@ -85,6 +85,8 @@ HARVEST_OAI = PythonOperator(
     dag=FCDAG
 )
 
+#pylint: disable-msg=too-many-function-args
+# this is ticketed for fix; either make class or dictionary for solr args
 CREATE_COLLECTION = tasks.create_sc_collection(FCDAG, SOLR_CONN.conn_id, COLLECTION, "3", CONFIGSET)
 
 COMBINE_INDEX = BashOperator(
