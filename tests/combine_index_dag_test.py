@@ -2,7 +2,7 @@
 import os
 import unittest
 import airflow
-from combine_index_dag import FCDAG
+from funcake_dags.combine_index_dag import FCDAG
 
 class TestCombineIndexDAG(unittest.TestCase):
     """Primary Class for Testing the Combine to FunCake Solr Index DAG."""
