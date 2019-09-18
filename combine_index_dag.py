@@ -34,6 +34,7 @@ AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 
 # Indexing Script to Solr
 AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
+AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 FUNCAKE_INDEX_BASH = AIRFLOW_HOME + "/dags/funcake_dags/scripts/index.sh "
 
 #
@@ -99,7 +100,8 @@ COMBINE_INDEX = BashOperator(
         "SOLR_AUTH_PASSWORD": SOLR_CONN.password,
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-        "AIRFLOW_HOME": AIRFLOW_HOME
+        "AIRFLOW_HOME": AIRFLOW_HOME,
+        "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
     },
     dag=FCDAG
 )
