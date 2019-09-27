@@ -7,6 +7,28 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from tulflow import harvest, tasks
 
+
+#
+# LOCAL FUNCTIONS
+#
+# Functions / any code with processing logic should be elsewhere, tested, etc.
+# This is where to put functions that haven't been abstracted out yet.
+#
+def slackpostonsuccess(FCDAG, **context):
+    """Task Method to Post Successful FunCake Blogs Sync DAG Completion on Slack."""
+
+    task_instance = context.get('task_instance')
+
+    msg = "%(date)s DAG %(dagid)s success: Combine Set %(set)s to Solr Index Complete %(url)s" % {
+        "date": context.get('execution_date'),
+        "dagid": task_instance.dag_id,
+        "set": FUNCAKE_OAI_SET,
+        "url": task_instance.log_url
+        }
+
+    return tasks.slackpostonsuccess(FCDAG, msg).execute(context=context)
+
+
 #
 # INIT SYSTEMWIDE VARIABLES
 #
@@ -110,7 +132,7 @@ SOLR_ALIAS_SWAP = tasks.swap_sc_alias(FCDAG, SOLR_CONN.conn_id, COLLECTION, ALIA
 
 NOTIFY_SLACK = PythonOperator(
     task_id='slack_post_succ',
-    python_callable=tasks.slackpostonsuccess,
+    python_callable=slackpostonsuccess,
     provide_context=True,
     dag=FCDAG
 )
@@ -127,24 +149,3 @@ COMBINE_INDEX.set_upstream(HARVEST_OAI)
 COMBINE_INDEX.set_upstream(CREATE_COLLECTION)
 SOLR_ALIAS_SWAP.set_upstream(COMBINE_INDEX)
 NOTIFY_SLACK.set_upstream(SOLR_ALIAS_SWAP)
-
-
-#
-# LOCAL FUNCTIONS
-#
-# Functions / any code with processing logic should be elsewhere, tested, etc.
-# This is where to put functions that haven't been abstracted out yet.
-#
-def slackpostonsuccess(FCDAG, **context):
-    """Task Method to Post Successful FunCake Blogs Sync DAG Completion on Slack."""
-
-    task_instance = context.get('task_instance')
-
-    msg = "%(date)s DAG %(dagid)s success: Combine Set %(set)s to Solr Index Complete %(url)s" % {
-        "date": context.get('execution_date'),
-        "dagid": task_instance.dag_id,
-        "set": FUNCAKE_OAI_SET,
-        "url": task_instance.log_url
-        }
-
-    return tasks.slackpostonsuccess(FCDAG, msg).execute(context=context)
