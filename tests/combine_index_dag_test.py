@@ -3,9 +3,9 @@ import os
 import unittest
 import airflow
 try:
-	from funcake_dags.combine_index_dag import FCDAG
-except ImportError as e:	
-	from combine_index_dag import FCDAG
+    from combine_index_dag import FCDAG
+except ImportError:
+    from funcake_dags.combine_index_dag import FCDAG
 
 class TestCombineIndexDAG(unittest.TestCase):
     """Primary Class for Testing the Combine to FunCake Solr Index DAG."""
