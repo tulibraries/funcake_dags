@@ -14,7 +14,7 @@ jobs:
             sudo pip install pipenv
             SLUGIFY_USES_TEXT_UNIDECODE=yes pipenv install --dev
             pipenv run pylint combine_index_dag -E
-            PYTHONPATH=.. pipenv run pytest
+            PYTHONPATH=. pipenv run pytest
   qa_deploy:
     docker:
       - image: circleci/python:3.7.2
