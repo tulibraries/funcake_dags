@@ -14,7 +14,7 @@ from tulflow import harvest, tasks
 # Functions / any code with processing logic should be elsewhere, tested, etc.
 # This is where to put functions that haven't been abstracted out yet.
 #
-def slackpostonsuccess(FCDAG, **context):
+def slackpostonsuccess(dag, **context):
     """Task Method to Post Successful FunCake Blogs Sync DAG Completion on Slack."""
 
     task_instance = context.get('task_instance')
@@ -26,8 +26,7 @@ def slackpostonsuccess(FCDAG, **context):
         "url": task_instance.log_url
         }
 
-    return tasks.slackpostonsuccess(FCDAG, msg).execute(context=context)
-
+    return tasks.slackpostonsuccess(dag, msg).execute(context=context)
 
 #
 # INIT SYSTEMWIDE VARIABLES
