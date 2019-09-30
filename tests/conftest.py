@@ -17,6 +17,7 @@ def pytest_sessionstart():
     subprocess.run("cp *.py dags/funcake_dags", shell=True)
     subprocess.run("cp -r scripts dags/funcake_dags", shell=True)
     airflow.models.Variable.set("AIRFLOW_HOME", repo_dir)
+    airflow.models.Variable.set("AIRFLOW_USER_HOME", repo_dir)
     airflow.models.Variable.set("AIRFLOW_DATA_BUCKET", "test-s3-bucket")
     airflow.models.Variable.set("AIRFLOW_LOG_DIR", repo_dir + '/logs')
     airflow.models.Variable.set("FUNCAKE_CONFIGSET", "funcake-0")
