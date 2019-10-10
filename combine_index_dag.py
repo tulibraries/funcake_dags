@@ -57,6 +57,7 @@ AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
 AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 FUNCAKE_INDEX_BASH = AIRFLOW_HOME + "/dags/funcake_dags/scripts/index.sh "
+FUNCAKE_INDEXER_BRANCH = Variable.get("FUNCAKE_INDEXER_BRANCH")
 
 #
 # CREATE DAG
@@ -114,15 +115,16 @@ COMBINE_INDEX = BashOperator(
     task_id='combine_index',
     bash_command=FUNCAKE_INDEX_BASH,
     env={
-        "BUCKET": AIRFLOW_DATA_BUCKET,
-        "FOLDER": FCDAG.dag_id + "/" + TIMESTAMP,
-        "SOLR_URL": SOLR_COLL_ENDPT,
-        "SOLR_AUTH_USER": SOLR_CONN.login,
-        "SOLR_AUTH_PASSWORD": SOLR_CONN.password,
+        "AIRFLOW_HOME": AIRFLOW_HOME,
+        "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME,
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-        "AIRFLOW_HOME": AIRFLOW_HOME,
-        "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "FOLDER": FCDAG.dag_id + "/" + TIMESTAMP,
+        "FUNCAKE_INDEXER_BRANCH": FUNCAKE_INDEXER_BRANCH,
+        "SOLR_AUTH_USER": SOLR_CONN.login,
+        "SOLR_AUTH_PASSWORD": SOLR_CONN.password,
+        "SOLR_URL": SOLR_COLL_ENDPT
     },
     dag=FCDAG
 )

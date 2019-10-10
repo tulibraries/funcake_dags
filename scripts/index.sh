@@ -11,7 +11,7 @@ source ~/.bashrc
 export PATH="$AIRFLOW_HOME/.rbenv/shims:$AIRFLOW_HOME/.rbenv/bin:$PATH"
 
 # grab the funnel cake indexer (ruby / traject) & instal related gems
-git clone https://github.com/tulibraries/funnel_cake_index.git tmp/funnel_cake_index
+git clone --single-branch --branch $FUNCAKE_INDEXER_BRANCH https://github.com/tulibraries/funnel_cake_index.git tmp/funnel_cake_index
 cd tmp/funnel_cake_index
 gem install bundler
 bundle install
