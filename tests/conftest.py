@@ -20,10 +20,13 @@ def pytest_sessionstart():
     airflow.models.Variable.set("AIRFLOW_USER_HOME", repo_dir)
     airflow.models.Variable.set("AIRFLOW_DATA_BUCKET", "test-s3-bucket")
     airflow.models.Variable.set("AIRFLOW_LOG_DIR", repo_dir + '/logs')
-    airflow.models.Variable.set("FUNCAKE_CONFIGSET", "funcake-0")
+    airflow.models.Variable.set("FUNCAKE_DEV_CONFIGSET", "funcake-0")
+    airflow.models.Variable.set("FUNCAKE_PROD_CONFIGSET", "funcake-0")
     airflow.models.Variable.set("FUNCAKE_OAI_ENDPT", "http://localhost/oai")
     airflow.models.Variable.set("FUNCAKE_OAI_SET", "i_love_cats")
     airflow.models.Variable.set("FUNCAKE_MD_PREFIX", "kittens")
+    airflow.models.Variable.set("FUNCAKE_DEV_ALIAS", "pumas")
+    airflow.models.Variable.set("FUNCAKE_PROD_ALIAS", "panthers")
 
     solrcloud = airflow.models.Connection(
         conn_id="SOLRCLOUD",
