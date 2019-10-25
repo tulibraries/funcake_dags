@@ -25,8 +25,6 @@ def pytest_sessionstart():
     airflow.models.Variable.set("FUNCAKE_OAI_ENDPT", "http://localhost/oai")
     airflow.models.Variable.set("FUNCAKE_OAI_SET", "i_love_cats")
     airflow.models.Variable.set("FUNCAKE_MD_PREFIX", "kittens")
-    airflow.models.Variable.set("FUNCAKE_DEV_ALIAS", "pumas")
-    airflow.models.Variable.set("FUNCAKE_PROD_ALIAS", "panthers")
 
     solrcloud = airflow.models.Connection(
         conn_id="SOLRCLOUD",

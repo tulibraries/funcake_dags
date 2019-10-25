@@ -40,7 +40,7 @@ SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
 CONFIGSET = Variable.get("FUNCAKE_PROD_CONFIGSET")
 TIMESTAMP = "{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}"
 COLLECTION = CONFIGSET + "-" + TIMESTAMP
-ALIAS = Variable.get("FUNCAKE_PROD_ALIAS")
+ALIAS = CONFIGSET + "-prod"
 if "://" in SOLR_CONN.host:
     SOLR_COLL_ENDPT = SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
 else:
