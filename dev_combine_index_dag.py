@@ -1,7 +1,7 @@
 """DAG to Harvest PA Digital Aggregated OAI-PMH XML & Index to SolrCloud."""
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.hooks import BaseHook
+from airflow.hooks.base_hook import BaseHook
 from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
@@ -37,10 +37,10 @@ def slackpostonsuccess(dag, **context):
 
 # Get Solr URL & Collection Name for indexing info; error out if not entered
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
-CONFIGSET = Variable.get("FUNCAKE_CONFIGSET")
+CONFIGSET = Variable.get("FUNCAKE_DEV_CONFIGSET")
 TIMESTAMP = "{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}"
 COLLECTION = CONFIGSET + "-" + TIMESTAMP
-ALIAS = CONFIGSET
+ALIAS = CONFIGSET + "-dev"
 if "://" in SOLR_CONN.host:
     SOLR_COLL_ENDPT = SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
 else:
@@ -72,7 +72,7 @@ DEFAULT_ARGS = {
 }
 
 FCDAG = DAG(
-    'funcake_index',
+    'dev_funcake_index',
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,

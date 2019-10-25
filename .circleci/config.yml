@@ -13,7 +13,8 @@ jobs:
           command: |
             sudo pip install pipenv
             SLUGIFY_USES_TEXT_UNIDECODE=yes pipenv install --dev
-            pipenv run pylint combine_index_dag -E
+            pipenv run pylint dev_combine_index_dag -E
+            pipenv run pylint prod_combine_index_dag -E
             PYTHONPATH=. pipenv run pytest
   qa_deploy:
     docker:
