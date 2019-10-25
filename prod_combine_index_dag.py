@@ -1,7 +1,7 @@
 """DAG to Harvest PA Digital Aggregated OAI-PMH XML & Index to SolrCloud."""
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.hooks import BaseHook
+from airflow.hooks.base_hook import BaseHook
 from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
