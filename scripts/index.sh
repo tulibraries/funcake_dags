@@ -1,14 +1,16 @@
-#/bin/bash --login
+:wq#/bin/bash --login
+
+# required for picking up rbenv variables; source for VMs, export for docker.
+export HOME=$AIRFLOW_USER_HOME
+source ~/.bashrc
+export PATH="$AIRFLOW_HOME/.rbenv/shims:$AIRFLOW_HOME/.rbenv/bin:$PATH"
+
 
 # have any error in following cause bash script to fail
 set -e
 # export / set all environment variables passed here by task for pick-up by subprocess
 set -aux
 
-# required for picking up rbenv variables; source for VMs, export for docker.
-export HOME=$AIRFLOW_USER_HOME
-source ~/.bashrc
-export PATH="$AIRFLOW_HOME/.rbenv/shims:$AIRFLOW_HOME/.rbenv/bin:$PATH"
 
 # grab the funnel cake indexer (ruby / traject) & instal related gems
 git clone https://github.com/tulibraries/funnel_cake_index.git tmp/funnel_cake_index
