@@ -1,4 +1,4 @@
-:wq#/bin/bash --login
+#/bin/bash --login
 
 # required for picking up rbenv variables; source for VMs, export for docker.
 export HOME=$AIRFLOW_USER_HOME
