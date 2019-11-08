@@ -4,7 +4,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.models import Variable
 from airflow.operators.dagrun_operator import TriggerDagRunOperator
-# from tulflow.tasks import conditionally_trigger
+from tulflow.tasks import conditionally_trigger
 
 """
 INIT SYSTEMWIDE VARIABLES
@@ -14,15 +14,6 @@ initialized here if not found (i.e. if this is a new installation)
 
 PP = pprint.PrettyPrinter(indent=4)
 CONFIGSET = Variable.get("FUNCAKE_DEV_CONFIGSET")
-
-def conditionally_trigger(context, dag_run_obj):
-    """This function decides whether or not to Trigger the remote DAG"""
-    c_p = context["params"]["condition_param"]
-    print("Controller DAG : conditionally_trigger = {}".format(c_p))
-    if context["params"]["condition_param"]:
-        dag_run_obj.payload = {"message": context["params"]["message"]}
-        PP.pprint(dag_run_obj.payload)
-        return dag_run_obj
 
 # Define the DAG
 CONTROLLER_DAG = DAG(
