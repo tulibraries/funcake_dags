@@ -8,19 +8,19 @@ from airflow.operators.bash_operator import BashOperator
 from tulflow import harvest, tasks
 from airflow.models import DagRun
 
-#
-# LOCAL FUNCTIONS
-#
-# Functions / any code with processing logic should be elsewhere, tested, etc.
-# This is where to put functions that haven't been abstracted out yet.
-#
+"""
+LOCAL FUNCTIONS
+Functions / any code with processing logic should be elsewhere, tested, etc.
+This is where to put functions that haven't been abstracted out yet.
+"""
+
 def slackpostonsuccess(dag, **context):
     """Task Method to Post Successful FunCake Blogs Sync DAG Completion on Slack."""
 
-    task_instance = context.get('task_instance')
+    task_instance = context.get("task_instance")
 
     msg = "%(date)s DAG %(dagid)s success: Combine Set %(set)s to Solr Index Complete %(url)s" % {
-        "date": context.get('execution_date'),
+        "date": context.get("execution_date"),
         "dagid": task_instance.dag_id,
         "set": FUNCAKE_OAI_SET,
         "url": task_instance.log_url
@@ -28,21 +28,17 @@ def slackpostonsuccess(dag, **context):
 
     return tasks.slackpostonsuccess(dag, msg).execute(context=context)
 
-#
-# INIT SYSTEMWIDE VARIABLES
-#
-# check for existence of systemwide variables shared across tasks that can be
-# initialized here if not found (i.e. if this is a new installation) & defaults exist
-#
-
+"""
+INIT SYSTEMWIDE VARIABLES
+check for existence of systemwide variables shared across tasks that can be
+initialized here if not found (i.e. if this is a new installation) & defaults exist
+"""
 
 # Get Solr URL & Collection Name for indexing info; error out if not entered
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
 TIMESTAMP = "{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}"
 CONFIGSET = "{{ dag_run.conf['CONFIGSET'] }}"
 ALIAS = CONFIGSET + "{{ dag_run.conf['env'] }}"
-
-
 COLLECTION = CONFIGSET + "-" + TIMESTAMP
 if "://" in SOLR_CONN.host:
     SOLR_COLL_ENDPT = SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
@@ -61,49 +57,46 @@ AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
 AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 FUNCAKE_INDEX_BASH = AIRFLOW_HOME + "/dags/funcake_dags/scripts/index.sh "
 
-#
-# CREATE DAG
-#
-
+# Define the DAG
 DEFAULT_ARGS = {
-    'owner': 'airflow',
-    'depends_on_past': False,
-    'start_date': datetime(2019, 8, 27),
-    'on_failure_callback': tasks.execute_slackpostonfail,
-    'retries': 0,
-    'retry_delay': timedelta(minutes=10),
+    "owner": "airflow",
+    "depends_on_past": False,
+    "start_date": datetime(2019, 8, 27),
+    "on_failure_callback": tasks.execute_slackpostonfail,
+    "retries": 0,
+    "retry_delay": timedelta(minutes=10),
 }
 
 FCDAG = DAG(
-    dag_id='funcake_index',
+    dag_id="funcake_index",
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,
     schedule_interval=None
 )
 
-#
-# CREATE TASKS
-#
-# Tasks with all logic contained in a single operator can be declared here.
-# Tasks with custom logic are relegated to individual Python files.
-#
+"""
+CREATE TASKS
+Tasks with all logic contained in a single operator can be declared here.
+Tasks with custom logic are relegated to individual Python files.
+"""
 
+# Single task to provide message about which controller triggered the DAG
 REMOTE_TRIGGER_MESSAGE = BashOperator(
     task_id="remote_trigger_message",
     bash_command='echo "Remote trigger: \'{{ dag_run.conf["message"] }}\'"',
     dag=FCDAG,
 )
 
-# REQUIRE_REMOTE_TRIGGER = PythonOperator(
-#     task_id='require_remote_trigger',
-#     python_callable=harvest.oai_to_s3,
-#     dag=FCDAG
-#
-# )
+REQUIRE_REMOTE_TRIGGER = PythonOperator(
+    task_id="require_remote_trigger",
+    python_callable=harvest.oai_to_s3,
+    dag=FCDAG
+
+)
 
 HARVEST_OAI = PythonOperator(
-    task_id='harvest_oai',
+    task_id="harvest_oai",
     provide_context=True,
     python_callable=harvest.oai_to_s3,
     op_kwargs={
@@ -126,7 +119,7 @@ HARVEST_OAI = PythonOperator(
 CREATE_COLLECTION = tasks.create_sc_collection(FCDAG, SOLR_CONN.conn_id, COLLECTION, "3", CONFIGSET)
 
 COMBINE_INDEX = BashOperator(
-    task_id='combine_index',
+    task_id="combine_index",
     bash_command=FUNCAKE_INDEX_BASH,
     env={
         "BUCKET": AIRFLOW_DATA_BUCKET,
@@ -145,19 +138,13 @@ COMBINE_INDEX = BashOperator(
 SOLR_ALIAS_SWAP = tasks.swap_sc_alias(FCDAG, SOLR_CONN.conn_id, COLLECTION, ALIAS)
 
 NOTIFY_SLACK = PythonOperator(
-    task_id='slack_post_succ',
+    task_id="slack_post_succ",
     python_callable=slackpostonsuccess,
     provide_context=True,
     dag=FCDAG
 )
 
-
-#
-# CREATE TASKS DEPENDENCIES WITH DAG
-#
-# This sets the dependencies of Tasks within the DAG.
-#
-
+# SET UP TASK DEPENDENCIES
 CREATE_COLLECTION.set_upstream(HARVEST_OAI)
 COMBINE_INDEX.set_upstream(HARVEST_OAI)
 COMBINE_INDEX.set_upstream(CREATE_COLLECTION)

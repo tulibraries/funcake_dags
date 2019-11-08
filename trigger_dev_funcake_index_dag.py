@@ -1,4 +1,4 @@
-"""Controller DAG to trigger dev_funcake_index_dag:"""
+"""Controller DAG to trigger funcake_index_dag for developement environment:"""
 import pprint
 from datetime import datetime
 from airflow import DAG
@@ -21,7 +21,7 @@ def conditionally_trigger(context, dag_run_obj):
     print("Controller DAG : conditionally_trigger = {}".format(c_p))
     if context["params"]["condition_param"]:
         dag_run_obj.payload = {"message": context["params"]["message"]}
-        pp.pprint(dag_run_obj.payload)
+        PP.pprint(dag_run_obj.payload)
         return dag_run_obj
 
 # Define the DAG
@@ -31,7 +31,7 @@ CONTROLLER_DAG = DAG(
         "owner": "airflow",
         "start_date": datetime.utcnow(),
     },
-    schedule_interval=None,
+    schedule_interval="@once",
 )
 
 # Define the single task in this controller DAG
