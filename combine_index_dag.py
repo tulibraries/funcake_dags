@@ -88,13 +88,6 @@ REMOTE_TRIGGER_MESSAGE = BashOperator(
     dag=FCDAG,
 )
 
-REQUIRE_REMOTE_TRIGGER = PythonOperator(
-    task_id="require_remote_trigger",
-    python_callable=harvest.oai_to_s3,
-    dag=FCDAG
-
-)
-
 HARVEST_OAI = PythonOperator(
     task_id="harvest_oai",
     provide_context=True,
