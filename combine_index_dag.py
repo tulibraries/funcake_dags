@@ -88,6 +88,17 @@ REMOTE_TRIGGER_MESSAGE = BashOperator(
     dag=FCDAG,
 )
 
+def require_dag_run(dag_run, **context):
+    if not "env" in dag_run.conf:
+        raise Exception("Dag run must have env configured.")
+
+REQUIRE_DAG_RUN = PythonOperator(
+        task_id="require_dag_run",
+        python_callable=require_dag_run,
+        provide_context=True,
+        dag=FCDAG,
+        )
+
 HARVEST_OAI = PythonOperator(
     task_id="harvest_oai",
     provide_context=True,
@@ -138,6 +149,7 @@ NOTIFY_SLACK = PythonOperator(
 )
 
 # SET UP TASK DEPENDENCIES
+HARVEST_OAI.set_upstream(REQUIRE_DAG_RUN)
 CREATE_COLLECTION.set_upstream(HARVEST_OAI)
 COMBINE_INDEX.set_upstream(HARVEST_OAI)
 COMBINE_INDEX.set_upstream(CREATE_COLLECTION)
