@@ -3,6 +3,8 @@ from airflow import DAG
 from airflow.hooks.base_hook import BaseHook
 from airflow.models import Variable
 from tulflow import harvest, tasks
+from datetime import datetime, timedelta
+from airflow.operators.python_operator import PythonOperator
 
 
 #
@@ -14,14 +16,18 @@ from tulflow import harvest, tasks
 
 
 # Combine OAI Harvest Variables
-VILLANOVA_OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG")
+VILLANOVA_OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
 # {
 #   "endpoint": "http://digital.library.villanova.edu/OAI/Server",
 #   "include_sets": ["dpla"],
 #   "exclude_sets": [],
 #   "md_prefix": "oai_dc"
 # }
+MDX_PREFIX = VILLANOVA_OAI_CONFIG.get("md_prefix")
+INCLUDE_SETS = VILLANOVA_OAI_CONFIG.get("include_sets")[0]
+OAI_ENDPOINT = VILLANOVA_OAI_CONFIG.get("endpoint")
 
+# Data Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
 AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 
@@ -46,6 +52,12 @@ VILLANOVA_HARVEST_DAG = DAG(
     schedule_interval=None
 )
 
+#
+# CREATE TASKS
+#
+# Tasks with all logic contained in a single operator can be declared here.
+# Tasks with custom logic are relegated to individual Python files.
+#
 
 SET_COLLECTION_NAME = PythonOperator(
     task_id='set_collection_name',
@@ -61,12 +73,14 @@ OAI_TO_S3 = PythonOperator(
     provide_context=True,
     python_callable=harvest.oai_to_s3,
     op_kwargs={
-        "harvest_args": VILLANOVA_OAI_CONFIG,
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
         "bucket_name": AIRFLOW_DATA_BUCKET,
+        "metadata_prefix": MDX_PREFIX,
+        "oai_endpoint": OAI_ENDPOINT,
         "records_per_file": 1000,
-        "s3_conn": AIRFLOW_S3,
-        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}",
-        "process_args": {}
+        "set": INCLUDE_SETS,
+        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
     },
     dag=VILLANOVA_HARVEST_DAG
 )
@@ -74,6 +88,10 @@ OAI_TO_S3 = PythonOperator(
 # S3 -> XSLT Transform -> s3
 # S3 -> Schematron -> s3
 
+#
+# CREATE TASKS DEPENDENCIES WITH DAG
+#
+# This sets the dependencies of Tasks within the DAG.
+#
 
-
-VILLANOVA_HARVEST_DAG << SET_COLLECTION_NAME << OAI_TO_S3
+SET_COLLECTION_NAME >> OAI_TO_S3
