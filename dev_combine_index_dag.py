@@ -47,9 +47,10 @@ else:
     SOLR_COLL_ENDPT = "http://" + SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
 
 # Combine OAI Harvest Variables
-FUNCAKE_OAI_ENDPT = Variable.get("FUNCAKE_OAI_ENDPT")
-FUNCAKE_OAI_SET = Variable.get("FUNCAKE_OAI_SET")
-FUNCAKE_MD_PREFIX = Variable.get("FUNCAKE_MD_PREFIX")
+FUNCAKE_OAI_CONFIG = Variable.get("FUNCAKE_OAI_CONFIG", deserialize_json=True)
+FUNCAKE_OAI_ENDPT = FUNCAKE_OAI_CONFIG.get("endpoint")
+FUNCAKE_OAI_SET = FUNCAKE_OAI_CONFIG.get("included_sets")
+FUNCAKE_MD_PREFIX = FUNCAKE_OAI_CONFIG.get("md_prefix")
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
 AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 
@@ -94,14 +95,12 @@ HARVEST_OAI = PythonOperator(
     op_kwargs={
         "oai_endpoint": FUNCAKE_OAI_ENDPT,
         "metadata_prefix": FUNCAKE_MD_PREFIX,
-        "set": FUNCAKE_OAI_SET,
-        "harvest_from_date": None,
-        "harvest_until_date": None,
+        "included_sets": FUNCAKE_OAI_SET,
         "bucket_name": AIRFLOW_DATA_BUCKET,
         "records_per_file": 1000,
-        "s3_conn": AIRFLOW_S3,
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
         "timestamp": TIMESTAMP,
-        "process_args": {}
     },
     dag=FCDAG
 )
@@ -144,7 +143,6 @@ NOTIFY_SLACK = PythonOperator(
 #
 
 CREATE_COLLECTION.set_upstream(HARVEST_OAI)
-COMBINE_INDEX.set_upstream(HARVEST_OAI)
 COMBINE_INDEX.set_upstream(CREATE_COLLECTION)
 SOLR_ALIAS_SWAP.set_upstream(COMBINE_INDEX)
 NOTIFY_SLACK.set_upstream(SOLR_ALIAS_SWAP)
