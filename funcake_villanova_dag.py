@@ -19,12 +19,12 @@ from airflow.operators.python_operator import PythonOperator
 VILLANOVA_OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
 # {
 #   "endpoint": "http://digital.library.villanova.edu/OAI/Server",
-#   "include_sets": ["dpla"],
-#   "exclude_sets": [],
+#   "included_sets": ["dpla"],
+#   "excluded_sets": [],
 #   "md_prefix": "oai_dc"
 # }
 MDX_PREFIX = VILLANOVA_OAI_CONFIG.get("md_prefix")
-INCLUDE_SETS = VILLANOVA_OAI_CONFIG.get("include_sets")[0]
+INCLUDE_SETS = VILLANOVA_OAI_CONFIG.get("included_sets")
 OAI_ENDPOINT = VILLANOVA_OAI_CONFIG.get("endpoint")
 
 # Data Bucket Variables
