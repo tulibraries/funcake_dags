@@ -18,7 +18,7 @@ class TestCombineIndexDevDAG(unittest.TestCase):
 
     def test_dag_loads(self):
         """Unit test that the DAG identifier is set correctly."""
-        self.assertEqual(FCDAGDEV.dag_id, "dev_funcake_index")
+        self.assertEqual(FCDAGDEV.dag_id, "funcake_dev_index")
 
     def test_dag_tasks_present(self):
         """Unit test that the DAG instance contains the expected tasks."""
@@ -51,7 +51,7 @@ class TestCombineIndexDevDAG(unittest.TestCase):
         self.assertEqual(task.bash_command, expected_bash_path)
         self.assertEqual(task.env["AIRFLOW_HOME"], os.getcwd())
         self.assertEqual(task.env["BUCKET"], "test-s3-bucket")
-        self.assertEqual(task.env["FOLDER"], "dev_funcake_index/{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}")
+        self.assertEqual(task.env["FOLDER"], "funcake_dev_index/{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}")
         self.assertEqual(task.env["SOLR_URL"], "http://127.0.0.1:8983/solr/funcake-0-{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}")
         self.assertEqual(task.env["SOLR_AUTH_USER"], "puppy")
         self.assertEqual(task.env["SOLR_AUTH_PASSWORD"], "chow")
@@ -67,7 +67,7 @@ class TestCombineIndexProdDAG(unittest.TestCase):
 
     def test_dag_loads(self):
         """Unit test that the DAG identifier is set correctly."""
-        self.assertEqual(FCDAGPROD.dag_id, "prod_funcake_index")
+        self.assertEqual(FCDAGPROD.dag_id, "funcake_prod_index")
 
     def test_dag_tasks_present(self):
         """Unit test that the DAG instance contains the expected tasks."""
@@ -100,7 +100,7 @@ class TestCombineIndexProdDAG(unittest.TestCase):
         self.assertEqual(task.bash_command, expected_bash_path)
         self.assertEqual(task.env["AIRFLOW_HOME"], os.getcwd())
         self.assertEqual(task.env["BUCKET"], "test-s3-bucket")
-        self.assertEqual(task.env["FOLDER"], "prod_funcake_index/{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}")
+        self.assertEqual(task.env["FOLDER"], "funcake_prod_index/{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}")
         self.assertEqual(task.env["SOLR_URL"], "http://127.0.0.1:8983/solr/funcake-0-{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}")
         self.assertEqual(task.env["SOLR_AUTH_USER"], "puppy")
         self.assertEqual(task.env["SOLR_AUTH_PASSWORD"], "chow")
