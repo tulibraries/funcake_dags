@@ -34,7 +34,7 @@ class TestCombineIndexDevDAG(unittest.TestCase):
         """Unit test that the DAG instance contains the expected dependencies."""
         expected_task_deps = {
             "create_collection": ["harvest_oai"],
-            "combine_index": ["create_collection", "harvest_oai"],
+            "combine_index": ["create_collection"],
             "solr_alias_swap": ["combine_index"],
             "slack_post_succ": ["solr_alias_swap"]
         }
@@ -83,7 +83,7 @@ class TestCombineIndexProdDAG(unittest.TestCase):
         """Unit test that the DAG instance contains the expected dependencies."""
         expected_task_deps = {
             "create_collection": ["harvest_oai"],
-            "combine_index": ["create_collection", "harvest_oai"],
+            "combine_index": ["create_collection"],
             "solr_alias_swap": ["combine_index"],
             "slack_post_succ": ["solr_alias_swap"]
         }
