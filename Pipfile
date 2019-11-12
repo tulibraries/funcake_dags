@@ -7,9 +7,10 @@ verify_ssl = true
 pylint = "*"
 pytest = "*"
 apache-airflow = "*"
+localstack = "*"
 
 [packages]
-tulflow = ">=0.0.8"
+tulflow = ">=0.3.2"
 pexpect = "*"
 xmltodict = "*"
 sickle = "*"

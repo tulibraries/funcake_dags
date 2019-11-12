@@ -5,7 +5,7 @@ import airflow
 try:
     from dev_combine_index_dag import FCDAG as FCDAGDEV
     from prod_combine_index_dag import FCDAG as FCDAGPROD
-except ImportError:
+except:
     from funcake_dags.dev_combine_index_dag import FCDAG as FCDAGDEV
     from funcake_dags.prod_combine_index_dag import FCDAG as FCDAGPROD
 
