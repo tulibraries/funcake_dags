@@ -73,7 +73,7 @@ DEFAULT_ARGS = {
 }
 
 FCDAG = DAG(
-    'dev_funcake_index',
+    'funcake_dev_index',
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,
