@@ -88,7 +88,7 @@ OAI_TO_S3 = PythonOperator(
     dag=VILLANOVA_HARVEST_DAG
 )
 
-TRANSFORM = BashOperator(
+XSLT_TRANSFORM = BashOperator(
         task_id="xslt_transform",
         bash_command="transform.sh ",
         dag=VILLANOVA_HARVEST_DAG,
@@ -112,4 +112,4 @@ TRANSFORM = BashOperator(
 # This sets the dependencies of Tasks within the DAG.
 #
 
-SET_COLLECTION_NAME >> OAI_TO_S3 >> TRANSFORM
+SET_COLLECTION_NAME >> OAI_TO_S3 >> XSLT_TRANSFORM
