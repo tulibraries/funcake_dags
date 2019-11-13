@@ -24,6 +24,8 @@ def pytest_sessionstart():
     airflow.models.Variable.set("FUNCAKE_DEV_CONFIGSET", "funcake-0")
     airflow.models.Variable.set("FUNCAKE_PROD_CONFIGSET", "funcake-0")
     airflow.models.Variable.set("FUNCAKE_OAI_CONFIG", {"endpoint": "http://localhost/oai", "include_sets": ["i_love_cats"], "exclude_sets": [], "md_prefix": "kittens"}, serialize_json=True)
+    airflow.models.Variable.set("VILLANOVA_OAI_CONFIG", {"endpoint": "http://localhost/oai", "included_sets": ["i_love_cats"], "excluded_sets": [], "md_prefix": "kittens"}, serialize_json=True)
+
 
     solrcloud = airflow.models.Connection(
         conn_id="SOLRCLOUD",

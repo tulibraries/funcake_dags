@@ -58,6 +58,7 @@ class TestCombineIndexDevDAG(unittest.TestCase):
         self.assertEqual(task.env["AWS_ACCESS_KEY_ID"], "elephants-key")
         self.assertEqual(task.env["AWS_SECRET_ACCESS_KEY"], "elephants-secret")
 
+
 class TestCombineIndexProdDAG(unittest.TestCase):
     """Primary Class for Testing the Combine to FunCake Solr Index DAG."""
 
