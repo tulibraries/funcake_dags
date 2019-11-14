@@ -27,5 +27,7 @@ do
   # Transform source xml and pipe to s3 bucket.
   TRANSFORM_XML=$(echo $SOURCE_XML | sed -e "s/new-updated/transformed/g")
   echo Writing to $TRANSFORM_XML
+	echo "<collection>" | aws s3 cp - s3://$BUCKET/$TRANSFORM_XML
   java -jar $SAXON_CP -xsl:$XSL -s:$SOURCE_URL | aws s3 cp - s3://$BUCKET/$TRANSFORM_XML
+	echo "</collection>" | aws s3 cp - s3://$BUCKET/$TRANSFORM_XML
 done
