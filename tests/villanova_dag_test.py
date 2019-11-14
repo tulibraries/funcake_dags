@@ -3,9 +3,9 @@ import re
 import unittest
 import airflow
 try:
-    from funcake_villanova_dag import VILLANOVA_HARVEST_DAG as DAG
+    from funcake_villanova_dag import DAG
 except:
-    from funcake_dags.funcake_villanova_dag import VILLANOVA_HARVEST_DAG as DAG
+    from funcake_dags.funcake_villanova_dag import DAG
 
 class TestVillanovaDag(unittest.TestCase):
 
@@ -24,4 +24,3 @@ class TestVillanovaDag(unittest.TestCase):
         self.assertEqual(task.env.get("AWS_SECRET_ACCESS_KEY"), "elephants-secret")
         self.assertEqual(task.env.get("FOLDER"), "funcake_villanova_harvest/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated")
         assert("dags/funcake_dags/scripts" in task.env.get("PATH"))
-

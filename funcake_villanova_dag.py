@@ -3,7 +3,7 @@ import os
 from airflow import DAG
 from airflow.hooks.base_hook import BaseHook
 from airflow.models import Variable
-from tulflow import harvest, tasks
+from tulflow import harvest, tasks, validate
 from datetime import datetime, timedelta
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
@@ -47,7 +47,7 @@ DEFAULT_ARGS = {
     "retry_delay": timedelta(minutes=10),
 }
 
-VILLANOVA_HARVEST_DAG = DAG(
+DAG = DAG(
     dag_id="funcake_villanova_harvest",
     default_args=DEFAULT_ARGS,
     catchup=False,
@@ -66,10 +66,8 @@ SET_COLLECTION_NAME = PythonOperator(
     task_id='set_collection_name',
     python_callable=datetime.now().strftime,
     op_args=["%Y-%m-%d_%H-%M-%S"],
-    dag=VILLANOVA_HARVEST_DAG
+    dag=DAG
 )
-
-TIMESTAMP = "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
 
 OAI_TO_S3 = PythonOperator(
     task_id='harvest_oai',
@@ -85,26 +83,40 @@ OAI_TO_S3 = PythonOperator(
         "set": INCLUDE_SETS,
         "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
     },
-    dag=VILLANOVA_HARVEST_DAG
+    dag=DAG
 )
 
 XSLT_TRANSFORM = BashOperator(
-        task_id="xslt_transform",
-        bash_command="transform.sh ",
-        dag=VILLANOVA_HARVEST_DAG,
-        env={**os.environ, **{
-            "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
-            # TODO: discuss how we want to handle XSLT variable.
-            "XSL": "https://raw.githubusercontent.com/tulibraries/aggregator_mdx/master/transforms/villanova.xsl",
-            "BUCKET": AIRFLOW_DATA_BUCKET,
-            "FOLDER": VILLANOVA_HARVEST_DAG.dag_id + "/" + TIMESTAMP + "/new-updated",
-            "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
-            "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-            }}
-        )
+    task_id="xslt_transform",
+    bash_command="transform.sh ",
+    env={**os.environ, **{
+        "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
+        "XSL_BRANCH": "master",
+        "XSL_FILENAME": "transforms/villanova.xsl",
+        "XSL_REPO": "tulibraries/aggregator_mdx",
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
+        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
+        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        }},
+    dag=DAG
+)
 
-# S3 -> XSLT Transform -> s3
-# S3 -> Schematron -> s3
+XSLT_TRANSFORM_FILTER = PythonOperator(
+    task_id="xslt_transform_filter",
+    provide_context=True,
+    python_callable=validate.filter_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered",
+        "record_parent_element": "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc",
+        "schematron_filename": "validations/padigital_reqd_fields.sch",
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
+    },
+    dag=DAG
+)
 
 #
 # CREATE TASKS DEPENDENCIES WITH DAG
@@ -112,4 +124,4 @@ XSLT_TRANSFORM = BashOperator(
 # This sets the dependencies of Tasks within the DAG.
 #
 
-SET_COLLECTION_NAME >> OAI_TO_S3 >> XSLT_TRANSFORM
+SET_COLLECTION_NAME >> OAI_TO_S3 >> XSLT_TRANSFORM >> XSLT_TRANSFORM_FILTER

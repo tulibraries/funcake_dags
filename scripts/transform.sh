@@ -15,6 +15,9 @@ if [ ! -f $SAXON_CP ]; then
 		chmod +x ${SAXON_CP}
 fi
 
+# Generate XSL URL similarly to proposal for SCHEMATRON Python
+XSL=https://raw.githubusercontent.com/${XSL_REPO}/${XSL_BRANCH}/${XSL_FILENAME}
+
 # Grab list of items from designated aws bucket (creds are envvars), then index each item
 for SOURCE_XML in `aws s3api list-objects --bucket $BUCKET --prefix $FOLDER | jq -r '.Contents[].Key'`
 do
