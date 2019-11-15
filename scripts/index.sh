@@ -19,7 +19,8 @@ gem install bundler
 bundle install
 
 # grab list of items from designated aws bucket (creds are envvars), then index each item
-for record_set in `aws s3api list-objects --bucket $BUCKET --prefix $FOLDER | jq -r '.Contents[].Key'`
+RESP=`aws s3api list-objects --bucket $BUCKET --prefix $FOLDER`
+for record_set in `echo $RESP | jq -r '.Contents[].Key'`
 do
   bundle exec funnel_cake_index ingest https://$BUCKET.s3.amazonaws.com/$record_set
 done

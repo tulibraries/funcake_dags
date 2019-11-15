@@ -19,7 +19,8 @@ fi
 XSL=https://raw.githubusercontent.com/${XSL_REPO}/${XSL_BRANCH}/${XSL_FILENAME}
 
 # Grab list of items from designated aws bucket (creds are envvars), then index each item
-for SOURCE_XML in `aws s3api list-objects --bucket $BUCKET --prefix $FOLDER | jq -r '.Contents[].Key'`
+RESP=`aws s3api list-objects --bucket $BUCKET --prefix $FOLDER`
+for SOURCE_XML in `echo $RESP | jq -r '.Contents[].Key'`
 do
   SOURCE_URL=$(aws s3 presign s3://$BUCKET/$SOURCE_XML)
   echo Reading from $SOURCE_URL
