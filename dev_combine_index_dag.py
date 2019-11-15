@@ -7,13 +7,12 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from tulflow import harvest, tasks
 
+"""
+LOCAL FUNCTIONS
+Functions / any code with processing logic should be elsewhere, tested, etc.
+This is where to put functions that haven't been abstracted out yet.
+"""
 
-#
-# LOCAL FUNCTIONS
-#
-# Functions / any code with processing logic should be elsewhere, tested, etc.
-# This is where to put functions that haven't been abstracted out yet.
-#
 def slackpostonsuccess(dag, **context):
     """Task Method to Post Successful FunCake Blogs Sync DAG Completion on Slack."""
 
@@ -28,16 +27,18 @@ def slackpostonsuccess(dag, **context):
 
     return tasks.slackpostonsuccess(dag, msg).execute(context=context)
 
-#
-# INIT SYSTEMWIDE VARIABLES
-#
-# check for existence of systemwide variables shared across tasks that can be
-# initialized here if not found (i.e. if this is a new installation) & defaults exist
-#
+"""
+INIT SYSTEMWIDE VARIABLES
+check for existence of systemwide variables shared across tasks that can be
+initialized here if not found (i.e. if this is a new installation) & defaults exist
+"""
 
 # Get Solr URL & Collection Name for indexing info; error out if not entered
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
-CONFIGSET = Variable.get("FUNCAKE_DEV_CONFIGSET")
+FUNCAKE_SOLR_CONFIG = Variable.get("FUNCAKE_SOLR_CONFIG", deserialize_json=True)
+# {"configset": "funcake-8", "replication_factor": 1}
+CONFIGSET = FUNCAKE_SOLR_CONFIG.get("configset")
+REPLICATION_FACTOR = FUNCAKE_SOLR_CONFIG.get("replication_factor")
 TIMESTAMP = "{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}"
 COLLECTION = CONFIGSET + "-" + TIMESTAMP
 ALIAS = CONFIGSET + "-dev"
@@ -59,10 +60,7 @@ AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
 AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 FUNCAKE_INDEX_BASH = AIRFLOW_HOME + "/dags/funcake_dags/scripts/index.sh "
 
-#
-# CREATE DAG
-#
-
+# Define the DAG
 DEFAULT_ARGS = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -80,13 +78,11 @@ FCDAG = DAG(
     schedule_interval=None
 )
 
-
-#
-# CREATE TASKS
-#
-# Tasks with all logic contained in a single operator can be declared here.
-# Tasks with custom logic are relegated to individual Python files.
-#
+"""
+CREATE TASKS
+Tasks with all logic contained in a single operator can be declared here.
+Tasks with custom logic are relegated to individual Python files.
+"""
 
 HARVEST_OAI = PythonOperator(
     task_id='harvest_oai',
@@ -107,7 +103,13 @@ HARVEST_OAI = PythonOperator(
 
 #pylint: disable-msg=too-many-function-args
 # this is ticketed for fix; either make class or dictionary for solr args
-CREATE_COLLECTION = tasks.create_sc_collection(FCDAG, SOLR_CONN.conn_id, COLLECTION, "3", CONFIGSET)
+CREATE_COLLECTION = tasks.create_sc_collection(
+    FCDAG,
+    SOLR_CONN.conn_id,
+    COLLECTION,
+    REPLICATION_FACTOR,
+    CONFIGSET
+)
 
 COMBINE_INDEX = BashOperator(
     task_id='combine_index',
@@ -116,8 +118,8 @@ COMBINE_INDEX = BashOperator(
         "BUCKET": AIRFLOW_DATA_BUCKET,
         "FOLDER": FCDAG.dag_id + "/" + TIMESTAMP,
         "SOLR_URL": SOLR_COLL_ENDPT,
-        "SOLR_AUTH_USER": SOLR_CONN.login,
-        "SOLR_AUTH_PASSWORD": SOLR_CONN.password,
+        "SOLR_AUTH_USER": SOLR_CONN.login or "",
+        "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
         "AIRFLOW_HOME": AIRFLOW_HOME,
@@ -135,13 +137,7 @@ NOTIFY_SLACK = PythonOperator(
     dag=FCDAG
 )
 
-
-#
-# CREATE TASKS DEPENDENCIES WITH DAG
-#
-# This sets the dependencies of Tasks within the DAG.
-#
-
+# SET UP TASK DEPENDENCIES
 CREATE_COLLECTION.set_upstream(HARVEST_OAI)
 COMBINE_INDEX.set_upstream(CREATE_COLLECTION)
 SOLR_ALIAS_SWAP.set_upstream(COMBINE_INDEX)
