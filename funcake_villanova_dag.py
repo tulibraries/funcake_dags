@@ -16,35 +16,41 @@ from airflow.operators.bash_operator import BashOperator
 # initialized here if not found (i.e. if this is a new installation) & defaults exist
 #
 
+AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
+SCRIPTS_PATH = AIRFLOW_HOME + "/dags/funcake_dags/scripts"
+
 # Combine OAI Harvest Variables
 VILLANOVA_OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
 # {
 #   "endpoint": "http://digital.library.villanova.edu/OAI/Server",
-#   "included_sets": ["dpla"],
+#   "all_sets": False, <-- OPTIONAL
+#   "included_sets": ["dpla"], <-- OPTIONAL
 #   "excluded_sets": [], <--- OPTIONAL
 #   "md_prefix": "oai_dc",
-#   "xsl_branch": "my_test_branch", <--- OPTIONAL
-#   "xsl_filename": "transforms/my_test_transform.xml", <--- OPTIONAL
-#   "schematron_filename": "validations/test_validation", <--- OPTIONAL
+#   "schematron_filter": "validations/test_validation", <--- OPTIONAL
+#   "schematron_report": "validations/test_validation", <--- OPTIONAL
 # }
-MDX_PREFIX   = VILLANOVA_OAI_CONFIG.get("md_prefix")
-INCLUDE_SETS = VILLANOVA_OAI_CONFIG.get("included_sets")
+ALL_SETS = VILLANOVA_OAI_CONFIG.get("all_sets")
+EXCLUDED_SETS = VILLANOVA_OAI_CONFIG.get("excluded_sets")
+INCLUDED_SETS = VILLANOVA_OAI_CONFIG.get("included_sets")
+MD_PREFIX   = VILLANOVA_OAI_CONFIG.get("md_prefix")
 OAI_ENDPOINT = VILLANOVA_OAI_CONFIG.get("endpoint")
+OAI_SCHEMATRON_FILTER = VILLANOVA_OAI_CONFIG.get("schematron_filter", None)
+OAI_SCHEMATRON_REPORT = VILLANOVA_OAI_CONFIG.get("schematron_report", None)
 
 VILLANOVA_XSLT_CONFIG =  Variable.get("VILLANOVA_XSLT_CONFIG", default_var={}, deserialize_json=True)
 #{
-#   "xsl_repository": "tulibraries/other_mdx",
-#   "xsl_branch": "my_test_branch",
+#   "xsl_repository": "tulibraries/other_mdx", <--- OPTIONAL
+#   "xsl_branch": "my_test_branch", <--- OPTIONAL (DEFAULTS TO MASTER)
 #   "xsl_filename": "transforms/my_test_transform.xml",
-#   "schematron_filename": "validations/test_validation",
+#   "schematron_filter": "validations/test_validation", <--- OPTIONAL
+#   "schematron_report": "validations/test_validation", <--- OPTIONAL
 #}
 XSL_BRANCH   = VILLANOVA_XSLT_CONFIG.get("xsl_branch", "master")
 XSL_FILENAME = VILLANOVA_XSLT_CONFIG.get("xsl_filename", "transforms/villanova.xsl")
 XSL_REPO     = VILLANOVA_XSLT_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
-SCHEMATRON_FILENAME = VILLANOVA_XSLT_CONFIG.get("schematron_filename", "validations/padigital_reqd_fields.sch")
-
-AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
-SCRIPTS_PATH = AIRFLOW_HOME + "/dags/funcake_dags/scripts"
+XSL_SCHEMATRON_FILTER = VILLANOVA_XSLT_CONFIG.get("schematron_filter", None)
+XSL_SCHEMATRON_REPORT = VILLANOVA_XSLT_CONFIG.get("schematron_report", None)
 
 # Data Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
@@ -55,11 +61,11 @@ AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 #
 
 DEFAULT_ARGS = {
-    "owner": "joey_vills",
+    "owner": "funcake",
     "depends_on_past": False,
     "start_date": datetime(2019, 8, 27),
     "on_failure_callback": tasks.execute_slackpostonfail,
-    "retries": 0,
+    "retries": 1,
     "retry_delay": timedelta(minutes=10),
 }
 
@@ -67,7 +73,6 @@ DAG = DAG(
     dag_id="funcake_villanova_harvest",
     default_args=DEFAULT_ARGS,
     catchup=False,
-    max_active_runs=1,
     schedule_interval=None
 )
 
@@ -85,19 +90,67 @@ SET_COLLECTION_NAME = PythonOperator(
     dag=DAG
 )
 
-OAI_TO_S3 = PythonOperator(
+HARVEST_OAI = PythonOperator(
     task_id='harvest_oai',
     provide_context=True,
     python_callable=harvest.oai_to_s3,
     op_kwargs={
         "access_id": AIRFLOW_S3.login,
         "access_secret": AIRFLOW_S3.password,
+        "all_sets": ALL_SETS,
         "bucket_name": AIRFLOW_DATA_BUCKET,
-        "metadata_prefix": MDX_PREFIX,
+        "excluded_sets": EXCLUDED_SETS,
+        "included_sets": INCLUDED_SETS,
+        "metadata_prefix": MD_PREFIX,
         "oai_endpoint": OAI_ENDPOINT,
-        "records_per_file": 1000,
-        "set": INCLUDE_SETS,
+        "records_per_file": 10000,
         "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+    },
+    dag=DAG
+)
+
+HARVEST_SCHEMATRON_REPORT = PythonOperator(
+    task_id="harvest_schematron_report",
+    provide_context=True,
+    python_callable=validate.report_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-report",
+        "record_parent_element": "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc",
+        "schematron_filename": OAI_SCHEMATRON_REPORT,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
+    },
+    dag=DAG
+)
+
+HARVEST_ANALYSIS_REPORT = PythonOperator(
+    task_id="harvest_analysis_report",
+    provide_context=True,
+    python_callable=validate.report_xml_analysis,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "record_parent_element": "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc",
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
+    },
+    dag=DAG
+)
+
+HARVEST_FILTER = PythonOperator(
+    task_id="harvest_filter",
+    provide_context=True,
+    python_callable=validate.filter_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered",
+        "record_parent_element": "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc",
+        "schematron_filename": OAI_SCHEMATRON_FILTER,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
     },
     dag=DAG
 )
@@ -105,21 +158,51 @@ OAI_TO_S3 = PythonOperator(
 XSLT_TRANSFORM = BashOperator(
     task_id="xslt_transform",
     bash_command="transform.sh ",
-    env={**os.environ, **{
+    env={
+        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
+        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
         "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
         "XSL_BRANCH": XSL_BRANCH,
         "XSL_FILENAME": XSL_FILENAME,
-        "XSL_REPO": XSL_REPO,
-        "BUCKET": AIRFLOW_DATA_BUCKET,
-        "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
-        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
-        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-        }},
+        "XSL_REPO": XSL_REPO
+        },
     dag=DAG
 )
 
-XSLT_TRANSFORM_FILTER = PythonOperator(
-    task_id="xslt_transform_filter",
+TRANSFORM_SCHEMATRON_REPORT = PythonOperator(
+    task_id="transform_schematron_report",
+    provide_context=True,
+    python_callable=validate.report_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-report",
+        "record_parent_element": "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc",
+        "schematron_filename": XSL_SCHEMATRON_REPORT,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
+    },
+    dag=DAG
+)
+
+TRANSFORM_ANALYSIS_REPORT = PythonOperator(
+    task_id="transform_analysis_report",
+    provide_context=True,
+    python_callable=validate.report_xml_analysis,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "record_parent_element": "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc",
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
+    },
+    dag=DAG
+)
+
+TRANSFORM_FILTER = PythonOperator(
+    task_id="transform_filter",
     provide_context=True,
     python_callable=validate.filter_s3_schematron,
     op_kwargs={
@@ -128,11 +211,27 @@ XSLT_TRANSFORM_FILTER = PythonOperator(
         "bucket": AIRFLOW_DATA_BUCKET,
         "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered",
         "record_parent_element": "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc",
-        "schematron_filename": SCHEMATRON_FILENAME,
+        "schematron_filename": XSL_SCHEMATRON_FILTER,
         "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
     },
     dag=DAG
 )
+
+# PUBLISH = PythonOperator(
+#     task_id="publish",
+#     provide_context=True,
+#     python_callable=validate.filter_s3_schematron,
+#     op_kwargs={
+#         "access_id": AIRFLOW_S3.login,
+#         "access_secret": AIRFLOW_S3.password,
+#         "bucket": AIRFLOW_DATA_BUCKET,
+#         "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered",
+#         "record_parent_element": "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc",
+#         "schematron_filename": XSL_SCHEMATRON_FILENAME,
+#         "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
+#     },
+#     dag=DAG
+# )
 
 #
 # CREATE TASKS DEPENDENCIES WITH DAG
@@ -140,4 +239,14 @@ XSLT_TRANSFORM_FILTER = PythonOperator(
 # This sets the dependencies of Tasks within the DAG.
 #
 
-SET_COLLECTION_NAME >> OAI_TO_S3 >> XSLT_TRANSFORM >> XSLT_TRANSFORM_FILTER
+HARVEST_OAI.set_upstream(SET_COLLECTION_NAME)
+HARVEST_SCHEMATRON_REPORT.set_upstream(HARVEST_OAI)
+HARVEST_ANALYSIS_REPORT.set_upstream(HARVEST_OAI)
+HARVEST_FILTER.set_upstream(HARVEST_SCHEMATRON_REPORT)
+HARVEST_FILTER.set_upstream(HARVEST_ANALYSIS_REPORT)
+XSLT_TRANSFORM.set_upstream(HARVEST_FILTER)
+TRANSFORM_SCHEMATRON_REPORT.set_upstream(XSLT_TRANSFORM)
+TRANSFORM_ANALYSIS_REPORT.set_upstream(XSLT_TRANSFORM)
+TRANSFORM_FILTER.set_upstream(TRANSFORM_SCHEMATRON_REPORT)
+TRANSFORM_FILTER.set_upstream(TRANSFORM_ANALYSIS_REPORT)
+# PUBLISH.set_upstream(TRANSFORM_FILTER)
