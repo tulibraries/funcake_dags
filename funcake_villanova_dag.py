@@ -8,6 +8,24 @@ from datetime import datetime, timedelta
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 
+"""
+LOCAL FUNCTIONS
+Functions / any code with processing logic should be elsewhere, tested, etc.
+This is where to put functions that haven't been abstracted out yet.
+"""
+
+def slackpostonsuccess(dag, **context):
+    """Task Method to Post Successful Villanova DAG Completion on Slack."""
+
+    task_instance = context.get('task_instance')
+
+    msg = "%(date)s DAG %(dagid)s success: %(url)s" % {
+        "date": context.get('execution_date'),
+        "dagid": task_instance.dag_id,
+        "url": task_instance.log_url
+        }
+
+    return tasks.slackpostonsuccess(dag, msg).execute(context=context)
 
 #
 # INIT SYSTEMWIDE VARIABLES
@@ -33,22 +51,22 @@ VILLANOVA_OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=Tru
 ALL_SETS = VILLANOVA_OAI_CONFIG.get("all_sets")
 EXCLUDED_SETS = VILLANOVA_OAI_CONFIG.get("excluded_sets")
 INCLUDED_SETS = VILLANOVA_OAI_CONFIG.get("included_sets")
-MD_PREFIX   = VILLANOVA_OAI_CONFIG.get("md_prefix")
+MD_PREFIX = VILLANOVA_OAI_CONFIG.get("md_prefix")
 OAI_ENDPOINT = VILLANOVA_OAI_CONFIG.get("endpoint")
-OAI_SCHEMATRON_FILTER = VILLANOVA_OAI_CONFIG.get("schematron_filter", None)
-OAI_SCHEMATRON_REPORT = VILLANOVA_OAI_CONFIG.get("schematron_report", None)
+OAI_SCHEMATRON_FILTER = VILLANOVA_OAI_CONFIG.get("schematron_filter")
+OAI_SCHEMATRON_REPORT = VILLANOVA_OAI_CONFIG.get("schematron_report")
 
-VILLANOVA_XSLT_CONFIG =  Variable.get("VILLANOVA_XSLT_CONFIG", default_var={}, deserialize_json=True)
-#{
+VILLANOVA_XSLT_CONFIG = Variable.get("VILLANOVA_XSLT_CONFIG", deserialize_json=True)
+# {
 #   "xsl_repository": "tulibraries/other_mdx", <--- OPTIONAL
 #   "xsl_branch": "my_test_branch", <--- OPTIONAL (DEFAULTS TO MASTER)
 #   "xsl_filename": "transforms/my_test_transform.xml",
 #   "schematron_filter": "validations/test_validation", <--- OPTIONAL
 #   "schematron_report": "validations/test_validation", <--- OPTIONAL
-#}
-XSL_BRANCH   = VILLANOVA_XSLT_CONFIG.get("xsl_branch", "master")
+# }
+XSL_BRANCH = VILLANOVA_XSLT_CONFIG.get("xsl_branch", "master")
 XSL_FILENAME = VILLANOVA_XSLT_CONFIG.get("xsl_filename", "transforms/villanova.xsl")
-XSL_REPO     = VILLANOVA_XSLT_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
+XSL_REPO = VILLANOVA_XSLT_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 XSL_SCHEMATRON_FILTER = VILLANOVA_XSLT_CONFIG.get("schematron_filter", None)
 XSL_SCHEMATRON_REPORT = VILLANOVA_XSLT_CONFIG.get("schematron_report", None)
 
@@ -233,6 +251,13 @@ TRANSFORM_FILTER = PythonOperator(
 #     dag=DAG
 # )
 
+# NOTIFY_SLACK = PythonOperator(
+#     task_id='slack_post_succ',
+#     python_callable=slackpostonsuccess,
+#     provide_context=True,
+#     dag=DAG
+# )
+
 #
 # CREATE TASKS DEPENDENCIES WITH DAG
 #
@@ -249,4 +274,5 @@ TRANSFORM_SCHEMATRON_REPORT.set_upstream(XSLT_TRANSFORM)
 TRANSFORM_ANALYSIS_REPORT.set_upstream(XSLT_TRANSFORM)
 TRANSFORM_FILTER.set_upstream(TRANSFORM_SCHEMATRON_REPORT)
 TRANSFORM_FILTER.set_upstream(TRANSFORM_ANALYSIS_REPORT)
+# NOTIFY_SLACK.set_upstream(TRANSFORM_FILTER)
 # PUBLISH.set_upstream(TRANSFORM_FILTER)
