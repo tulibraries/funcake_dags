@@ -84,16 +84,16 @@ TIMESTAMP = "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
 CSV_TRANSFORM = BashOperator(
     task_id="csv_transform",
     bash_command="csv_transform.sh ",
-    dag=VILLANOVA_HARVEST_DAG,
     env={**os.environ, **{
         "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
         "DAGID": "funcake_villanova_harvest",
         "HOME": AIRFLOW_HOME,
         "BUCKET": AIRFLOW_DATA_BUCKET,
-        "FOLDER": VILLANOVA_HARVEST_DAG.dag_id + "/" + TIMESTAMP + "/new-updated",
+        "FOLDER": DAG.dag_id + "/" + TIMESTAMP + "/new-updated",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-        }}
+        }},
+    dag=DAG,
     )
 
 OAI_TO_S3 = PythonOperator(
@@ -121,7 +121,7 @@ XSLT_TRANSFORM = BashOperator(
         # TODO: discuss how we want to handle XSLT variable.
         "XSL": "https://raw.githubusercontent.com/tulibraries/aggregator_mdx/master/transforms/villanova.xsl",
         "BUCKET": AIRFLOW_DATA_BUCKET,
-        "FOLDER": VILLANOVA_HARVEST_DAG.dag_id + "/" + TIMESTAMP + "/new-updated",
+        "FOLDER": DAG.dag_id + "/" + TIMESTAMP + "/new-updated",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
         }},
@@ -146,4 +146,3 @@ XSLT_TRANSFORM_FILTER = PythonOperator(
 
 # SET UP TASK DEPENDENCIES
 SET_COLLECTION_NAME >> CSV_TRANSFORM >> OAI_TO_S3 >> XSLT_TRANSFORM
-
