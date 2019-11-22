@@ -3,7 +3,7 @@ import os
 from airflow import DAG
 from airflow.hooks.base_hook import BaseHook
 from airflow.models import Variable
-from tulflow import harvest, tasks
+from tulflow import harvest, tasks, validate
 from datetime import datetime, timedelta
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
@@ -16,10 +16,31 @@ initialized here if not found (i.e. if this is a new installation) & defaults ex
 
 # Combine OAI Harvest Variables
 VILLANOVA_OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
-# {"endpoint": "http://digital.library.villanova.edu/OAI/Server", "included_sets": ["dpla"], "excluded_sets": [], "md_prefix": "oai_dc" }
-MDX_PREFIX = VILLANOVA_OAI_CONFIG.get("md_prefix")
+# {
+#   "endpoint": "http://digital.library.villanova.edu/OAI/Server",
+#   "included_sets": ["dpla"],
+#   "excluded_sets": [], <--- OPTIONAL
+#   "md_prefix": "oai_dc",
+#   "xsl_branch": "my_test_branch", <--- OPTIONAL
+#   "xsl_filename": "transforms/my_test_transform.xml", <--- OPTIONAL
+#   "schematron_filename": "validations/test_validation", <--- OPTIONAL
+# }
+MDX_PREFIX   = VILLANOVA_OAI_CONFIG.get("md_prefix")
 INCLUDE_SETS = VILLANOVA_OAI_CONFIG.get("included_sets")
 OAI_ENDPOINT = VILLANOVA_OAI_CONFIG.get("endpoint")
+
+VILLANOVA_XSLT_CONFIG =  Variable.get("VILLANOVA_XSLT_CONFIG", default_var={}, deserialize_json=True)
+#{
+#   "xsl_repository": "tulibraries/other_mdx",
+#   "xsl_branch": "my_test_branch",
+#   "xsl_filename": "transforms/my_test_transform.xml",
+#   "schematron_filename": "validations/test_validation",
+#}
+XSL_BRANCH   = VILLANOVA_XSLT_CONFIG.get("xsl_branch", "master")
+XSL_FILENAME = VILLANOVA_XSLT_CONFIG.get("xsl_filename", "transforms/villanova.xsl")
+XSL_REPO     = VILLANOVA_XSLT_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
+SCHEMATRON_FILENAME = VILLANOVA_XSLT_CONFIG.get("schematron_filename", "validations/padigital_reqd_fields.sch")
+
 AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
 SCRIPTS_PATH = AIRFLOW_HOME + "/dags/funcake_dags/scripts"
 
@@ -37,7 +58,7 @@ DEFAULT_ARGS = {
     "retry_delay": timedelta(minutes=10),
 }
 
-VILLANOVA_HARVEST_DAG = DAG(
+DAG = DAG(
     dag_id="funcake_villanova_harvest",
     default_args=DEFAULT_ARGS,
     catchup=False,
@@ -55,7 +76,7 @@ SET_COLLECTION_NAME = PythonOperator(
     task_id='set_collection_name',
     python_callable=datetime.now().strftime,
     op_args=["%Y-%m-%d_%H-%M-%S"],
-    dag=VILLANOVA_HARVEST_DAG
+    dag=DAG
 )
 
 TIMESTAMP = "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
@@ -89,13 +110,12 @@ OAI_TO_S3 = PythonOperator(
         "set": INCLUDE_SETS,
         "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
     },
-    dag=VILLANOVA_HARVEST_DAG
+    dag=DAG
 )
 
 XSLT_TRANSFORM = BashOperator(
     task_id="xslt_transform",
     bash_command="transform.sh ",
-    dag=VILLANOVA_HARVEST_DAG,
     env={**os.environ, **{
         "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
         # TODO: discuss how we want to handle XSLT variable.
@@ -104,11 +124,26 @@ XSLT_TRANSFORM = BashOperator(
         "FOLDER": VILLANOVA_HARVEST_DAG.dag_id + "/" + TIMESTAMP + "/new-updated",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-        }}
+        }},
+    dag=DAG
     )
 
-# S3 -> XSLT Transform -> s3
-# S3 -> Schematron -> s3
+XSLT_TRANSFORM_FILTER = PythonOperator(
+    task_id="xslt_transform_filter",
+    provide_context=True,
+    python_callable=validate.filter_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered",
+        "record_parent_element": "{http://www.openarchives.org/OAI/2.0/oai_dc/}dc",
+        "schematron_filename": SCHEMATRON_FILENAME,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
+    },
+    dag=DAG
+)
 
 # SET UP TASK DEPENDENCIES
 SET_COLLECTION_NAME >> CSV_TRANSFORM >> OAI_TO_S3 >> XSLT_TRANSFORM
+
