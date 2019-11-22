@@ -23,7 +23,13 @@ class TestVillanovaDag(unittest.TestCase):
         self.assertEqual(task.env.get("AWS_ACCESS_KEY_ID"), "elephants-key")
         self.assertEqual(task.env.get("AWS_SECRET_ACCESS_KEY"), "elephants-secret")
         self.assertEqual(task.env.get("FOLDER"), "funcake_villanova_harvest/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated")
-        self.assertEqual(task.env.get("XSL_BRANCH"), "master")
-        self.assertEqual(task.env.get("XSL_FILENAME"), "transforms/villanova.xsl")
-        self.assertEqual(task.env.get("XSL_REPO"), "tulibraries/aggregator_mdx")
+        assert("dags/funcake_dags/scripts" in task.env.get("PATH"))
+
+    def test_csv_transform_to_s3_task(self):
+        task = DAG.get_task("csv_transform")
+        self.assertEqual(task.bash_command, "csv_transform_to_s3.sh ")
+        self.assertEqual(task.env.get("BUCKET"), "test-s3-bucket")
+        self.assertEqual(task.env.get("AWS_ACCESS_KEY_ID"), "elephants-key")
+        self.assertEqual(task.env.get("AWS_SECRET_ACCESS_KEY"), "elephants-secret")
+        self.assertEqual(task.env.get("FOLDER"), "funcake_villanova_harvest/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated")
         assert("dags/funcake_dags/scripts" in task.env.get("PATH"))
