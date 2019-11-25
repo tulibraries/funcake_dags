@@ -18,7 +18,7 @@ for file in CSV_FILES:
         XML_DATA.write(f"<collection dag-id='{DAGID}' dag-timestamp='{TIMESTAMP}'>" + "\n")
         HEADERS = next(DATA, None) # skip the HEADERS
         for count, record in enumerate(DATA):
-            XML_DATA.write(f"  <record airflow-record-id={count + 1}>" + "\n")
+            XML_DATA.write(f"  <record airflow-record-id='{count + 1}'>" + "\n")
             for i, field in enumerate(record):
                 header = HEADERS[i].strip(" ").replace(" ", "_")
                 XML_DATA.write("    <" + header + ">"  + field + "</" + header + ">"  + "\n")
