@@ -94,6 +94,8 @@ CSV_TRANSFORM = BashOperator(
         "FOLDER": DAG.dag_id + "/" + TIMESTAMP + "/new-updated",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "TIMESTAMP": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+
         }},
     dag=DAG,
     )
