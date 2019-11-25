@@ -17,10 +17,9 @@ for file in CSV_FILES:
         XML_DATA.write('<?xml version="1.0"?>' + "\n")
         XML_DATA.write(f"<collection dag-id='{DAGID}' dag-timestamp='{TIMESTAMP}'>" + "\n")
         HEADERS = next(DATA, None) # skip the HEADERS
-        for record in DATA:
-            XML_DATA.write("  <record>" + "\n")
+        for count, record in enumerate(DATA):
+            XML_DATA.write(f"  <record airflow-record-id={count + 1}>" + "\n")
             for i, field in enumerate(record):
-                XML_DATA.write(f"    <airflow_id>{i + 1}</airflow_id>"  + "\n")
                 header = HEADERS[i].strip(" ").replace(" ", "_")
                 XML_DATA.write("    <" + header + ">"  + field + "</" + header + ">"  + "\n")
             XML_DATA.write("  </record>" + "\n")
