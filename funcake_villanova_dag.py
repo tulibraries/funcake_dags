@@ -41,8 +41,9 @@ XSL_FILENAME = VILLANOVA_XSLT_CONFIG.get("xsl_filename", "transforms/villanova.x
 XSL_REPO     = VILLANOVA_XSLT_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 SCHEMATRON_FILENAME = VILLANOVA_XSLT_CONFIG.get("schematron_filename", "validations/padigital_reqd_fields.sch")
 
-AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
-SCRIPTS_PATH = AIRFLOW_HOME + "/dags/funcake_dags/scripts"
+AIRFLOW_APP_HOME = Variable.get("AIRFLOW_HOME")
+AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
+SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 
 # Data Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
@@ -87,7 +88,8 @@ CSV_TRANSFORM = BashOperator(
     env={**os.environ, **{
         "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
         "DAGID": "funcake_villanova_harvest",
-        "HOME": AIRFLOW_HOME,
+        "HOME": AIRFLOW_USER_HOME,
+        "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME,
         "BUCKET": AIRFLOW_DATA_BUCKET,
         "FOLDER": DAG.dag_id + "/" + TIMESTAMP + "/new-updated",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
