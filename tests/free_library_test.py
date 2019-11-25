@@ -3,9 +3,9 @@ import re
 import unittest
 import airflow
 try:
-    from funcake_villanova_dag import DAG
+    from funcake_free_library_of_philadelphia_dag import DAG
 except:
-    from funcake_dags.funcake_villanova_dag import DAG
+    from funcake_dags.funcake_free_library_of_philadelphia_dag import DAG
 
 class TestVillanovaDag(unittest.TestCase):
 
@@ -14,13 +14,13 @@ class TestVillanovaDag(unittest.TestCase):
         self.tasks = list(map(lambda t: t.task_id, DAG.tasks))
 
     def test_basic_dag_smoke(self):
-        self.assertEqual(DAG.dag_id, "funcake_villanova_harvest")
+        self.assertEqual(DAG.dag_id, "funcake_free_library_of_philadelphia")
 
-    def test_transform_task(self):
-        task = DAG.get_task("xslt_transform")
-        self.assertEqual(task.bash_command, "transform.sh ")
+    def test_csv_transform_to_s3_task(self):
+        task = DAG.get_task("csv_transform")
+        self.assertEqual(task.bash_command, "csv_transform_to_s3.sh ")
         self.assertEqual(task.env.get("BUCKET"), "test-s3-bucket")
         self.assertEqual(task.env.get("AWS_ACCESS_KEY_ID"), "elephants-key")
         self.assertEqual(task.env.get("AWS_SECRET_ACCESS_KEY"), "elephants-secret")
-        self.assertEqual(task.env.get("FOLDER"), "funcake_villanova_harvest/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated")
+        self.assertEqual(task.env.get("FOLDER"), "funcake_free_library_of_philadelphia/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated")
         assert("dags/funcake_dags/scripts" in task.env.get("PATH"))

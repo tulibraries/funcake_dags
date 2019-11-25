@@ -82,24 +82,6 @@ SET_COLLECTION_NAME = PythonOperator(
 
 TIMESTAMP = "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
 
-CSV_TRANSFORM = BashOperator(
-    task_id="csv_transform",
-    bash_command="csv_transform_to_s3.sh ",
-    env={**os.environ, **{
-        "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
-        "DAGID": "funcake_villanova_harvest",
-        "HOME": AIRFLOW_USER_HOME,
-        "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME,
-        "BUCKET": AIRFLOW_DATA_BUCKET,
-        "FOLDER": DAG.dag_id + "/" + TIMESTAMP + "/new-updated",
-        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
-        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-        "TIMESTAMP": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
-
-        }},
-    dag=DAG,
-    )
-
 OAI_TO_S3 = PythonOperator(
     task_id='harvest_oai',
     provide_context=True,
@@ -149,4 +131,4 @@ XSLT_TRANSFORM_FILTER = PythonOperator(
 )
 
 # SET UP TASK DEPENDENCIES
-SET_COLLECTION_NAME >> CSV_TRANSFORM >> OAI_TO_S3 >> XSLT_TRANSFORM
+SET_COLLECTION_NAME >> OAI_TO_S3 >> XSLT_TRANSFORM
