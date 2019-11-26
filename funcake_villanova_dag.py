@@ -56,7 +56,7 @@ SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
 
 # Define the DAG
 DEFAULT_ARGS = {
-    "owner": "joey_vills",
+    "owner": "dpla",
     "depends_on_past": False,
     "start_date": datetime(2019, 8, 27),
     "on_failure_callback": tasks.execute_slackpostonfail,
