@@ -2,6 +2,7 @@ version: 2
 
 jobs:
   lint_and_test:
+    working_directory: ~/funcake_dags
     docker:
       - image: circleci/python:3.6.8
         environment:

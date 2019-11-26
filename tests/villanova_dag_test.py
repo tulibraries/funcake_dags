@@ -2,10 +2,7 @@
 import re
 import unittest
 import airflow
-try:
-    from funcake_villanova_dag import DAG
-except:
-    from funcake_dags.funcake_villanova_dag import DAG
+from funcake_dags.funcake_villanova_dag import DAG, VILLANOVA_TARGET_ALIAS_ENV
 
 class TestVillanovaDag(unittest.TestCase):
 
@@ -15,10 +12,12 @@ class TestVillanovaDag(unittest.TestCase):
 
     def test_basic_dag_smoke(self):
         self.assertEqual(DAG.dag_id, "funcake_villanova_harvest")
+        self.assertEqual(VILLANOVA_TARGET_ALIAS_ENV, "qa")
 
     def test_transform_task(self):
         task = DAG.get_task("xslt_transform")
         self.assertEqual(task.bash_command, "transform.sh ")
+        self.assertEqual
         self.assertEqual(task.env.get("BUCKET"), "test-s3-bucket")
         self.assertEqual(task.env.get("AWS_ACCESS_KEY_ID"), "elephants-key")
         self.assertEqual(task.env.get("AWS_SECRET_ACCESS_KEY"), "elephants-secret")

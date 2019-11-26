@@ -13,6 +13,8 @@ INIT SYSTEMWIDE VARIABLES
 check for existence of systemwide variables shared across tasks that can be
 initialized here if not found (i.e. if this is a new installation) & defaults exist
 """
+VILLANOVA_SOLR_CONFIGSET = "funcake-oai-1"
+VILLANOVA_TARGET_ALIAS_ENV = Variable.get("VILLANOVA_TARGET_ALIAS_ENV", "qa")
 
 # Combine OAI Harvest Variables
 VILLANOVA_OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
@@ -48,6 +50,9 @@ SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 # Data Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
 AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
+
+#Solrcloud Variables
+SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
 
 # Define the DAG
 DEFAULT_ARGS = {
@@ -130,5 +135,18 @@ XSLT_TRANSFORM_FILTER = PythonOperator(
     dag=DAG
 )
 
+
+REFRESH_COLLECTION_FOR_ALIAS = tasks.refresh_sc_collection_for_alias(
+  DAG,
+  sc_conn=SOLR_CONN,
+  sc_coll_name=f"{VILLANOVA_SOLR_CONFIGSET}-{DAG.dag_id}-{VILLANOVA_TARGET_ALIAS_ENV }",
+  sc_alias=f"{VILLANOVA_SOLR_CONFIGSET}-{VILLANOVA_TARGET_ALIAS_ENV}",
+  configset=VILLANOVA_SOLR_CONFIGSET
+)
+
+
+
 # SET UP TASK DEPENDENCIES
-SET_COLLECTION_NAME >> OAI_TO_S3 >> XSLT_TRANSFORM
+SET_COLLECTION_NAME >> OAI_TO_S3 >> XSLT_TRANSFORM >> XSLT_TRANSFORM_FILTER
+
+SET_COLLECTION_NAME >> REFRESH_COLLECTION_FOR_ALIAS

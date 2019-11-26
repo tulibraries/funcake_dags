@@ -10,7 +10,7 @@ apache-airflow = "*"
 localstack = "*"
 
 [packages]
-tulflow = ">=0.3.3"
+tulflow = ">=0.4.0"
 pexpect = "*"
 xmltodict = "*"
 sickle = "*"
