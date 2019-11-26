@@ -62,7 +62,7 @@ FUNCAKE_INDEX_BASH = AIRFLOW_HOME + "/dags/funcake_dags/scripts/index.sh "
 
 # Define the DAG
 DEFAULT_ARGS = {
-    'owner': 'airflow',
+    'owner': 'dpla',
     'depends_on_past': False,
     'start_date': datetime(2019, 8, 27),
     'on_failure_callback': tasks.execute_slackpostonfail,

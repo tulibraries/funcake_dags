@@ -17,6 +17,8 @@ initialized here if not found (i.e. if this is a new installation) & defaults ex
 AIRFLOW_APP_HOME = Variable.get("AIRFLOW_HOME")
 AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
+CSV_SCHEMATRON_FILTER = "validations/dcingest_reqd_fields.sch"
+CSV_SCHEMATRON_REPORT = "validations/dcingest_reqd_fields.sch"
 
 # Data Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
@@ -71,7 +73,41 @@ CSV_TRANSFORM = BashOperator(
 
         }},
     dag=DAG,
-    )
+)
+
+HARVEST_SCHEMATRON_REPORT = PythonOperator(
+    task_id="harvest_schematron_report",
+    provide_context=True,
+    python_callable=validate.report_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
+        "schematron_filename": CSV_SCHEMATRON_REPORT,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/"
+    },
+    dag=DAG
+)
+
+HARVEST_FILTER = PythonOperator(
+    task_id="harvest_filter",
+    provide_context=True,
+    python_callable=validate.filter_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered/",
+        "schematron_filename": CSV_SCHEMATRON_FILTER,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/",
+        "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/harvest_filter",
+        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+    },
+    dag=DAG
+)
 
 # SET UP TASK DEPENDENCIES
-SET_COLLECTION_NAME >> CSV_TRANSFORM
+CSV_TRANSFORM.set_upstream(SET_COLLECTION_NAME)
+HARVEST_SCHEMATRON_REPORT.set_upstream(CSV_TRANSFORM)
+HARVEST_FILTER.set_upstream(CSV_TRANSFORM)
