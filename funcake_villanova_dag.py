@@ -13,6 +13,7 @@ INIT SYSTEMWIDE VARIABLES
 check for existence of systemwide variables shared across tasks that can be
 initialized here if not found (i.e. if this is a new installation) & defaults exist
 """
+VILLANOVA_SOLR_CONFIGSET = "funcake-oai-1"
 VILLANOVA_TARGET_ALIAS_ENV = Variable.get("VILLANOVA_TARGET_ALIAS_ENV", "qa")
 
 # Combine OAI Harvest Variables
@@ -134,13 +135,15 @@ XSLT_TRANSFORM_FILTER = PythonOperator(
     dag=DAG
 )
 
+
 REFRESH_COLLECTION_FOR_ALIAS = tasks.refresh_sc_collection_for_alias(
   DAG,
   sc_conn=SOLR_CONN,
-  sc_coll_name=f"funcake-oai-{DAG.dag_id}-{VILLANOVA_TARGET_ALIAS_ENV }",
-  sc_alias=f"funcake-oai-{VILLANOVA_TARGET_ALIAS_ENV}",
-  configset="funcake-oai"
+  sc_coll_name=f"{VILLANOVA_SOLR_CONFIGSET}-{DAG.dag_id}-{VILLANOVA_TARGET_ALIAS_ENV }",
+  sc_alias=f"{VILLANOVA_SOLR_CONFIGSET}-{VILLANOVA_TARGET_ALIAS_ENV}",
+  configset=VILLANOVA_SOLR_CONFIGSET
 )
+
 
 
 # SET UP TASK DEPENDENCIES

@@ -15,7 +15,7 @@ class TestVillanovaDag(unittest.TestCase):
 
     def test_basic_dag_smoke(self):
         self.assertEqual(DAG.dag_id, "funcake_villanova_harvest")
-        self.assertEqual(VILLANOVA_TARGET_ALIAS_ENV, "qa")
+        self.assertEqual(VILLANOVA_TARGET_ALIAS_ENV, "dev")
 
     def test_transform_task(self):
         task = DAG.get_task("xslt_transform")
