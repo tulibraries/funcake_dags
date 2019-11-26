@@ -2,10 +2,7 @@
 import re
 import unittest
 import airflow
-try:
-    from funcake_villanova_dag import DAG, VILLANOVA_TARGET_ALIAS_ENV
-except:
-    from funcake_dags.funcake_villanova_dag import DAG, VILLANOVA_TARGET_ALIAS_ENV
+from funcake_dags.funcake_villanova_dag import DAG, VILLANOVA_TARGET_ALIAS_ENV
 
 class TestVillanovaDag(unittest.TestCase):
 
@@ -15,7 +12,7 @@ class TestVillanovaDag(unittest.TestCase):
 
     def test_basic_dag_smoke(self):
         self.assertEqual(DAG.dag_id, "funcake_villanova_harvest")
-        self.assertEqual(VILLANOVA_TARGET_ALIAS_ENV, "dev")
+        self.assertEqual(VILLANOVA_TARGET_ALIAS_ENV, "qa")
 
     def test_transform_task(self):
         task = DAG.get_task("xslt_transform")
