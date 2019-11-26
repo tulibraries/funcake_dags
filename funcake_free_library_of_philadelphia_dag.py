@@ -85,7 +85,7 @@ HARVEST_SCHEMATRON_REPORT = PythonOperator(
         "bucket": AIRFLOW_DATA_BUCKET,
         "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
         "schematron_filename": CSV_SCHEMATRON_REPORT,
-        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/",
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/"
     },
     dag=DAG
 )
@@ -101,6 +101,7 @@ HARVEST_FILTER = PythonOperator(
         "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered/",
         "schematron_filename": CSV_SCHEMATRON_FILTER,
         "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/",
+        "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/harvest_filter",
         "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
     },
     dag=DAG
