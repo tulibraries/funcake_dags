@@ -37,7 +37,7 @@ AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 
 # OAI Harvest Variables
-VILLANOVA_OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
+OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
 # {
 #   "endpoint": "http://digital.library.villanova.edu/OAI/Server",
 #   "md_prefix": "oai_dc",
@@ -47,15 +47,15 @@ VILLANOVA_OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=Tru
 #   "schematron_filter": "validations/padigital_reqd_fields.sch",
 #   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
 # }
-OAI_ENDPOINT = VILLANOVA_OAI_CONFIG.get("endpoint")
-OAI_MD_PREFIX = VILLANOVA_OAI_CONFIG.get("md_prefix")
-OAI_INCLUDED_SETS = VILLANOVA_OAI_CONFIG.get("included_sets", [])
-OAI_EXCLUDED_SETS = VILLANOVA_OAI_CONFIG.get("excluded_sets", [])
-OAI_ALL_SETS = VILLANOVA_OAI_CONFIG.get("excluded_sets", "False")
-OAI_SCHEMATRON_FILTER = VILLANOVA_OAI_CONFIG.get("schematron_filter", "validations/dcingest_reqd_fields.sch")
-OAI_SCHEMATRON_REPORT = VILLANOVA_OAI_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
+OAI_ENDPOINT = OAI_CONFIG.get("endpoint")
+OAI_MD_PREFIX = OAI_CONFIG.get("md_prefix")
+OAI_INCLUDED_SETS = OAI_CONFIG.get("included_sets", [])
+OAI_EXCLUDED_SETS = OAI_CONFIG.get("excluded_sets", [])
+OAI_ALL_SETS = OAI_CONFIG.get("excluded_sets", "False")
+OAI_SCHEMATRON_FILTER = OAI_CONFIG.get("schematron_filter", "validations/dcingest_reqd_fields.sch")
+OAI_SCHEMATRON_REPORT = OAI_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
 
-VILLANOVA_XSL_CONFIG = Variable.get("VILLANOVA_XSL_CONFIG", default_var={}, deserialize_json=True)
+XSL_CONFIG = Variable.get("VILLANOVA_XSL_CONFIG", default_var={}, deserialize_json=True)
 #{
 #   "schematron_filter": "validations/funcake_reqd_fields.sch",
 #   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -63,11 +63,11 @@ VILLANOVA_XSL_CONFIG = Variable.get("VILLANOVA_XSL_CONFIG", default_var={}, dese
 #   "xsl_filename": "transforms/dplah.xsl",
 #   "xsl_repository": "tulibraries/aggregator_mdx", <--- OPTIONAL
 # }
-XSL_SCHEMATRON_FILTER = VILLANOVA_XSL_CONFIG.get("schematron_filter", "validations/funcake_reqd_fields.sch")
-XSL_SCHEMATRON_REPORT = VILLANOVA_XSL_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
-XSL_BRANCH = VILLANOVA_XSL_CONFIG.get("xsl_branch", "master")
-XSL_FILENAME = VILLANOVA_XSL_CONFIG.get("xsl_filename", "transforms/villanova.xsl")
-XSL_REPO = VILLANOVA_XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
+XSL_SCHEMATRON_FILTER = XSL_CONFIG.get("schematron_filter", "validations/funcake_reqd_fields.sch")
+XSL_SCHEMATRON_REPORT = XSL_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
+XSL_BRANCH = XSL_CONFIG.get("xsl_branch", "master")
+XSL_FILENAME = XSL_CONFIG.get("xsl_filename", "transforms/villanova.xsl")
+XSL_REPO = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 
 # Airflow Data S3 Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
@@ -75,8 +75,13 @@ AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 
 # Publication-related Solr URL, Configset, Alias
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
-VILLANOVA_SOLR_CONFIGSET = Variable.get("VILLANOVA_SOLR_CONFIGSET", "funcake-oai-1")
-VILLANOVA_TARGET_ALIAS_ENV = Variable.get("VILLANOVA_TARGET_ALIAS_ENV", "qa")
+SOLR_CONFIGSET = Variable.get("VILLANOVA_SOLR_CONFIGSET", "funcake-oai-1")
+TARGET_ALIAS_ENV = Variable.get("VILLANOVA_TARGET_ALIAS_ENV", "qa")
+COLLECTION = SOLR_CONFIGSET + "-" + TARGET_ALIAS_ENV
+if "://" in SOLR_CONN.host:
+    SOLR_COLL_ENDPT = SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
+else:
+    SOLR_COLL_ENDPT = "http://" + SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
 
 
 # Define the DAG
@@ -214,34 +219,27 @@ XSL_TRANSFORM_FILTER = PythonOperator(
 REFRESH_COLLECTION_FOR_ALIAS = tasks.refresh_sc_collection_for_alias(
     DAG,
     sc_conn=SOLR_CONN,
-    sc_coll_name=f"{VILLANOVA_SOLR_CONFIGSET}-{DAG.dag_id}-{VILLANOVA_TARGET_ALIAS_ENV}",
-    sc_alias=f"{VILLANOVA_SOLR_CONFIGSET}-{VILLANOVA_TARGET_ALIAS_ENV}",
-    configset=VILLANOVA_SOLR_CONFIGSET
+    sc_coll_name=f"{SOLR_CONFIGSET}-{DAG.dag_id}-{TARGET_ALIAS_ENV}",
+    sc_alias=f"{SOLR_CONFIGSET}-{TARGET_ALIAS_ENV}",
+    configset=SOLR_CONFIGSET
 )
 
-# PUBLISH = BashOperator(
-#     task_id='combine_index',
-#     bash_command=PUBLISH,
-#     env={
-#         "BUCKET": AIRFLOW_DATA_BUCKET,
-#         "FOLDER": DAG.dag_id + "/" + TIMESTAMP,
-#         "SOLR_URL": SOLR_COLL_ENDPT,
-#         "SOLR_AUTH_USER": SOLR_CONN.login or "",
-#         "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
-#         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
-#         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-#         "AIRFLOW_HOME": AIRFLOW_USER_HOME,
-#         "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
-#     },
-#     dag=FCDAG
-# )
-#
-# SOLR_ALIAS_SWAP = tasks.swap_sc_alias(
-#     DAG,
-#     SOLR_CONN.conn_id,
-#     COLLECTION,
-#     ALIAS
-# )
+PUBLISH = BashOperator(
+    task_id="publish",
+    bash_command=SCRIPTS_PATH + "index.sh ",
+    env={
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
+        "INDEXER": "oai_index",
+        "SOLR_URL": SOLR_COLL_ENDPT,
+        "SOLR_AUTH_USER": SOLR_CONN.login or "",
+        "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
+        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
+        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
+    },
+    dag=DAG
+)
 
 NOTIFY_SLACK = PythonOperator(
     task_id="slack_post_succ",
@@ -260,4 +258,5 @@ XSL_TRANSFORM_SCHEMATRON_REPORT.set_upstream(XSL_TRANSFORM)
 XSL_TRANSFORM_FILTER.set_upstream(XSL_TRANSFORM)
 REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_SCHEMATRON_REPORT)
 REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_FILTER)
-NOTIFY_SLACK.set_upstream(REFRESH_COLLECTION_FOR_ALIAS)
+PUBLISH.set_upstream(REFRESH_COLLECTION_FOR_ALIAS)
+NOTIFY_SLACK.set_upstream(PUBLISH)

@@ -116,6 +116,7 @@ COMBINE_INDEX = BashOperator(
     env={
         "BUCKET": AIRFLOW_DATA_BUCKET,
         "FOLDER": FCDAG.dag_id + "/" + TIMESTAMP,
+        "INDEXER": "funnel_cake_index",
         "SOLR_URL": SOLR_COLL_ENDPT,
         "SOLR_AUTH_USER": SOLR_CONN.login or "",
         "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",

@@ -41,7 +41,7 @@ SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 CSV_SCHEMATRON_FILTER = Variable.get("FREE_LIBRARY_CSV_SCHEMATRON_FILTER", "validations/dcingest_reqd_fields.sch")
 CSV_SCHEMATRON_REPORT = Variable.get("FREE_LIBRARY_CSV_SCHEMATRON_REPORT", "validations/padigital_missing_thumbnailURL.sch")
 
-FREE_LIBRARY_XSL_CONFIG = Variable.get("FREE_LIBRARY_XSL_CONFIG", default_var={}, deserialize_json=True)
+XSL_CONFIG = Variable.get("FREE_LIBRARY_XSL_CONFIG", default_var={}, deserialize_json=True)
 #{
 #   "schematron_filter": "validations/funcake_reqd_fields.sch",
 #   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -49,11 +49,11 @@ FREE_LIBRARY_XSL_CONFIG = Variable.get("FREE_LIBRARY_XSL_CONFIG", default_var={}
 #   "xsl_filename": "transforms/dplah.xsl",
 #   "xsl_repository": "tulibraries/aggregator_mdx", <--- OPTIONAL
 # }
-XSL_SCHEMATRON_FILTER = FREE_LIBRARY_XSL_CONFIG.get("schematron_filter", "validations/padigital_reqd_fields.sch")
-XSL_SCHEMATRON_REPORT = FREE_LIBRARY_XSL_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
-XSL_BRANCH = FREE_LIBRARY_XSL_CONFIG.get("xsl_branch", "master")
-XSL_FILENAME = FREE_LIBRARY_XSL_CONFIG.get("xsl_filename", "transforms/dplah.xsl")
-XSL_REPO = FREE_LIBRARY_XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
+XSL_SCHEMATRON_FILTER = XSL_CONFIG.get("schematron_filter", "validations/padigital_reqd_fields.sch")
+XSL_SCHEMATRON_REPORT = XSL_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
+XSL_BRANCH = XSL_CONFIG.get("xsl_branch", "master")
+XSL_FILENAME = XSL_CONFIG.get("xsl_filename", "transforms/dplah.xsl")
+XSL_REPO = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 
 # Airflow Data S3 Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
@@ -61,9 +61,13 @@ AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 
 # Publication-related Solr URL, Configset, Alias
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
-FREE_LIBRARY_SOLR_CONFIGSET = Variable.get("FREE_LIBRARY_SOLR_CONFIGSET", "funcake-oai-1")
-FREE_LIBRARY_TARGET_ALIAS_ENV = Variable.get("FREE_LIBRARY_TARGET_ALIAS_ENV", "qa")
-
+SOLR_CONFIGSET = Variable.get("FREE_LIBRARY_SOLR_CONFIGSET", "funcake-oai-1")
+TARGET_ALIAS_ENV = Variable.get("FREE_LIBRARY_TARGET_ALIAS_ENV", "qa")
+COLLECTION = SOLR_CONFIGSET + "-" + TARGET_ALIAS_ENV
+if "://" in SOLR_CONN.host:
+    SOLR_COLL_ENDPT = SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
+else:
+    SOLR_COLL_ENDPT = "http://" + SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
 
 # Define the DAG
 DEFAULT_ARGS = {
@@ -199,34 +203,27 @@ XSL_TRANSFORM_FILTER = PythonOperator(
 REFRESH_COLLECTION_FOR_ALIAS = tasks.refresh_sc_collection_for_alias(
     DAG,
     sc_conn=SOLR_CONN,
-    sc_coll_name=f"{FREE_LIBRARY_SOLR_CONFIGSET}-{DAG.dag_id}-{FREE_LIBRARY_TARGET_ALIAS_ENV}",
-    sc_alias=f"{FREE_LIBRARY_SOLR_CONFIGSET}-{FREE_LIBRARY_TARGET_ALIAS_ENV}",
-    configset=FREE_LIBRARY_SOLR_CONFIGSET
+    sc_coll_name=f"{SOLR_CONFIGSET}-{DAG.dag_id}-{TARGET_ALIAS_ENV}",
+    sc_alias=f"{SOLR_CONFIGSET}-{TARGET_ALIAS_ENV}",
+    configset=SOLR_CONFIGSET
 )
 
-# PUBLISH = BashOperator(
-#     task_id='combine_index',
-#     bash_command=PUBLISH,
-#     env={
-#         "BUCKET": AIRFLOW_DATA_BUCKET,
-#         "FOLDER": DAG.dag_id + "/" + TIMESTAMP,
-#         "SOLR_URL": SOLR_COLL_ENDPT,
-#         "SOLR_AUTH_USER": SOLR_CONN.login or "",
-#         "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
-#         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
-#         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-#         "AIRFLOW_HOME": AIRFLOW_USER_HOME,
-#         "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
-#     },
-#     dag=FCDAG
-# )
-#
-# SOLR_ALIAS_SWAP = tasks.swap_sc_alias(
-#     DAG,
-#     SOLR_CONN.conn_id,
-#     COLLECTION,
-#     ALIAS
-# )
+PUBLISH = BashOperator(
+    task_id="publish",
+    bash_command=SCRIPTS_PATH + "index.sh ",
+    env={
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
+        "INDEXER": "oai_index",
+        "SOLR_URL": SOLR_COLL_ENDPT,
+        "SOLR_AUTH_USER": SOLR_CONN.login or "",
+        "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
+        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
+        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
+    },
+    dag=DAG
+)
 
 NOTIFY_SLACK = PythonOperator(
     task_id="slack_post_succ",
@@ -245,4 +242,5 @@ XSL_TRANSFORM_SCHEMATRON_REPORT.set_upstream(XSL_TRANSFORM)
 XSL_TRANSFORM_FILTER.set_upstream(XSL_TRANSFORM)
 REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_SCHEMATRON_REPORT)
 REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_FILTER)
-NOTIFY_SLACK.set_upstream(REFRESH_COLLECTION_FOR_ALIAS)
+PUBLISH.set_upstream(REFRESH_COLLECTION_FOR_ALIAS)
+NOTIFY_SLACK.set_upstream(PUBLISH)
