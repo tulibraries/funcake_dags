@@ -188,7 +188,7 @@ XSL_TRANSFORM_FILTER = PythonOperator(
         "access_secret": AIRFLOW_S3.password,
         "bucket": AIRFLOW_DATA_BUCKET,
         "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
-        "schematron_filename": XSL_TRANSFORM_FILTER,
+        "schematron_filename": XSL_SCHEMATRON_FILTER,
         "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
         "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered",
         "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
@@ -245,4 +245,4 @@ XSL_TRANSFORM_SCHEMATRON_REPORT.set_upstream(XSL_TRANSFORM)
 XSL_TRANSFORM_FILTER.set_upstream(XSL_TRANSFORM)
 REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_SCHEMATRON_REPORT)
 REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_FILTER)
-NOTIFY_SLACK.set_upstream(NOTIFY_SLACK)
+NOTIFY_SLACK.set_upstream(REFRESH_COLLECTION_FOR_ALIAS)
