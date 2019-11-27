@@ -75,14 +75,8 @@ AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 
 # Publication-related Solr URL, Configset, Alias
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
-SOLR_CONFIGSET = Variable.get("VILLANOVA_SOLR_CONFIGSET", "funcake-oai-1")
-TARGET_ALIAS_ENV = Variable.get("VILLANOVA_TARGET_ALIAS_ENV", "qa")
-COLLECTION = SOLR_CONFIGSET + "-" + TARGET_ALIAS_ENV
-if "://" in SOLR_CONN.host:
-    SOLR_COLL_ENDPT = SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
-else:
-    SOLR_COLL_ENDPT = "http://" + SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
-
+SOLR_CONFIGSET = Variable.get("VILLANOVA_SOLR_CONFIGSET", default_var="funcake-oai-1")
+TARGET_ALIAS_ENV = Variable.get("VILLANOVA_TARGET_ALIAS_ENV", default_var="dev")
 
 # Define the DAG
 DEFAULT_ARGS = {
@@ -231,7 +225,7 @@ PUBLISH = BashOperator(
         "BUCKET": AIRFLOW_DATA_BUCKET,
         "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
         "INDEXER": "oai_index",
-        "SOLR_URL": SOLR_COLL_ENDPT,
+        "SOLR_URL": tasks.get_solr_url(SOLR_CONN, SOLR_CONFIGSET + "-" + DAG.dag_id + "-" + TARGET_ALIAS_ENV),
         "SOLR_AUTH_USER": SOLR_CONN.login or "",
         "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
