@@ -21,12 +21,17 @@ def pytest_sessionstart():
     airflow.models.Variable.set("AIRFLOW_USER_HOME", repo_dir)
     airflow.models.Variable.set("AIRFLOW_DATA_BUCKET", "test-s3-bucket")
     airflow.models.Variable.set("AIRFLOW_LOG_DIR", repo_dir + '/logs')
+    airflow.models.Variable.set("FREE_LIBRARY_CSV_SCHEMATRON_FILTER", "validations/dcingest_reqd_fields.sch")
+    airflow.models.Variable.set("FREE_LIBRARY_CSV_SCHEMATRON_REPORT", "validations/padigital_missing_thumbnailURL.sch")
+    airflow.models.Variable.set("FREE_LIBRARY_XSL_CONFIG", {"xsl_branch": "master", "xsl_filename": "transforms/dplah.xsl", "xsl_repo": "tulibraries/aggregator_mdx", "schematron_filter": "validations/padigital_reqd_fields.sch", "schematron_report": "validations/padigital_missing_thumbnailURL.sch"}, serialize_json=True)
     airflow.models.Variable.set("FUNCAKE_DEV_CONFIGSET", "funcake-0")
     airflow.models.Variable.set("FUNCAKE_PROD_CONFIGSET", "funcake-0")
     airflow.models.Variable.set("FUNCAKE_OAI_CONFIG", {"endpoint": "http://localhost/oai", "include_sets": ["i_love_cats"], "exclude_sets": [], "md_prefix": "kittens"}, serialize_json=True)
-    airflow.models.Variable.set("VILLANOVA_OAI_CONFIG", {"endpoint": "http://localhost/oai", "included_sets": ["i_love_cats"], "excluded_sets": [], "md_prefix": "kittens"}, serialize_json=True)
-
     airflow.models.Variable.set("FUNCAKE_SOLR_CONFIG", {"configset": "funcake-0", "replication_factor": 1}, serialize_json=True)
+    airflow.models.Variable.set("VILLANOVA_OAI_CONFIG", {"endpoint": "http://localhost/oai", "included_sets": ["i_love_cats"], "excluded_sets": [], "md_prefix": "kittens"}, serialize_json=True)
+    airflow.models.Variable.set("VILLANOVA_XSL_CONFIG", {"xsl_branch": "master", "xsl_filename": "transforms/villanova.xsl", "xsl_repo": "tulibraries/aggregator_mdx", "schematron_filter": "validations/padigital_reqd_fields.sch", "schematron_report": "validations/padigital_missing_thumbnailURL.sch"}, serialize_json=True)
+    airflow.models.Variable.set("VILLANOVA_SOLR_CONFIGSET", "funcake-oai-1")
+    airflow.models.Variable.set("VILLANOVA_TARGET_ALIAS_ENV", "qa")
 
     solrcloud = airflow.models.Connection(
         conn_id="SOLRCLOUD",

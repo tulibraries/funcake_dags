@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "20595f65d6384dd05449209b41496c052faf51b56a3964463915d91dbd3ff478"
+            "sha256": "0ece0cc3acb2a0d70bc8e86a93ea757f7c2d92d6c502d89fda8cb59407ce5208"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,26 +18,26 @@
     "default": {
         "awscli": {
             "hashes": [
-                "sha256:8074a1ef87260bb4a208d7d159ed6343eb3a5b1dc45afb997997274cef5cb8c6",
-                "sha256:8b07dc807ff7f87507060ae5935d7936d4ea50e8de1b3dc2198f0c17362c7e54"
+                "sha256:210c554b336a1147d9a419e04312e4f93a5f48952a96b42689179a891dba1622",
+                "sha256:a54f254a52198475a263518ad0960943e423ca0e1128d4c61434fb7b72f08a5c"
             ],
             "index": "pypi",
-            "version": "==1.16.291"
+            "version": "==1.16.292"
         },
         "boto3": {
             "hashes": [
-                "sha256:5e2c41f7c565da816775724ef956cdfa0e3376e39c05b1d5a04796a026521cdf",
-                "sha256:81fb7d1a81294e3b8e3da78dafb56ae14c35cf7cec60b90cf3f0c07dd866f7f9"
+                "sha256:21a75f1a3f85fbfcc00d691200fbe4aa71f18e98389d88401f38e35ae50825e9",
+                "sha256:e4daa659f2aaf5664a32224cbcbbcaa9042ac657f1c64326d0e3230f967c2a30"
             ],
             "index": "pypi",
-            "version": "==1.10.27"
+            "version": "==1.10.28"
         },
         "botocore": {
             "hashes": [
-                "sha256:d2031c59a3580c6f928d17d334a8be72b3615ef754288b8fa226c4d53feba421",
-                "sha256:fa295ab936b424c716d1188f5aa1ea2ec57648d6ec417b42adf02b2d16f57778"
+                "sha256:5a343562b52d6216dbda89b8969dcbffa4474c7df9cbe04ee7440033c1c4075b",
+                "sha256:9b886c4fc7efe0927ea90a3e070bc7e44dc6b8a1518ece6e99ecb21f52c75831"
             ],
-            "version": "==1.13.27"
+            "version": "==1.13.28"
         },
         "certifi": {
             "hashes": [
@@ -201,10 +201,10 @@
         },
         "tulflow": {
             "hashes": [
-                "sha256:cef44a05166b3c11c4065c6f4e8d9e14c172f503e89edff801adc136dbced434"
+                "sha256:6afbe483ca24a389c62c91987881538dc5dd47b1365ad17da951313eefac2acd"
             ],
             "index": "pypi",
-            "version": "==0.4.0"
+            "version": "==0.4.2"
         },
         "urllib3": {
             "hashes": [
@@ -250,10 +250,10 @@
         },
         "argcomplete": {
             "hashes": [
-                "sha256:c6aaa1d534adaa1be0a7e9d51d7f5993dba608f6d2a2b765302c05b0b3e9a719",
-                "sha256:ec88b5ccefe2d47d8f14916a006431d0afb756751ee5c46f28654a7d8a69be53"
+                "sha256:a37f522cf3b6a34abddfedb61c4546f60023b3799b22d1cd971eacdc0861530a",
+                "sha256:d8ea63ebaec7f59e56e7b2a386b1d1c7f1a7ae87902c9ee17d377eaa557f06fa"
             ],
-            "version": "==1.10.2"
+            "version": "==1.10.3"
         },
         "astroid": {
             "hashes": [
@@ -278,18 +278,18 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:5e2c41f7c565da816775724ef956cdfa0e3376e39c05b1d5a04796a026521cdf",
-                "sha256:81fb7d1a81294e3b8e3da78dafb56ae14c35cf7cec60b90cf3f0c07dd866f7f9"
+                "sha256:21a75f1a3f85fbfcc00d691200fbe4aa71f18e98389d88401f38e35ae50825e9",
+                "sha256:e4daa659f2aaf5664a32224cbcbbcaa9042ac657f1c64326d0e3230f967c2a30"
             ],
             "index": "pypi",
-            "version": "==1.10.27"
+            "version": "==1.10.28"
         },
         "botocore": {
             "hashes": [
-                "sha256:d2031c59a3580c6f928d17d334a8be72b3615ef754288b8fa226c4d53feba421",
-                "sha256:fa295ab936b424c716d1188f5aa1ea2ec57648d6ec417b42adf02b2d16f57778"
+                "sha256:5a343562b52d6216dbda89b8969dcbffa4474c7df9cbe04ee7440033c1c4075b",
+                "sha256:9b886c4fc7efe0927ea90a3e070bc7e44dc6b8a1518ece6e99ecb21f52c75831"
             ],
-            "version": "==1.13.27"
+            "version": "==1.13.28"
         },
         "cached-property": {
             "hashes": [
