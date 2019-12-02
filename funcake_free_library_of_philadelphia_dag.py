@@ -36,8 +36,6 @@ initialized here if not found (i.e. if this is a new installation) & defaults ex
 AIRFLOW_APP_HOME = Variable.get("AIRFLOW_HOME")
 AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
-CSV_SCHEMATRON_FILTER = "validations/dcingest_reqd_fields.sch"
-CSV_SCHEMATRON_REPORT = "validations/dcingest_reqd_fields.sch"
 
 # CSV Harvest Variables
 CSV_SCHEMATRON_FILTER = Variable.get("FREE_LIBRARY_CSV_SCHEMATRON_FILTER", "validations/dcingest_reqd_fields.sch")
