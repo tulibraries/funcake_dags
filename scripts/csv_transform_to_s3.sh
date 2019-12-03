@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-set -euxo pipefail
-
 source ~/.bashrc
+set -euxo pipefail
 
 git clone https://tulibraries-devops:$GITHUB_TOKEN@github.com/tulibraries/aggregator_data.git
 cd aggregator_data/$DAGID
