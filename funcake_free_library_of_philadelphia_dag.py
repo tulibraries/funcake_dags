@@ -108,7 +108,6 @@ CSV_TRANSFORM = BashOperator(
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
         "TIMESTAMP": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
-
         }},
     dag=DAG,
 )
@@ -205,12 +204,12 @@ REFRESH_COLLECTION_FOR_ALIAS = tasks.refresh_sc_collection_for_alias(
 
 PUBLISH = BashOperator(
     task_id="publish",
-    bash_command=SCRIPTS_PATH + "index.sh ",
+    bash_command=SCRIPTS_PATH + "/index.sh ",
     env={
         "BUCKET": AIRFLOW_DATA_BUCKET,
         "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
         "INDEXER": "oai_index",
-        "SOLR_URL": tasks.get_solr_url(SOLR_CONN, SOLR_CONFIGSET + "-" + DAG.dag_id + "-" + TARGET_ALIAS_ENV),
+        "FUNCAKE_OAI_SOLR_URL": tasks.get_solr_url(SOLR_CONN, SOLR_CONFIGSET + "-" + DAG.dag_id + "-" + TARGET_ALIAS_ENV),
         "SOLR_AUTH_USER": SOLR_CONN.login or "",
         "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
