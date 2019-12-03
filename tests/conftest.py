@@ -30,7 +30,7 @@ def pytest_sessionstart():
     airflow.models.Variable.set("FUNCAKE_SOLR_CONFIG", {"configset": "funcake-0", "replication_factor": 1}, serialize_json=True)
     airflow.models.Variable.set("VILLANOVA_OAI_CONFIG", {"endpoint": "http://localhost/oai", "included_sets": ["i_love_cats"], "excluded_sets": [], "md_prefix": "kittens"}, serialize_json=True)
     airflow.models.Variable.set("VILLANOVA_XSL_CONFIG", {"xsl_branch": "master", "xsl_filename": "transforms/villanova.xsl", "xsl_repo": "tulibraries/aggregator_mdx", "schematron_filter": "validations/padigital_reqd_fields.sch", "schematron_report": "validations/padigital_missing_thumbnailURL.sch"}, serialize_json=True)
-    airflow.models.Variable.set("VILLANOVA_SOLR_CONFIGSET", "funcake-oai-1")
+    airflow.models.Variable.set("VILLANOVA_SOLR_CONFIGSET", "funcake-oai-0")
     airflow.models.Variable.set("VILLANOVA_TARGET_ALIAS_ENV", "qa")
 
     solrcloud = airflow.models.Connection(

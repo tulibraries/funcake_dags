@@ -18,7 +18,7 @@ These the Airflow expectations for these Funnel Cake DAGs to successfully run:
 
 **Libraries & Packages**
 
-- Python 3.6 (limited by apache-airflow requirements)
+- Python 3.7
 - Python Packages: see the [Pipfile](Pipfile)
 
 **Airflow Variables**
@@ -84,9 +84,9 @@ How to run the `pylint` linter on this repository:
 ```
 # Ensure you have the correct Python & Pip running:
 $ python --version
-  Python 3.6.8
+  Python 3.7.2
 $ pip --version
-  pip 18.1 from /home/tul08567/.pyenv/versions/3.6.8/lib/python3.6/site-packages/pip (python 3.6)
+  pip 18.1 from /home/tul08567/.pyenv/versions/3.7.2/lib/python3.7/site-packages/pip (python 3.7)
 # Install Pipenv:
 $ pip install pipenv
   Collecting pipenv ...
@@ -120,4 +120,4 @@ We deploy via the tulibraries/ansible-playbook-airflow ansible playbook. This ru
 
 PRs merged to QA cause a QA environment deploy of tulibraries/ansible-playbook-airflow ansible playbook; PRs merged to Master cause a Stage Environment deploy using that airflow playbook. PRs merged to Master also queue up a Production Environment deploy, that waits for user input before running.
 
-The idea is to eventually touch the airflow ansible playbook as little as possible, and have DAG changes occur here & deploy from here. 
+The idea is to eventually touch the airflow ansible playbook as little as possible, and have DAG changes occur here & deploy from here.
