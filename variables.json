@@ -1,0 +1,47 @@
+{
+  "AIRFLOW_DATA_BUCKET": "tulib-airflow-prod",
+  "FREE_LIBRARY_CSV_SCHEMATRON_FILTER": "validations/dcingest_reqd_fields.sch",
+  "FREE_LIBRARY_CSV_SCHEMATRON_REPORT": "validations/padigital_missing_thumbnailURL.sch",
+  "FREE_LIBRARY_XSL_CONFIG": {
+    "schematron_filter": "validations/funcake_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "add-dummy-csv-xsl",
+    "xsl_filename": "transforms/free_library_csv.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "FREE_LIBRARY_SOLR_CONFIGSET": "funcake-oai-0",
+  "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
+  "FUNCAKE_OAI_CONFIG": {
+    "endpoint": "https://combine.padigital.org/combine/oai",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+      "dpla_test"
+    ],
+    "md_prefix": "generic"
+  },
+  "FUNCAKE_SOLR_CONFIG": {
+    "configset": "funcake-0",
+    "replication_factor": 2
+  },
+  "VILLANOVA_OAI_CONFIG": {
+    "endpoint": "http://digital.library.villanova.edu/OAI/Server",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+      "dpla"
+    ],
+    "md_prefix": "oai_dc",
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "VILLANOVA_SOLR_CONFIGSET": "funcake-oai-0",
+  "VILLANOVA_TARGET_ALIAS_ENV": "dev",
+  "VILLANOVA_XSL_CONFIG": {
+    "schematron_filter": "validations/funcake_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/villanova.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  }
+}
