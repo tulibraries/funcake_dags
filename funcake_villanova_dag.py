@@ -18,17 +18,17 @@ PP = pprint.PrettyPrinter(indent=4)
 OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
 # {
 #   "endpoint": "http://digital.library.villanova.edu/OAI/Server",
-#   "included_sets": ["dpla"],
-#   "excluded_sets": [], <--- OPTIONAL
 #   "md_prefix": "oai_dc",
-#   "xsl_branch": "my_test_branch", <--- OPTIONAL
-#   "xsl_filename": "transforms/my_test_transform.xml", <--- OPTIONAL
-#   "schematron_filename": "validations/test_validation", <--- OPTIONAL
+#   "all_sets": "False", <--- OPTIONAL
+#   "excluded_sets": [], <--- OPTIONAL
+#   "included_sets": ["dpla"], <--- OPTIONAL
+#   "schematron_filter": "validations/padigital_reqd_fields.sch",
+#   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
 # }
-MDX_PREFIX   = OAI_CONFIG.get("md_prefix")
-INCLUDE_SETS = OAI_CONFIG.get("included_sets")
+MD_PREFIX = OAI_CONFIG.get("md_prefix")
+INCLUDED_SETS = OAI_CONFIG.get("included_sets")
 OAI_ENDPOINT = OAI_CONFIG.get("endpoint")
-EXCLUDE_SETS = OAI_CONFIG.get("excluded_sets", [])
+EXCLUDED_SETS = OAI_CONFIG.get("excluded_sets", [])
 ALL_SETS = OAI_CONFIG.get("excluded_sets", "False")
 OAI_SCHEMATRON_FILTER = OAI_CONFIG.get("schematron_filter", "validations/dcingest_reqd_fields.sch")
 OAI_SCHEMATRON_REPORT = OAI_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
@@ -43,10 +43,9 @@ XSL_CONFIG = Variable.get("VILLANOVA_XSLT_CONFIG", default_var={}, deserialize_j
 # }
 XSL_SCHEMATRON_FILTER = XSL_CONFIG.get("schematron_filter", "validations/funcake_reqd_fields.sch")
 XSL_SCHEMATRON_REPORT = XSL_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
-XSL_BRANCH   = XSL_CONFIG.get("xsl_branch", "master")
+XSL_BRANCH = XSL_CONFIG.get("xsl_branch", "master")
 XSL_FILENAME = XSL_CONFIG.get("xsl_filename", "transforms/villanova.xsl")
-XSL_REPO     = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
-SCHEMATRON_FILENAME = XSL_CONFIG.get("schematron_filename", "validations/padigital_reqd_fields.sch")
+XSL_REPO = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 
 # Define the DAG
 DAG = DAG(
@@ -66,10 +65,10 @@ OAI_TRIGGER = TriggerDagRunOperator(
     params={"condition_param": True,
             "message": "Triggering Villanova OAI DAG",
             "OAI_CONFIG": OAI_CONFIG,
-            "MDX_PREFIX": MDX_PREFIX,
-            "INCLUDE_SETS": INCLUDE_SETS,
+            "MDX_PREFIX": MD_PREFIX,
+            "INCLUDE_SETS": INCLUDED_SETS,
             "OAI_ENDPOINT": OAI_ENDPOINT,
-            "EXCLUDE_SETS": EXCLUDE_SETS,
+            "EXCLUDE_SETS": EXCLUDED_SETS,
             "ALL_SETS": ALL_SETS,
             "OAI_SCHEMATRON_FILTER": OAI_SCHEMATRON_FILTER,
             "OAI_SCHEMATRON_REPORT": OAI_SCHEMATRON_REPORT,
@@ -79,7 +78,6 @@ OAI_TRIGGER = TriggerDagRunOperator(
             "XSL_BRANCH": XSL_BRANCH,
             "XSL_FILENAME": XSL_FILENAME,
             "XSL_REPO": XSL_REPO,
-            "SCHEMATRON_FILENAME": SCHEMATRON_FILENAME
             },
     dag=DAG
 )
