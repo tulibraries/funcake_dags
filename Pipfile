@@ -10,7 +10,7 @@ apache-airflow = "*"
 localstack = "*"
 
 [packages]
-tulflow = ">=0.4.2"
+tulflow = ">=0.4.4"
 pexpect = "*"
 xmltodict = "*"
 sickle = "*"
@@ -18,4 +18,4 @@ awscli = "*"
 boto3 = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
