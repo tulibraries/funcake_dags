@@ -2,8 +2,9 @@ version: 2
 
 jobs:
   lint_and_test:
+    working_directory: ~/funcake_dags
     docker:
-      - image: circleci/python:3.6.8
+      - image: circleci/python:3.7.2
         environment:
           PIPENV_VENV_IN_PROJECT: true
     steps:
@@ -13,7 +14,8 @@ jobs:
           command: |
             sudo pip install pipenv
             SLUGIFY_USES_TEXT_UNIDECODE=yes pipenv install --dev
-            pipenv run pylint combine_index_dag -E
+            pipenv run pylint dev_combine_index_dag -E
+            pipenv run pylint prod_combine_index_dag -E
             PYTHONPATH=. pipenv run pytest
   qa_deploy:
     docker:
