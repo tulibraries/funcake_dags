@@ -26,10 +26,10 @@ OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
 #   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
 # }
 MD_PREFIX = OAI_CONFIG.get("md_prefix")
-INCLUDED_SETS = OAI_CONFIG.get("included_sets")
+OAI_INCLUDED_SETS = OAI_CONFIG.get("included_sets")
 OAI_ENDPOINT = OAI_CONFIG.get("endpoint")
-EXCLUDED_SETS = OAI_CONFIG.get("excluded_sets", [])
-ALL_SETS = OAI_CONFIG.get("excluded_sets", "False")
+OAI_EXCLUDED_SETS = OAI_CONFIG.get("excluded_sets", [])
+OAI_ALL_SETS = OAI_CONFIG.get("excluded_sets", "False")
 OAI_SCHEMATRON_FILTER = OAI_CONFIG.get("schematron_filter", "validations/dcingest_reqd_fields.sch")
 OAI_SCHEMATRON_REPORT = OAI_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
 
@@ -65,11 +65,11 @@ OAI_TRIGGER = TriggerDagRunOperator(
     params={"condition_param": True,
             "message": "Triggering Villanova OAI DAG",
             "OAI_CONFIG": OAI_CONFIG,
-            "MDX_PREFIX": MD_PREFIX,
-            "INCLUDE_SETS": INCLUDED_SETS,
+            "OAI_MD_PREFIX": MD_PREFIX,
+            "OAI_INCLUDED_SETS": OAI_INCLUDED_SETS,
             "OAI_ENDPOINT": OAI_ENDPOINT,
-            "EXCLUDE_SETS": EXCLUDED_SETS,
-            "ALL_SETS": ALL_SETS,
+            "EXCLUDE_SETS": OAI_EXCLUDED_SETS,
+            "OAI_ALL_SETS": OAI_ALL_SETS,
             "OAI_SCHEMATRON_FILTER": OAI_SCHEMATRON_FILTER,
             "OAI_SCHEMATRON_REPORT": OAI_SCHEMATRON_REPORT,
             "XSL_CONFIG": XSL_CONFIG,

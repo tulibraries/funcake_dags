@@ -43,7 +43,7 @@ OAI_ENDPOINT = "{{ dag_run.conf['OAI_ENDPOINT'] }}"
 OAI_MD_PREFIX = "{{ dag_run.conf['OAI_MD_PREFIX'] }}"
 OAI_INCLUDED_SETS = "{{ dag_run.conf['OAI_INCLUDED_SETS'] }}"
 OAI_EXCLUDED_SETS = "{{ dag_run.conf['OAI_EXCLUDED_SETS'] }}"
-OAI_ALL_SETS = "{{ dag_run.conf['OAI_ALL_SETS'] }}"
+OAI_OAI_ALL_SETS = "{{ dag_run.conf['OAI_OAI_ALL_SETS'] }}"
 OAI_SCHEMATRON_FILTER = "{{ dag_run.conf['OAI_SCHEMATRON_FILTER'] }}"
 OAI_SCHEMATRON_REPORT = "{{ dag_run.conf['OAI_SCHEMATRON_REPORT'] }}"
 
@@ -119,7 +119,7 @@ OAI_TO_S3 = PythonOperator(
     op_kwargs={
         "access_id": AIRFLOW_S3.login,
         "access_secret": AIRFLOW_S3.password,
-        "all_sets": OAI_ALL_SETS,
+        "all_sets": OAI_OAI_ALL_SETS,
         "bucket_name": AIRFLOW_DATA_BUCKET,
         "excluded_sets": OAI_EXCLUDED_SETS,
         "included_sets": OAI_INCLUDED_SETS,
