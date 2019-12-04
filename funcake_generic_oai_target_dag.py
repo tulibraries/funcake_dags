@@ -14,19 +14,6 @@ Functions / any code with processing logic should be elsewhere, tested, etc.
 This is where to put functions that haven't been abstracted out yet.
 """
 
-def slackpostonsuccess(dag, **context):
-    """Task Method to Post Successful DAG Completion on Slack."""
-
-    task_instance = context.get("task_instance")
-
-    msg = "%(date)s DAG %(dagid)s success: %(url)s" % {
-        "date": context.get('execution_date'),
-        "dagid": task_instance.dag_id,
-        "url": task_instance.log_url
-    }
-
-    return tasks.slackpostonsuccess(dag, msg).execute(context=context)
-
 """
 INIT SYSTEMWIDE VARIABLES
 check for existence of systemwide variables shared across tasks that can be
@@ -36,6 +23,8 @@ initialized here if not found (i.e. if this is a new installation) & defaults ex
 AIRFLOW_APP_HOME = Variable.get("AIRFLOW_HOME")
 AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
+SOURCE_DAG = "{{ dag_run.conf['source_dag'] }}"
+START_DATE = "{{ dag_run.conf['start_date'] }}"
 
 # OAI Harvest Variables
 OAI_CONFIG = "{{ dag_run.conf['OAI_CONFIG'] }}"
@@ -63,6 +52,7 @@ TARGET_ALIAS_ENV = Variable.get("TARGET_ALIAS_ENV", default_var="dev")
 # Data Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
 AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
+S3_PREFIX = SOURCE_DAG + "/" + START_DATE
 
 # Define the DAG
 DEFAULT_ARGS = {
@@ -78,7 +68,7 @@ DAG = DAG(
     dag_id="funcake_generic_oai",
     default_args=DEFAULT_ARGS,
     catchup=False,
-    max_active_runs=1,
+    max_active_runs=1
     schedule_interval=None
 )
 
@@ -105,12 +95,12 @@ REQUIRE_DAG_RUN = PythonOperator(
         dag=DAG,
         )
 
-SET_COLLECTION_NAME = PythonOperator(
-    task_id="set_collection_name",
-    python_callable=datetime.now().strftime,
-    op_args=["%Y-%m-%d_%H-%M-%S"],
-    dag=DAG
-)
+# SET_COLLECTION_NAME = PythonOperator(
+#     task_id="set_collection_name",
+#     python_callable=datetime.now().strftime,
+#     op_args=["%Y-%m-%d_%H-%M-%S"],
+#     dag=DAG
+# )
 
 OAI_TO_S3 = PythonOperator(
     task_id="harvest_oai",
@@ -126,7 +116,7 @@ OAI_TO_S3 = PythonOperator(
         "metadata_prefix": OAI_MD_PREFIX,
         "oai_endpoint": OAI_ENDPOINT,
         "records_per_file": 10000,
-        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+        "timestamp": START_DATE
     },
     dag=DAG
 )
@@ -139,9 +129,9 @@ HARVEST_SCHEMATRON_REPORT = PythonOperator(
         "access_id": AIRFLOW_S3.login,
         "access_secret": AIRFLOW_S3.password,
         "bucket": AIRFLOW_DATA_BUCKET,
-        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
+        "destination_prefix": S3_PREFIX + "/new-updated",
         "schematron_filename": OAI_SCHEMATRON_REPORT,
-        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/"
+        "source_prefix": S3_PREFIX + "/new-updated/"
     },
     dag=DAG
 )
@@ -154,11 +144,11 @@ HARVEST_FILTER = PythonOperator(
         "access_id": AIRFLOW_S3.login,
         "access_secret": AIRFLOW_S3.password,
         "bucket": AIRFLOW_DATA_BUCKET,
-        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered/",
+        "destination_prefix": S3_PREFIX + "/new-updated-filtered/",
         "schematron_filename": OAI_SCHEMATRON_FILTER,
-        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/",
-        "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/harvest_filter",
-        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+        "source_prefix": S3_PREFIX + "/new-updated/",
+        "report_prefix": S3_PREFIX + "/harvest_filter",
+        "timestamp": START_DATE
     },
     dag=DAG
 )
@@ -171,9 +161,9 @@ XSL_TRANSFORM = PythonOperator(
         "access_id": AIRFLOW_S3.login,
         "access_secret": AIRFLOW_S3.password,
         "bucket": AIRFLOW_DATA_BUCKET,
-        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
-        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered/",
-        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}",
+        "destination_prefix": S3_PREFIX + "/transformed/",
+        "source_prefix": S3_PREFIX + "/new-updated-filtered/",
+        "timestamp": START_DATE,
         "xsl_branch": XSL_BRANCH,
         "xsl_filename": XSL_FILENAME,
         "xsl_repository": XSL_REPO
@@ -189,9 +179,9 @@ XSL_TRANSFORM_SCHEMATRON_REPORT = PythonOperator(
         "access_id": AIRFLOW_S3.login,
         "access_secret": AIRFLOW_S3.password,
         "bucket": AIRFLOW_DATA_BUCKET,
-        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
+        "destination_prefix": DAG.dag_id + "/transformed",
         "schematron_filename": XSL_SCHEMATRON_REPORT,
-        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/"
+        "source_prefix": S3_PREFIX + "/transformed/"
     },
     dag=DAG
 )
@@ -204,11 +194,11 @@ XSL_TRANSFORM_FILTER = PythonOperator(
         "access_id": AIRFLOW_S3.login,
         "access_secret": AIRFLOW_S3.password,
         "bucket": AIRFLOW_DATA_BUCKET,
-        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
+        "destination_prefix": S3_PREFIX + "/transformed-filtered/",
         "schematron_filename": XSL_SCHEMATRON_FILTER,
-        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
-        "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered",
-        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+        "source_prefix": S3_PREFIX + "/transformed/",
+        "report_prefix": S3_PREFIX + "/transformed_filtered",
+        "timestamp": START_DATE
     },
     dag=DAG
 )
@@ -226,9 +216,9 @@ PUBLISH = BashOperator(
     bash_command=SCRIPTS_PATH + "/index.sh ",
     env={
         "BUCKET": AIRFLOW_DATA_BUCKET,
-        "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
+        "FOLDER": S3_PREFIX + "/transformed-filtered/",
         "INDEXER": "oai_index",
-        "FUNCAKE_OAI_SOLR_URL": tasks.get_solr_url(SOLR_CONN, SOLR_CONFIGSET + "-" + DAG.dag_id + "-" + TARGET_ALIAS_ENV),
+        "FUNCAKE_OAI_SOLR_URL": tasks.get_solr_url(SOLR_CONN, SOLR_CONFIGSET + "-" + SOURCE_DAG + "-" + TARGET_ALIAS_ENV),
         "SOLR_AUTH_USER": SOLR_CONN.login or "",
         "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
@@ -238,17 +228,18 @@ PUBLISH = BashOperator(
     dag=DAG
 )
 
-NOTIFY_SLACK = PythonOperator(
-    task_id="slack_post_succ",
-    python_callable=slackpostonsuccess,
-    provide_context=True,
-    dag=DAG
+NOTIFY_SLACK = tasks.slackpostonsuccess(
+    DAG,
+    "%(date)s DAG %(dagid)s success" % {
+        "date": START_DATE,
+        "dagid": SOURCE_DAG
+    }
 )
 
 # SET UP TASK DEPENDENCIES
 REQUIRE_DAG_RUN.set_upstream(REMOTE_TRIGGER_MESSAGE)
-SET_COLLECTION_NAME.set_upstream(REQUIRE_DAG_RUN)
-OAI_TO_S3.set_upstream(SET_COLLECTION_NAME)
+# SET_COLLECTION_NAME.set_upstream(REQUIRE_DAG_RUN)
+OAI_TO_S3.set_upstream(REQUIRE_DAG_RUN)
 HARVEST_SCHEMATRON_REPORT.set_upstream(OAI_TO_S3)
 HARVEST_FILTER.set_upstream(OAI_TO_S3)
 XSL_TRANSFORM.set_upstream(HARVEST_SCHEMATRON_REPORT)
