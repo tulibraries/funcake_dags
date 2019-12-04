@@ -3,18 +3,18 @@ import re
 import unittest
 import airflow
 try:
-    from funcake_free_library_of_philadelphia_dag import DAG
+    from funcake_generic_csv_dag import DAG
 except:
-    from funcake_dags.funcake_free_library_of_philadelphia_dag import DAG
+    from funcake_dags.funcake_generic_csv_dag import DAG
 
-class TestVillanovaDag(unittest.TestCase):
+class TestGenericCsvDag(unittest.TestCase):
 
     def setUp(self):
         """Method to set up the DAG Class instance for testing."""
         self.tasks = list(map(lambda t: t.task_id, DAG.tasks))
 
     def test_basic_dag_smoke(self):
-        self.assertEqual(DAG.dag_id, "funcake_free_library_of_philadelphia")
+        self.assertEqual(DAG.dag_id, "funcake_generic_csv")
 
     def test_csv_transform_to_s3_task(self):
         task = DAG.get_task("csv_transform")
