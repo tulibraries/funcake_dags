@@ -7,7 +7,7 @@
     "excluded_sets": [],
     "included_sets": [],
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "DPLAH_SOLR_CONFIGSET": "funcake-oai-0",
   "DPLAH_TARGET_ALIAS_ENV": "dev",
@@ -198,7 +198,7 @@
       "pitt_collection.157"
       ],
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "HISTORIC_PITT_SOLR_CONFIGSET": "funcake-oai-0",
   "HISTORIC_PITT_TARGET_ALIAS_ENV": "dev",
@@ -248,7 +248,7 @@
       "p245801coll13"
     ],
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "TEMPLE_SOLR_CONFIGSET": "funcake-oai-0",
   "TEMPLE_TARGET_ALIAS_ENV": "dev",
@@ -257,7 +257,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/temple_p16002coll25.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx",
+    "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "VILLANOVA_OAI_CONFIG": {
     "endpoint": "http://digital.library.villanova.edu/OAI/Server",
