@@ -1,12 +1,12 @@
-"""Generic DAG to Harvest OAI & Index to SolrCloud."""
-from datetime import datetime, timedelta
+"""Generic DAG to harvest data from CSV files"""
+import os
 from airflow import DAG
 from airflow.hooks.base_hook import BaseHook
 from airflow.models import Variable
+from tulflow import harvest, tasks, transform, validate
+from datetime import datetime, timedelta
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
-from tulflow import harvest, tasks, transform, validate
-from airflow.models import DagRun
 
 """
 LOCAL FUNCTIONS
@@ -37,17 +37,10 @@ AIRFLOW_APP_HOME = Variable.get("AIRFLOW_HOME")
 AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 
-# OAI Harvest Variables
-OAI_CONFIG = "{{ dag_run.conf['OAI_CONFIG'] }}"
-OAI_ENDPOINT = "{{ dag_run.conf['OAI_ENDPOINT'] }}"
-OAI_MD_PREFIX = "{{ dag_run.conf['MDX_PREFIX'] }}"
-OAI_INCLUDED_SETS = "{{ dag_run.conf['INCLUDE_SETS'] }}"
-OAI_EXCLUDED_SETS = "{{ dag_run.conf['EXCLUDE_SETS'] }}"
-OAI_ALL_SETS = "{{ dag_run.conf['ALL_SETS'] }}"
-OAI_SCHEMATRON_FILTER = "{{ dag_run.conf['OAI_SCHEMATRON_FILTER'] }}"
-OAI_SCHEMATRON_REPORT = "{{ dag_run.conf['OAI_SCHEMATRON_REPORT'] }}"
+# CSV Harvest Variables
+CSV_SCHEMATRON_FILTER = "{{ dag_run.conf['CSV_SCHEMATRON_FILTER'] }}"
+CSV_SCHEMATRON_REPORT = "{{ dag_run.conf['CSV_SCHEMATRON_REPORT'] }}"
 
-# XSL Config Variables
 XSL_CONFIG = "{{ dag_run.conf['XSL_CONFIG'] }}"
 XSL_SCHEMATRON_FILTER = "{{ dag_run.conf['XSL_SCHEMATRON_FILTER'] }}"
 XSL_SCHEMATRON_REPORT = "{{ dag_run.conf['XSL_SCHEMATRON_REPORT'] }}"
@@ -55,14 +48,14 @@ XSL_BRANCH = "{{ dag_run.conf['XSL_BRANCH'] }}"
 XSL_FILENAME = "{{ dag_run.conf['XSL_FILENAME'] }}"
 XSL_REPO = "{{ dag_run.conf['XSL_REPO'] }}"
 
+# Airflow Data S3 Bucket Variables
+AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
+AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
+
 # Publication-related Solr URL, Configset, Alias
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
 SOLR_CONFIGSET = Variable.get("SOLR_CONFIGSET", default_var="funcake-oai-0")
 TARGET_ALIAS_ENV = Variable.get("TARGET_ALIAS_ENV", default_var="dev")
-
-# Data Bucket Variables
-AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
-AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 
 # Define the DAG
 DEFAULT_ARGS = {
@@ -75,7 +68,7 @@ DEFAULT_ARGS = {
 }
 
 DAG = DAG(
-    dag_id="funcake_generic_oai",
+    dag_id="funcake_generic_csv",
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,
@@ -90,7 +83,7 @@ Tasks with custom logic are relegated to individual Python files.
 
 REMOTE_TRIGGER_MESSAGE = BashOperator(
     task_id="remote_trigger_message",
-    bash_command='echo "Remote trigger: \'{{ dag_run.conf["message"] }}\'"',
+    bash_command='echo "Remote trigger: \'{{ dag_run.conf }}\'"',
     dag=DAG,
 )
 
@@ -106,29 +99,27 @@ REQUIRE_DAG_RUN = PythonOperator(
         )
 
 SET_COLLECTION_NAME = PythonOperator(
-    task_id="set_collection_name",
+    task_id='set_collection_name',
     python_callable=datetime.now().strftime,
     op_args=["%Y-%m-%d_%H-%M-%S"],
     dag=DAG
 )
 
-OAI_TO_S3 = PythonOperator(
-    task_id="harvest_oai",
-    provide_context=True,
-    python_callable=harvest.oai_to_s3,
-    op_kwargs={
-        "access_id": AIRFLOW_S3.login,
-        "access_secret": AIRFLOW_S3.password,
-        "all_sets": OAI_ALL_SETS,
-        "bucket_name": AIRFLOW_DATA_BUCKET,
-        "excluded_sets": OAI_EXCLUDED_SETS,
-        "included_sets": OAI_INCLUDED_SETS,
-        "metadata_prefix": OAI_MD_PREFIX,
-        "oai_endpoint": OAI_ENDPOINT,
-        "records_per_file": 10000,
-        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
-    },
-    dag=DAG
+CSV_TRANSFORM = BashOperator(
+    task_id="csv_transform",
+    bash_command="csv_transform_to_s3.sh ",
+    env={**os.environ, **{
+        "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
+        "DAGID": "{{ dag_run.conf['DAGID'] }}",
+        "HOME": AIRFLOW_USER_HOME,
+        "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME,
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
+        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
+        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "TIMESTAMP": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+        }},
+    dag=DAG,
 )
 
 HARVEST_SCHEMATRON_REPORT = PythonOperator(
@@ -140,7 +131,7 @@ HARVEST_SCHEMATRON_REPORT = PythonOperator(
         "access_secret": AIRFLOW_S3.password,
         "bucket": AIRFLOW_DATA_BUCKET,
         "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
-        "schematron_filename": OAI_SCHEMATRON_REPORT,
+        "schematron_filename": CSV_SCHEMATRON_REPORT,
         "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/"
     },
     dag=DAG
@@ -155,7 +146,7 @@ HARVEST_FILTER = PythonOperator(
         "access_secret": AIRFLOW_S3.password,
         "bucket": AIRFLOW_DATA_BUCKET,
         "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered/",
-        "schematron_filename": OAI_SCHEMATRON_FILTER,
+        "schematron_filename": CSV_SCHEMATRON_FILTER,
         "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/",
         "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/harvest_filter",
         "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
@@ -248,9 +239,9 @@ NOTIFY_SLACK = PythonOperator(
 # SET UP TASK DEPENDENCIES
 REQUIRE_DAG_RUN.set_upstream(REMOTE_TRIGGER_MESSAGE)
 SET_COLLECTION_NAME.set_upstream(REQUIRE_DAG_RUN)
-OAI_TO_S3.set_upstream(SET_COLLECTION_NAME)
-HARVEST_SCHEMATRON_REPORT.set_upstream(OAI_TO_S3)
-HARVEST_FILTER.set_upstream(OAI_TO_S3)
+CSV_TRANSFORM.set_upstream(SET_COLLECTION_NAME)
+HARVEST_SCHEMATRON_REPORT.set_upstream(CSV_TRANSFORM)
+HARVEST_FILTER.set_upstream(CSV_TRANSFORM)
 XSL_TRANSFORM.set_upstream(HARVEST_SCHEMATRON_REPORT)
 XSL_TRANSFORM.set_upstream(HARVEST_FILTER)
 XSL_TRANSFORM_SCHEMATRON_REPORT.set_upstream(XSL_TRANSFORM)
