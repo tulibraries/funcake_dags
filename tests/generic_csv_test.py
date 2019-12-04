@@ -22,5 +22,5 @@ class TestGenericCsvDag(unittest.TestCase):
         self.assertEqual(task.env.get("BUCKET"), "test-s3-bucket")
         self.assertEqual(task.env.get("AWS_ACCESS_KEY_ID"), "elephants-key")
         self.assertEqual(task.env.get("AWS_SECRET_ACCESS_KEY"), "elephants-secret")
-        self.assertEqual(task.env.get("FOLDER"), "funcake_free_library_of_philadelphia/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated")
+        self.assertEqual(task.env.get("FOLDER"), "funcake_generic_csv/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated")
         assert("dags/funcake_dags/scripts" in task.env.get("PATH"))
