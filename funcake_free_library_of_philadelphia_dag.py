@@ -87,7 +87,7 @@ CSV_TRANSFORM = BashOperator(
     bash_command="csv_transform_to_s3.sh ",
     env={**os.environ, **{
         "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
-        "DAGID": "{{ dag_run.conf['DAGID'] }}",
+        "DAGID": DAG.dag_id,
         "HOME": AIRFLOW_USER_HOME,
         "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME,
         "BUCKET": AIRFLOW_DATA_BUCKET,
