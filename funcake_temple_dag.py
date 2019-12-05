@@ -1,4 +1,4 @@
-"""Generic DAG to Harvest OAI & Index to SolrCloud."""
+"""DAG to Harvest Temple OAI & Index ("Publish") to SolrCloud."""
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.hooks.base_hook import BaseHook
@@ -7,25 +7,13 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from tulflow import harvest, tasks, transform, validate
 from airflow.models import DagRun
+from funcake_dags.task_slack_posts import slackpostonfail, slackpostonsuccess
 
 """
 LOCAL FUNCTIONS
 Functions / any code with processing logic should be elsewhere, tested, etc.
 This is where to put functions that haven't been abstracted out yet.
 """
-
-def slackpostonsuccess(dag, **context):
-    """Task Method to Post Successful DAG Completion on Slack."""
-
-    task_instance = context.get("task_instance")
-
-    msg = "%(date)s DAG %(dagid)s success: %(url)s" % {
-        "date": context.get('execution_date'),
-        "dagid": task_instance.dag_id,
-        "url": task_instance.log_url
-    }
-
-    return tasks.slackpostonsuccess(dag, msg).execute(context=context)
 
 """
 INIT SYSTEMWIDE VARIABLES
@@ -37,23 +25,39 @@ AIRFLOW_APP_HOME = Variable.get("AIRFLOW_HOME")
 AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 
-# OAI Harvest Variables
-OAI_CONFIG = "{{ dag_run.conf['OAI_CONFIG'] }}"
-OAI_ENDPOINT = "{{ dag_run.conf['OAI_ENDPOINT'] }}"
-OAI_MD_PREFIX = "{{ dag_run.conf['MDX_PREFIX'] }}"
-OAI_INCLUDED_SETS = "{{ dag_run.conf['INCLUDE_SETS'] }}"
-OAI_EXCLUDED_SETS = "{{ dag_run.conf['EXCLUDE_SETS'] }}"
-OAI_ALL_SETS = "{{ dag_run.conf['ALL_SETS'] }}"
-OAI_SCHEMATRON_FILTER = "{{ dag_run.conf['OAI_SCHEMATRON_FILTER'] }}"
-OAI_SCHEMATRON_REPORT = "{{ dag_run.conf['OAI_SCHEMATRON_REPORT'] }}"
+# Combine OAI Harvest Variables
+OAI_CONFIG = Variable.get("TEMPLE_OAI_CONFIG", deserialize_json=True)
+# {
+#   "endpoint": "http://digital.library.temple.edu/oai/oai.php",
+#   "md_prefix": "oai_qdc",
+#   "all_sets": "False", <--- OPTIONAL
+#   "excluded_sets": [], <--- OPTIONAL
+#   "included_sets": ["p15037coll1", "p15037coll10", ...], <--- OPTIONAL
+#   "schematron_filter": "validations/dcingest_reqd_fields.sch",
+#   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+# }
 
-# XSL Config Variables
-XSL_CONFIG = "{{ dag_run.conf['XSL_CONFIG'] }}"
-XSL_SCHEMATRON_FILTER = "{{ dag_run.conf['XSL_SCHEMATRON_FILTER'] }}"
-XSL_SCHEMATRON_REPORT = "{{ dag_run.conf['XSL_SCHEMATRON_REPORT'] }}"
-XSL_BRANCH = "{{ dag_run.conf['XSL_BRANCH'] }}"
-XSL_FILENAME = "{{ dag_run.conf['XSL_FILENAME'] }}"
-XSL_REPO = "{{ dag_run.conf['XSL_REPO'] }}"
+OAI_MD_PREFIX = OAI_CONFIG.get("md_prefix")
+OAI_INCLUDED_SETS = OAI_CONFIG.get("included_sets")
+OAI_ENDPOINT = OAI_CONFIG.get("endpoint")
+OAI_EXCLUDED_SETS = OAI_CONFIG.get("excluded_sets", [])
+OAI_ALL_SETS = OAI_CONFIG.get("excluded_sets", "False")
+OAI_SCHEMATRON_FILTER = OAI_CONFIG.get("schematron_filter", "validations/dcingest_reqd_fields.sch")
+OAI_SCHEMATRON_REPORT = OAI_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
+
+XSL_CONFIG = Variable.get("TEMPLE_XSLT_CONFIG", default_var={}, deserialize_json=True)
+#{
+#   "schematron_filter": "validations/funcake_reqd_fields.sch",
+#   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+#   "xsl_branch": "master", <--- OPTIONAL
+#   "xsl_filename": "transforms/dplah.xsl",
+#   "xsl_repository": "tulibraries/aggregator_mdx", <--- OPTIONAL
+# }
+XSL_SCHEMATRON_FILTER = XSL_CONFIG.get("schematron_filter", "validations/funcake_reqd_fields.sch")
+XSL_SCHEMATRON_REPORT = XSL_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
+XSL_BRANCH = XSL_CONFIG.get("xsl_branch", "master")
+XSL_FILENAME = XSL_CONFIG.get("xsl_filename", "transforms/temple_p16002coll25.xsl")
+XSL_REPO = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 
 # Publication-related Solr URL, Configset, Alias
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
@@ -69,13 +73,13 @@ DEFAULT_ARGS = {
     "owner": "dpla",
     "depends_on_past": False,
     "start_date": datetime(2019, 8, 27),
-    "on_failure_callback": tasks.execute_slackpostonfail,
+    "on_failure_callback": slackpostonfail,
     "retries": 0,
     "retry_delay": timedelta(minutes=10),
 }
 
 DAG = DAG(
-    dag_id="funcake_generic_oai",
+    dag_id="funcake_temple",
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,
@@ -87,23 +91,6 @@ CREATE TASKS
 Tasks with all logic contained in a single operator can be declared here.
 Tasks with custom logic are relegated to individual Python files.
 """
-
-REMOTE_TRIGGER_MESSAGE = BashOperator(
-    task_id="remote_trigger_message",
-    bash_command='echo "Remote trigger: \'{{ dag_run.conf["message"] }}\'"',
-    dag=DAG,
-)
-
-def require_dag_run(dag_run, **context):
-    if not "message" in dag_run.conf:
-        raise Exception("Dag run must be triggered using the controller DAG.")
-
-REQUIRE_DAG_RUN = PythonOperator(
-        task_id="require_dag_run",
-        python_callable=require_dag_run,
-        provide_context=True,
-        dag=DAG,
-        )
 
 SET_COLLECTION_NAME = PythonOperator(
     task_id="set_collection_name",
@@ -155,9 +142,9 @@ HARVEST_FILTER = PythonOperator(
         "access_secret": AIRFLOW_S3.password,
         "bucket": AIRFLOW_DATA_BUCKET,
         "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered/",
+        "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/harvest_filter",
         "schematron_filename": OAI_SCHEMATRON_FILTER,
         "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/",
-        "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/harvest_filter",
         "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
     },
     dag=DAG
@@ -239,15 +226,13 @@ PUBLISH = BashOperator(
 )
 
 NOTIFY_SLACK = PythonOperator(
-    task_id="slack_post_succ",
-    python_callable=slackpostonsuccess,
+    task_id="success_slack_trigger",
     provide_context=True,
+    python_callable=slackpostonsuccess,
     dag=DAG
 )
 
 # SET UP TASK DEPENDENCIES
-REQUIRE_DAG_RUN.set_upstream(REMOTE_TRIGGER_MESSAGE)
-SET_COLLECTION_NAME.set_upstream(REQUIRE_DAG_RUN)
 OAI_TO_S3.set_upstream(SET_COLLECTION_NAME)
 HARVEST_SCHEMATRON_REPORT.set_upstream(OAI_TO_S3)
 HARVEST_FILTER.set_upstream(OAI_TO_S3)
