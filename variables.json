@@ -9,7 +9,6 @@
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "DPLAH_SOLR_CONFIGSET": "funcake-oai-0",
   "DPLAH_TARGET_ALIAS_ENV": "dev",
   "DPLAH_XSL_CONFIG": {
     "schematron_filter": "validations/funcake_reqd_fields.sch",
@@ -27,8 +26,8 @@
     "xsl_filename": "transforms/free_library_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "FREE_LIBRARY_SOLR_CONFIGSET": "funcake-oai-0",
   "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
+  "FUNCAKE_OAI_SOLR_CONFIGSET": "funcake-oai-1",
   "FUNCAKE_OAI_CONFIG": {
     "endpoint": "https://combine.padigital.org/combine/oai",
     "all_sets": "False",
@@ -200,7 +199,6 @@
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "HISTORIC_PITT_SOLR_CONFIGSET": "funcake-oai-0",
   "HISTORIC_PITT_TARGET_ALIAS_ENV": "dev",
   "HISTORIC_PITT_XSL_CONFIG": {
     "schematron_filter": "validations/funcake_reqd_fields.sch",
@@ -250,7 +248,6 @@
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "TEMPLE_SOLR_CONFIGSET": "funcake-oai-0",
   "TEMPLE_TARGET_ALIAS_ENV": "dev",
   "TEMPLE_XSL_CONFIG": {
     "schematron_filter": "validations/funcake_reqd_fields.sch",
@@ -270,7 +267,6 @@
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "VILLANOVA_SOLR_CONFIGSET": "funcake-oai-0",
   "VILLANOVA_TARGET_ALIAS_ENV": "dev",
   "VILLANOVA_XSL_CONFIG": {
     "schematron_filter": "validations/funcake_reqd_fields.sch",
