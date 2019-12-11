@@ -48,7 +48,7 @@ AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
 
 # Publication-related Solr URL, Configset, Alias
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
-SOLR_CONFIGSET = Variable.get("SOLR_CONFIGSET", default_var="funcake-oai-0")
+SOLR_CONFIGSET = Variable.get("FUNCAKE_OAI_SOLR_CONFIGSET", default_var="funcake-oai-0")
 TARGET_ALIAS_ENV = Variable.get("TARGET_ALIAS_ENV", default_var="dev")
 
 # Define the DAG
