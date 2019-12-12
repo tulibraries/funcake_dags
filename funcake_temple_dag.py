@@ -45,7 +45,7 @@ OAI_ALL_SETS = OAI_CONFIG.get("excluded_sets", "False")
 OAI_SCHEMATRON_FILTER = OAI_CONFIG.get("schematron_filter", "validations/dcingest_reqd_fields.sch")
 OAI_SCHEMATRON_REPORT = OAI_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
 
-XSL_CONFIG = Variable.get("TEMPLE_XSLT_CONFIG", default_var={}, deserialize_json=True)
+XSL_CONFIG = Variable.get("TEMPLE_XSL_CONFIG", default_var={}, deserialize_json=True)
 #{
 #   "schematron_filter": "validations/funcake_reqd_fields.sch",
 #   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
