@@ -30,14 +30,11 @@ These the Airflow expectations for these Funnel Cake DAGs to successfully run:
 - `AIRFLOW_DATA_BUCKET`: The AWS S3 Bucket label (label / name, not ARN or URI) the harvested OAI-PMH XML data is put into / indexed from.
 - `AIRFLOW_HOME`: The Airflow system home directory path. Used here for locating our `scripts` repository when running the indexing bash script.
 
+See the rest of the expected variables in `variables.json`.
+
 **Airflow Connections**
 - `SOLRCLOUD`: An HTTP Connection used to connect to SolrCloud.
 - `AIRFLOW_S3`: An AWS (not S3 with latest Airflow upgrade) Connection used to manage AWS credentials (which we use to interact with our Airflow Data S3 Bucket).
-
-**Infrastructure & Integration**
-
-- Accessible DPLAH OAI-PMH API Endpoint (or whatever endpoint you're indexing from, as set by the Airflow Variable `FUNCAKE_OAI_ENDPT`)
-- Accessible SolrCloud Endpoint, with created ConfigSet for the referenced `FUNCAKE_CONFIGSET`. The SolrCloud Collection is created and the SolrCloud Alias is created/updated based upon this Configset by this DAG.
 
 ## Local Development
 
