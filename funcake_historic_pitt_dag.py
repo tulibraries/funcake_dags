@@ -61,7 +61,7 @@ XSL_REPO = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 
 # Publication-related Solr URL, Configset, Alias
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
-SOLR_CONFIGSET = Variable.get("SOLR_CONFIGSET", default_var="funcake-oai-0")
+SOLR_CONFIGSET = Variable.get("FUNCAKE_OAI_SOLR_CONFIGSET", default_var="funcake-oai-0")
 TARGET_ALIAS_ENV = Variable.get("TARGET_ALIAS_ENV", default_var="dev")
 
 # Data Bucket Variables
@@ -151,20 +151,21 @@ HARVEST_FILTER = PythonOperator(
     dag=DAG
 )
 
-XSL_TRANSFORM = PythonOperator(
+XSL_TRANSFORM = BashOperator(
     task_id="xsl_transform",
-    provide_context=True,
-    python_callable=transform.transform_s3_xsl,
-    op_kwargs={
-        "access_id": AIRFLOW_S3.login,
-        "access_secret": AIRFLOW_S3.password,
-        "bucket": AIRFLOW_DATA_BUCKET,
-        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
-        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered/",
-        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}",
-        "xsl_branch": XSL_BRANCH,
-        "xsl_filename": XSL_FILENAME,
-        "xsl_repository": XSL_REPO
+    bash_command=SCRIPTS_PATH + "/transform.sh ",
+    env={
+        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
+        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "DAG_ID": DAG.dag_id,
+        "DAG_TS": "{{ ti.xcom_pull(task_ids='set_collection_name') }}",
+        "DEST": "transformed",
+        "SOURCE": "new-updated-filtered",
+        "SCRIPTS_PATH": SCRIPTS_PATH,
+        "XSL_BRANCH": XSL_BRANCH,
+        "XSL_FILENAME": XSL_FILENAME,
+        "XSL_REPO": XSL_REPO,
     },
     dag=DAG
 )
