@@ -61,7 +61,7 @@ XSL_REPO = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 # Publication-related Solr URL, Configset, Alias
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
 SOLR_CONFIGSET = Variable.get("FUNCAKE_OAI_SOLR_CONFIGSET", default_var="funcake-oai-0")
-TARGET_ALIAS_ENV = Variable.get("TARGET_ALIAS_ENV", default_var="dev")
+TARGET_ALIAS_ENV = Variable.get("VILLANOVA_TARGET_ALIAS_ENV", default_var="dev")
 
 # Data Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
