@@ -59,7 +59,8 @@
       "pitt_collection.258", 
       "pitt_collection.250", 
       "pitt_collection.173", 
-      "pitt_collection.212"
+      "pitt_collection.212",
+      "pitt_collection.97"
       ],
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
