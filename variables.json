@@ -11,7 +11,7 @@
   },
   "DPLAH_TARGET_ALIAS_ENV": "dev",
   "DPLAH_XSL_CONFIG": {
-    "schematron_filter": "validations/funcake_reqd_fields.sch",
+    "schematron_filter": "validations/dplah_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/dplah.xsl",
@@ -20,7 +20,7 @@
   "FREE_LIBRARY_CSV_SCHEMATRON_FILTER": "validations/dcingest_reqd_fields.sch",
   "FREE_LIBRARY_CSV_SCHEMATRON_REPORT": "validations/padigital_missing_thumbnailURL.sch",
   "FREE_LIBRARY_XSL_CONFIG": {
-    "schematron_filter": "validations/funcake_reqd_fields.sch",
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/free_library_csv.xsl",
@@ -29,13 +29,11 @@
   "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
   "FUNCAKE_OAI_SOLR_CONFIGSET": "funcake-oai-1",
   "FUNCAKE_OAI_CONFIG": {
-    "endpoint": "https://combine.padigital.org/combine/oai",
-    "all_sets": "False",
+    "endpoint": "https://funnelcake.padigital.org/oai_dev",
+    "all_sets": "True",
     "excluded_sets": [],
-    "included_sets": [
-      "dpla_test"
-    ],
-    "md_prefix": "generic"
+    "included_sets": [],
+    "md_prefix": "oai_dc"
   },
   "FUNCAKE_SOLR_CONFIG": {
     "configset": "funcake-0",
@@ -194,14 +192,15 @@
       "pitt_collection.98",
       "pitt_collection.99",
       "pitt_collection.146",
-      "pitt_collection.157"
+      "pitt_collection.157",
+      "pitt_collection.258"
       ],
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "HISTORIC_PITT_TARGET_ALIAS_ENV": "dev",
   "HISTORIC_PITT_XSL_CONFIG": {
-    "schematron_filter": "validations/funcake_reqd_fields.sch",
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/historicpitt.xsl",
@@ -250,10 +249,10 @@
   },
   "TEMPLE_TARGET_ALIAS_ENV": "dev",
   "TEMPLE_XSL_CONFIG": {
-    "schematron_filter": "validations/funcake_reqd_fields.sch",
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
-    "xsl_filename": "transforms/temple_p16002coll25.xsl",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "VILLANOVA_OAI_CONFIG": {
@@ -264,12 +263,12 @@
       "dpla"
     ],
     "md_prefix": "oai_dc",
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "VILLANOVA_TARGET_ALIAS_ENV": "dev",
   "VILLANOVA_XSL_CONFIG": {
-    "schematron_filter": "validations/funcake_reqd_fields.sch",
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/villanova.xsl",
