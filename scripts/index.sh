@@ -7,7 +7,7 @@ export PATH="$AIRFLOW_USER_HOME/.rbenv/shims:$AIRFLOW_USER_HOME/.rbenv/bin:$PATH
 
 
 # have any error in following cause bash script to fail
-set -e
+set -e pipefail
 # export / set all environment variables passed here by task for pick-up by subprocess
 set -aux
 
@@ -19,8 +19,8 @@ gem install bundler
 bundle install
 
 # grab list of items from designated aws bucket (creds are envvars), then index each item
-RESP=`aws s3api list-objects --bucket $BUCKET --prefix $FOLDER`
-for record_set in `echo $RESP | jq -r '.Contents[].Key'`
+RESP=`aws s3 ls s3://$BUCKET/$FOLDER | awk '{print $4}'`
+for record_set in `echo $RESP`
 do
-  bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$record_set)
+  bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$FOLDER$record_set)
 done

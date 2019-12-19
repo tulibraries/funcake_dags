@@ -97,7 +97,7 @@ COMBINE_INDEX = BashOperator(
     bash_command=FUNCAKE_INDEX_BASH,
     env={
         "BUCKET": AIRFLOW_DATA_BUCKET,
-        "FOLDER": DAG.dag_id + "/" + TIMESTAMP,
+        "FOLDER": DAG.dag_id + "/" + TIMESTAMP + "/new-updated/",
         "INDEXER": "funnel_cake_index",
         "SOLR_URL": SOLR_COLL_ENDPT,
         "SOLR_AUTH_USER": SOLR_CONN.login or "",
