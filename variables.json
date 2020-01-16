@@ -206,6 +206,41 @@
     "xsl_filename": "transforms/historicpitt.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
+  "PENNSTATE_OAI_CONFIG": {
+    "endpoint": "http://digital.libraries.psu.edu/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+      "aebye",
+      "ajt",
+      "amc",
+      "benson",
+      "brentwilson",
+      "ejb",
+      "Forbes",
+      "jdp",
+      "maps1",
+      "mdfls",
+      "mwh",
+      "pab",
+      "pnd",
+      "psuphoto",
+      "whf",
+      "wpamaps",
+      "ww1stereo"
+      ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "PENNSTATE_TARGET_ALIAS_ENV": "dev",
+  "PENNSTATE_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
   "TEMPLE_OAI_CONFIG": {
     "endpoint": "http://digital.library.temple.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
