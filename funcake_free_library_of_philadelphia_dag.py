@@ -1,18 +1,29 @@
-"""Controller DAG to trigger funcake_generic_csv for Free Library of Philadelphia."""
-import pprint
-from datetime import datetime
+"""DAG to Harvest Free Library of Philadelphia CSV & Index ("Publish") to SolrCloud."""
+import os
 from airflow import DAG
+from airflow.hooks.base_hook import BaseHook
 from airflow.models import Variable
-from airflow.operators.dagrun_operator import TriggerDagRunOperator
-from tulflow.tasks import conditionally_trigger
+from tulflow import harvest, tasks, transform, validate
+from datetime import datetime, timedelta
+from airflow.operators.python_operator import PythonOperator
+from airflow.operators.bash_operator import BashOperator
+from funcake_dags.task_slack_posts import slackpostonfail, slackpostonsuccess
+
+"""
+LOCAL FUNCTIONS
+Functions / any code with processing logic should be elsewhere, tested, etc.
+This is where to put functions that haven't been abstracted out yet.
+"""
 
 """
 INIT SYSTEMWIDE VARIABLES
-Check for existence of systemwide variables shared across tasks that can be
-initialized here if not found (i.e. if this is a new installation)
+check for existence of systemwide variables shared across tasks that can be
+initialized here if not found (i.e. if this is a new installation) & defaults exist
 """
 
-PP = pprint.PrettyPrinter(indent=4)
+AIRFLOW_APP_HOME = Variable.get("AIRFLOW_HOME")
+AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
+SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 
 # CSV Harvest Variables
 CSV_SCHEMATRON_FILTER = Variable.get("FREE_LIBRARY_CSV_SCHEMATRON_FILTER")
@@ -31,32 +42,187 @@ XSL_BRANCH = XSL_CONFIG.get("xsl_branch", "master")
 XSL_FILENAME = XSL_CONFIG.get("xsl_filename", "transforms/dplah.xsl")
 XSL_REPO = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 
+# Airflow Data S3 Bucket Variables
+AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
+AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
+
+# Publication-related Solr URL, Configset, Alias
+SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
+SOLR_CONFIGSET = Variable.get("FUNCAKE_OAI_SOLR_CONFIGSET", default_var="funcake-oai-0")
+TARGET_ALIAS_ENV = Variable.get("FREE_LIBRARY_TARGET_ALIAS_ENV", default_var="dev")
+
 # Define the DAG
+DEFAULT_ARGS = {
+    "owner": "dpla",
+    "depends_on_past": False,
+    "start_date": datetime(2019, 8, 27),
+    "on_failure_callback": slackpostonfail,
+    "retries": 0,
+    "retry_delay": timedelta(minutes=10),
+}
+
 DAG = DAG(
     dag_id="funcake_free_library_of_philadelphia",
-    default_args={
-        "owner": "dpla",
-        "start_date": datetime.utcnow(),
-    },
-    schedule_interval="@once",
+    default_args=DEFAULT_ARGS,
+    catchup=False,
+    max_active_runs=1,
+    schedule_interval=None
 )
 
-# Define the single task in this controller DAG
-CSV_TRIGGER = TriggerDagRunOperator(
-    task_id="csv_trigger",
-    trigger_dag_id="funcake_generic_csv",
-    python_callable=conditionally_trigger,
-    params={"condition_param": True,
-            "message": "Triggering Free Library CSV DAG",
-            "CSV_SCHEMATRON_FILTER": CSV_SCHEMATRON_FILTER,
-            "CSV_SCHEMATRON_REPORT": CSV_SCHEMATRON_REPORT,
-            "DAGID": DAG.dag_id,
-            "XSL_CONFIG": XSL_CONFIG,
-            "XSL_SCHEMATRON_FILTER": XSL_SCHEMATRON_FILTER,
-            "XSL_SCHEMATRON_REPORT": XSL_SCHEMATRON_REPORT,
-            "XSL_BRANCH": XSL_BRANCH,
-            "XSL_FILENAME": XSL_FILENAME,
-            "XSL_REPO": XSL_REPO,
-            },
+"""
+CREATE TASKS
+Tasks with all logic contained in a single operator can be declared here.
+Tasks with custom logic are relegated to individual Python files.
+"""
+
+SET_COLLECTION_NAME = PythonOperator(
+    task_id='set_collection_name',
+    python_callable=datetime.now().strftime,
+    op_args=["%Y-%m-%d_%H-%M-%S"],
     dag=DAG
 )
+
+CSV_TRANSFORM = BashOperator(
+    task_id="csv_transform",
+    bash_command="csv_transform_to_s3.sh ",
+    env={**os.environ, **{
+        "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
+        "DAGID": DAG.dag_id,
+        "HOME": AIRFLOW_USER_HOME,
+        "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME,
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
+        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
+        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "TIMESTAMP": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+        }},
+    dag=DAG,
+)
+
+HARVEST_SCHEMATRON_REPORT = PythonOperator(
+    task_id="harvest_schematron_report",
+    provide_context=True,
+    python_callable=validate.report_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
+        "schematron_filename": CSV_SCHEMATRON_REPORT,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/"
+    },
+    dag=DAG
+)
+
+HARVEST_FILTER = PythonOperator(
+    task_id="harvest_filter",
+    provide_context=True,
+    python_callable=validate.filter_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered/",
+        "schematron_filename": CSV_SCHEMATRON_FILTER,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/",
+        "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/harvest_filter",
+        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+    },
+    dag=DAG
+)
+
+XSL_TRANSFORM = BashOperator(
+    task_id="xsl_transform",
+    bash_command=SCRIPTS_PATH + "/transform.sh ",
+    env={
+        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
+        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "DAG_ID": DAG.dag_id,
+        "DAG_TS": "{{ ti.xcom_pull(task_ids='set_collection_name') }}",
+        "DEST": "transformed",
+        "SOURCE": "new-updated-filtered",
+        "SCRIPTS_PATH": SCRIPTS_PATH,
+        "XSL_BRANCH": XSL_BRANCH,
+        "XSL_FILENAME": XSL_FILENAME,
+        "XSL_REPO": XSL_REPO,
+    },
+    dag=DAG
+)
+
+XSL_TRANSFORM_SCHEMATRON_REPORT = PythonOperator(
+    task_id="xsl_transform_schematron_report",
+    provide_context=True,
+    python_callable=validate.report_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
+        "schematron_filename": XSL_SCHEMATRON_REPORT,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/"
+    },
+    dag=DAG
+)
+
+XSL_TRANSFORM_FILTER = PythonOperator(
+    task_id="xsl_transform_filter",
+    provide_context=True,
+    python_callable=validate.filter_s3_schematron,
+    op_kwargs={
+        "access_id": AIRFLOW_S3.login,
+        "access_secret": AIRFLOW_S3.password,
+        "bucket": AIRFLOW_DATA_BUCKET,
+        "destination_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
+        "schematron_filename": XSL_SCHEMATRON_FILTER,
+        "source_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
+        "report_prefix": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered",
+        "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+    },
+    dag=DAG
+)
+
+REFRESH_COLLECTION_FOR_ALIAS = tasks.refresh_sc_collection_for_alias(
+    DAG,
+    sc_conn=SOLR_CONN,
+    sc_coll_name=f"{SOLR_CONFIGSET}-{DAG.dag_id}-{TARGET_ALIAS_ENV}",
+    sc_alias=f"{SOLR_CONFIGSET}-{TARGET_ALIAS_ENV}",
+    configset=SOLR_CONFIGSET
+)
+
+PUBLISH = BashOperator(
+    task_id="publish",
+    bash_command=SCRIPTS_PATH + "/index.sh ",
+    env={
+        "BUCKET": AIRFLOW_DATA_BUCKET,
+        "FOLDER": DAG.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
+        "INDEXER": "oai_index",
+        "FUNCAKE_OAI_SOLR_URL": tasks.get_solr_url(SOLR_CONN, SOLR_CONFIGSET + "-" + DAG.dag_id + "-" + TARGET_ALIAS_ENV),
+        "SOLR_AUTH_USER": SOLR_CONN.login or "",
+        "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
+        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
+        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
+    },
+    dag=DAG
+)
+
+NOTIFY_SLACK = PythonOperator(
+    task_id="success_slack_trigger",
+    provide_context=True,
+    python_callable=slackpostonsuccess,
+    dag=DAG
+)
+
+# SET UP TASK DEPENDENCIES
+CSV_TRANSFORM.set_upstream(SET_COLLECTION_NAME)
+HARVEST_SCHEMATRON_REPORT.set_upstream(CSV_TRANSFORM)
+HARVEST_FILTER.set_upstream(CSV_TRANSFORM)
+XSL_TRANSFORM.set_upstream(HARVEST_SCHEMATRON_REPORT)
+XSL_TRANSFORM.set_upstream(HARVEST_FILTER)
+XSL_TRANSFORM_SCHEMATRON_REPORT.set_upstream(XSL_TRANSFORM)
+XSL_TRANSFORM_FILTER.set_upstream(XSL_TRANSFORM)
+REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_SCHEMATRON_REPORT)
+REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_FILTER)
+PUBLISH.set_upstream(REFRESH_COLLECTION_FOR_ALIAS)
+NOTIFY_SLACK.set_upstream(PUBLISH)

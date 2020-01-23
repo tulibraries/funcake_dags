@@ -6,26 +6,7 @@ from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from tulflow import harvest, tasks
-
-"""
-LOCAL FUNCTIONS
-Functions / any code with processing logic should be elsewhere, tested, etc.
-This is where to put functions that haven't been abstracted out yet.
-"""
-
-def slackpostonsuccess(dag, **context):
-    """Task Method to Post Successful FunCake Blogs Sync DAG Completion on Slack."""
-
-    task_instance = context.get('task_instance')
-
-    msg = "%(date)s DAG %(dagid)s success: Combine Set %(set)s to Solr Index Complete %(url)s" % {
-        "date": context.get('execution_date'),
-        "dagid": task_instance.dag_id,
-        "set": FUNCAKE_OAI_SET,
-        "url": task_instance.log_url
-        }
-
-    return tasks.slackpostonsuccess(dag, msg).execute(context=context)
+from funcake_dags.task_slack_posts import slackpostonfail, slackpostonsuccess
 
 """
 INIT SYSTEMWIDE VARIABLES
@@ -65,12 +46,12 @@ DEFAULT_ARGS = {
     'owner': 'dpla',
     'depends_on_past': False,
     'start_date': datetime(2019, 8, 27),
-    'on_failure_callback': tasks.execute_slackpostonfail,
+    'on_failure_callback': slackpostonfail,
     'retries': 0,
     'retry_delay': timedelta(minutes=10),
 }
 
-FCDAG = DAG(
+DAG = DAG(
     'funcake_prod_index',
     default_args=DEFAULT_ARGS,
     catchup=False,
@@ -98,13 +79,13 @@ HARVEST_OAI = PythonOperator(
         "access_secret": AIRFLOW_S3.password,
         "timestamp": TIMESTAMP,
     },
-    dag=FCDAG
+    dag=DAG
 )
 
 #pylint: disable-msg=too-many-function-args
 # this is ticketed for fix; either make class or dictionary for solr args
 CREATE_COLLECTION = tasks.create_sc_collection(
-    FCDAG, SOLR_CONN.conn_id,
+    DAG, SOLR_CONN.conn_id,
     COLLECTION,
     REPLICATION_FACTOR,
     CONFIGSET
@@ -115,7 +96,7 @@ COMBINE_INDEX = BashOperator(
     bash_command=FUNCAKE_INDEX_BASH,
     env={
         "BUCKET": AIRFLOW_DATA_BUCKET,
-        "FOLDER": FCDAG.dag_id + "/" + TIMESTAMP,
+        "FOLDER": DAG.dag_id + "/" + TIMESTAMP + "/new-updated/",
         "INDEXER": "funnel_cake_index",
         "SOLR_URL": SOLR_COLL_ENDPT,
         "SOLR_AUTH_USER": SOLR_CONN.login or "",
@@ -125,16 +106,16 @@ COMBINE_INDEX = BashOperator(
         "AIRFLOW_HOME": AIRFLOW_HOME,
         "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
     },
-    dag=FCDAG
+    dag=DAG
 )
 
-SOLR_ALIAS_SWAP = tasks.swap_sc_alias(FCDAG, SOLR_CONN.conn_id, COLLECTION, ALIAS)
+SOLR_ALIAS_SWAP = tasks.swap_sc_alias(DAG, SOLR_CONN.conn_id, COLLECTION, ALIAS)
 
 NOTIFY_SLACK = PythonOperator(
-    task_id='slack_post_succ',
-    python_callable=slackpostonsuccess,
+    task_id="success_slack_trigger",
     provide_context=True,
-    dag=FCDAG
+    python_callable=slackpostonsuccess,
+    dag=DAG
 )
 
 # SET UP TASK DEPENDENCIES

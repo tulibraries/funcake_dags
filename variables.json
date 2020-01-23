@@ -1,28 +1,161 @@
 {
   "AIRFLOW_DATA_BUCKET": "tulib-airflow-prod",
+  "DPLAH_OAI_CONFIG": {
+    "endpoint": "http://aggregator.padigital.org/oai",
+    "md_prefix": "oai_dc",
+    "all_sets": "True",
+    "excluded_sets": [],
+    "included_sets": [],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "DPLAH_TARGET_ALIAS_ENV": "dev",
+  "DPLAH_XSL_CONFIG": {
+    "schematron_filter": "validations/dplah_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/dplah.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
   "FREE_LIBRARY_CSV_SCHEMATRON_FILTER": "validations/dcingest_reqd_fields.sch",
   "FREE_LIBRARY_CSV_SCHEMATRON_REPORT": "validations/padigital_missing_thumbnailURL.sch",
   "FREE_LIBRARY_XSL_CONFIG": {
-    "schematron_filter": "validations/funcake_reqd_fields.sch",
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "add-dummy-csv-xsl",
+    "xsl_branch": "master",
     "xsl_filename": "transforms/free_library_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "FREE_LIBRARY_SOLR_CONFIGSET": "funcake-oai-0",
   "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
+  "FUNCAKE_OAI_SOLR_CONFIGSET": "funcake-oai-1",
   "FUNCAKE_OAI_CONFIG": {
-    "endpoint": "https://combine.padigital.org/combine/oai",
-    "all_sets": "False",
+    "endpoint": "https://funnelcake.padigital.org/oai_dev",
+    "all_sets": "True",
     "excluded_sets": [],
-    "included_sets": [
-      "dpla_test"
-    ],
-    "md_prefix": "generic"
+    "included_sets": [],
+    "md_prefix": "oai_dc"
   },
   "FUNCAKE_SOLR_CONFIG": {
     "configset": "funcake-0",
     "replication_factor": 2
+  },
+  "HISTORIC_PITT_OAI_CONFIG": {
+    "endpoint": "http://historicpittsburgh.org/oai2",
+    "md_prefix": "oai_dc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+      "pitt_collection.32", 
+      "pitt_collection.241", 
+      "pitt_collection.324", 
+      "pitt_collection.317", 
+      "pitt_collection.72", 
+      "pitt_collection.320", 
+      "pitt_collection.321", 
+      "pitt_collection.322", 
+      "pitt_collection.328", 
+      "pitt_collection.205", 
+      "pitt_collection.249", 
+      "pitt_collection.258", 
+      "pitt_collection.250", 
+      "pitt_collection.173", 
+      "pitt_collection.212",
+      "pitt_collection.97"
+      ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "HISTORIC_PITT_TARGET_ALIAS_ENV": "dev",
+  "HISTORIC_PITT_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/historicpitt.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "PENNSTATE_OAI_CONFIG": {
+    "endpoint": "http://digital.libraries.psu.edu/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+      "aebye",
+      "ajt",
+      "amc",
+      "benson",
+      "brentwilson",
+      "ejb",
+      "Forbes",
+      "jdp",
+      "maps1",
+      "mdfls",
+      "mwh",
+      "pab",
+      "pnd",
+      "psuphoto",
+      "whf",
+      "wpamaps",
+      "ww1stereo"
+      ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "PENNSTATE_TARGET_ALIAS_ENV": "dev",
+  "PENNSTATE_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "TEMPLE_OAI_CONFIG": {
+    "endpoint": "http://digital.library.temple.edu/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+      "p15037coll1",
+      "p15037coll10",
+      "p15037coll14",
+      "p15037coll15",
+      "p15037coll17",
+      "p15037coll18",
+      "p15037coll19",
+      "p15037coll2",
+      "p15037coll3",
+      "p15037coll4",
+      "p15037coll5",
+      "p15037coll7",
+      "p16002coll1",
+      "p16002coll14",
+      "p16002coll16",
+      "p16002coll17",
+      "p16002coll19",
+      "p16002coll2",
+      "p16002coll24",
+      "p16002coll26",
+      "p16002coll28",
+      "p16002coll3",
+      "p16002coll31",
+      "p16002coll4",
+      "p16002coll5",
+      "p16002coll6",
+      "p16002coll7",
+      "p16002coll9",
+      "p245801coll0",
+      "p245801coll12",
+      "p245801coll13"
+    ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "TEMPLE_TARGET_ALIAS_ENV": "dev",
+  "TEMPLE_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "VILLANOVA_OAI_CONFIG": {
     "endpoint": "http://digital.library.villanova.edu/OAI/Server",
@@ -32,13 +165,12 @@
       "dpla"
     ],
     "md_prefix": "oai_dc",
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "VILLANOVA_SOLR_CONFIGSET": "funcake-oai-0",
   "VILLANOVA_TARGET_ALIAS_ENV": "dev",
   "VILLANOVA_XSL_CONFIG": {
-    "schematron_filter": "validations/funcake_reqd_fields.sch",
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/villanova.xsl",

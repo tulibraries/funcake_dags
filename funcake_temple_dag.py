@@ -1,4 +1,4 @@
-"""DAG to Harvest Villanova OAI & Index ("Publish") to SolrCloud."""
+"""DAG to Harvest Temple OAI & Index ("Publish") to SolrCloud."""
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.hooks.base_hook import BaseHook
@@ -26,16 +26,17 @@ AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 
 # Combine OAI Harvest Variables
-OAI_CONFIG = Variable.get("VILLANOVA_OAI_CONFIG", deserialize_json=True)
+OAI_CONFIG = Variable.get("TEMPLE_OAI_CONFIG", deserialize_json=True)
 # {
-#   "endpoint": "http://digital.library.villanova.edu/OAI/Server",
-#   "md_prefix": "oai_dc",
+#   "endpoint": "http://digital.library.temple.edu/oai/oai.php",
+#   "md_prefix": "oai_qdc",
 #   "all_sets": "False", <--- OPTIONAL
 #   "excluded_sets": [], <--- OPTIONAL
-#   "included_sets": ["dpla"], <--- OPTIONAL
-#   "schematron_filter": "validations/padigital_reqd_fields.sch",
+#   "included_sets": ["p15037coll1", "p15037coll10", ...], <--- OPTIONAL
+#   "schematron_filter": "validations/dcingest_reqd_fields.sch",
 #   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
 # }
+
 OAI_MD_PREFIX = OAI_CONFIG.get("md_prefix")
 OAI_INCLUDED_SETS = OAI_CONFIG.get("included_sets")
 OAI_ENDPOINT = OAI_CONFIG.get("endpoint")
@@ -44,7 +45,7 @@ OAI_ALL_SETS = OAI_CONFIG.get("excluded_sets", "False")
 OAI_SCHEMATRON_FILTER = OAI_CONFIG.get("schematron_filter", "validations/dcingest_reqd_fields.sch")
 OAI_SCHEMATRON_REPORT = OAI_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
 
-XSL_CONFIG = Variable.get("VILLANOVA_XSL_CONFIG", default_var={}, deserialize_json=True)
+XSL_CONFIG = Variable.get("TEMPLE_XSL_CONFIG", default_var={}, deserialize_json=True)
 #{
 #   "schematron_filter": "validations/funcake_reqd_fields.sch",
 #   "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -55,13 +56,13 @@ XSL_CONFIG = Variable.get("VILLANOVA_XSL_CONFIG", default_var={}, deserialize_js
 XSL_SCHEMATRON_FILTER = XSL_CONFIG.get("schematron_filter", "validations/funcake_reqd_fields.sch")
 XSL_SCHEMATRON_REPORT = XSL_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
 XSL_BRANCH = XSL_CONFIG.get("xsl_branch", "master")
-XSL_FILENAME = XSL_CONFIG.get("xsl_filename", "transforms/villanova.xsl")
+XSL_FILENAME = XSL_CONFIG.get("xsl_filename", "transforms/temple_p16002coll25.xsl")
 XSL_REPO = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 
 # Publication-related Solr URL, Configset, Alias
 SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
 SOLR_CONFIGSET = Variable.get("FUNCAKE_OAI_SOLR_CONFIGSET", default_var="funcake-oai-0")
-TARGET_ALIAS_ENV = Variable.get("VILLANOVA_TARGET_ALIAS_ENV", default_var="dev")
+TARGET_ALIAS_ENV = Variable.get("TEMPLE_TARGET_ALIAS_ENV", default_var="dev")
 
 # Data Bucket Variables
 AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
@@ -74,11 +75,11 @@ DEFAULT_ARGS = {
     "start_date": datetime(2019, 8, 27),
     "on_failure_callback": slackpostonfail,
     "retries": 0,
-    "retry_delay": timedelta(minutes=10)
+    "retry_delay": timedelta(minutes=10),
 }
 
 DAG = DAG(
-    dag_id="funcake_villanova",
+    dag_id="funcake_temple",
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,
