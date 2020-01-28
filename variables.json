@@ -73,6 +73,23 @@
     "xsl_filename": "transforms/historicpitt.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
+  "SHI_OAI_CONFIG": {
+    "endpoint": "https://digital.sciencehistory.org/oai",
+    "md_prefix": "oai_dc",
+    "all_sets": "True",
+    "excluded_sets": [],
+    "included_sets": [],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "SHI_TARGET_ALIAS_ENV": "dev",
+  "SHI_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/SHIingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
   "TEMPLE_OAI_CONFIG": {
     "endpoint": "http://digital.library.temple.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
