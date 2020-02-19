@@ -38,6 +38,16 @@ See the rest of the expected variables in `variables.json`.
 
 ## Local Development
 
+### Run with local setup
+WIP.
+
+* `make up`: Sets up local airflow with these dags.
+* `make down`: Close the local setup.
+* `make reload`: Reload configurations for local setup.
+* `make tty-webserver`: Enter airflow webserver container instance.
+* `make tty-worker`: Enter airflow worker container instance.
+* `make tty-schedular`: Enter airflow schedular contain instance.
+
 ### Run with Airflow Playbook Make Commands
 
 Basically, clone https://github.com/tulibraries/ansible_playbook_airflow locally; in a shell at the top level of that repository, run `make up` then `make update`; then git clone/pull your working funcake_dags code to ansible_playbook_airflow/dags/funcake-dags. This shows & runs your development DAG code in the Airflow docker containers, with a webserver at http://localhost:8080.
