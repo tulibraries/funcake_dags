@@ -10,7 +10,7 @@ SAXON_CP=/tmp/saxon/saxon-$SAXON_VERSION.jar
 
 if [ ! -f $SAXON_CP ]; then
 	mkdir -p /tmp/saxon && \
-		curl -fSL -o ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar && \
+		curl -fSL -o ${SAXON_CP} https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar && \
 		echo ${SAXON_DOWNLOAD_SHA1} ${SAXON_CP} | sha1sum -c - && \
 		chmod +x ${SAXON_CP}
 fi

@@ -2,12 +2,8 @@
 import os
 import unittest
 import airflow
-try:
-    from dev_combine_index_dag import DAG as FCDAGDEV
-    from prod_combine_index_dag import DAG as FCDAGPROD
-except:
-    from funcake_dags.dev_combine_index_dag import DAG as FCDAGDEV
-    from funcake_dags.prod_combine_index_dag import DAG as FCDAGPROD
+from funcake_dags.dev_combine_index_dag import DAG as FCDAGDEV
+from funcake_dags.prod_combine_index_dag import DAG as FCDAGPROD
 
 class TestCombineIndexDevDAG(unittest.TestCase):
     """Primary Class for Testing the Combine to FunCake Solr Index DAG."""

@@ -4,7 +4,7 @@ jobs:
   lint_and_test:
     working_directory: ~/funcake_dags
     docker:
-      - image: circleci/python:3.7.2
+      - image: circleci/python:3.6
         environment:
           PIPENV_VENV_IN_PROJECT: true
     steps:
@@ -14,12 +14,11 @@ jobs:
           command: |
             sudo pip install pipenv
             SLUGIFY_USES_TEXT_UNIDECODE=yes pipenv install --dev
-            pipenv run pylint dev_combine_index_dag -E
-            pipenv run pylint prod_combine_index_dag -E
+            pipenv run pylint funcake_dags -E
             PYTHONPATH=. pipenv run pytest
   qa_deploy:
     docker:
-      - image: circleci/python:3.7.2
+      - image: circleci/python:3.6
         environment:
           PIPENV_VENV_IN_PROJECT: true
     steps:
@@ -41,7 +40,7 @@ jobs:
             pipenv run ansible-playbook -i inventory/qa/hosts playbook.yml --vault-password-file=~/.vault -e 'ansible_ssh_port=9229'
   stage_deploy:
     docker:
-      - image: circleci/python:3.7.2
+      - image: circleci/python:3.6
         environment:
           PIPENV_VENV_IN_PROJECT: true
     steps:
@@ -63,7 +62,7 @@ jobs:
             pipenv run ansible-playbook -i inventory/stage/hosts playbook.yml --vault-password-file=~/.vault -e 'ansible_ssh_port=9229'
   prod_deploy:
     docker:
-      - image: circleci/python:3.7.2
+      - image: circleci/python:3.6
         environment:
           PIPENV_VENV_IN_PROJECT: true
     steps:
