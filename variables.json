@@ -117,12 +117,49 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "PENNSTATE_TARGET_ALIAS_ENV": "dev",
-  "PENNSTATE_XSL_CONFIG": {
+  "USCRANTON_TARGET_ALIAS_ENV": "dev",
+  "USCRANTON_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/pennstateingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+      },
+  "USCRANTON_OAI_CONFIG": {
+    "endpoint": "http://digital.libraries.psu.edu/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+      "aquinas",
+      "basketball",
+      "commencement",
+      "costello",
+      "ics",
+      "medieval",
+      "p15111coll2",
+      "p15111coll4",
+      "p16214coll1",
+      "p9000coll4",
+      "p9000coll6",
+      "p9000coll7",
+      "passionists",
+      "prpubs",
+      "publications",
+      "scholarship",
+      "SCRYB03",
+      "zanerbloser",
+      
+      ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "USCRANTON_TARGET_ALIAS_ENV": "dev",
+  "USCRANTON_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/uscrantoningest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "TEMPLE_OAI_CONFIG": {
