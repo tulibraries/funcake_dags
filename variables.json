@@ -148,8 +148,7 @@
       "publications",
       "scholarship",
       "SCRYB03",
-      "zanerbloser",
-      
+      "zanerbloser"
       ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
