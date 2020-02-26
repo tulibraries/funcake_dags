@@ -28,7 +28,7 @@ SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 # Combine OAI Harvest Variables
 OAI_CONFIG = Variable.get("USCRANTON_OAI_CONFIG", deserialize_json=True)
 # {
-#   "endpoint": "http://digital.libraries.psu.edu/oai/oai.php",
+#   "endpoint": "http://digitalservices.scranton.edu/oai/oai.php",
 #   "md_prefix": "oai_qdc",
 #   "all_sets": "False", <--- OPTIONAL
 #   "excluded_sets": [], <--- OPTIONAL
