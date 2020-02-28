@@ -161,6 +161,105 @@
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
+  "WESTCHESTER_OAI_CONFIG": {
+    "endpoint": "http://digital.klnpa.org/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+     "p17189coll1",
+      "p17189coll4",
+      "chester",
+      "diaries",
+      "philips",
+      "qwcaralia",
+      "qwcarch",
+      "qwccivilwar",
+      "qwcphoto",
+      "qwcpost",
+      "redware",
+      "sharples",
+      "wcnp01",
+      "wcudoll",
+      "wcutreasure",
+      "wpa"
+    ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "WESTCHESTER_TARGET_ALIAS_ENV": "dev",
+  "WESTCHESTER_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/KLNqdcCDMingest_test.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+   "SLIPPERYROCK_OAI_CONFIG": {
+    "endpoint": "http://digital.klnpa.org/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+     "audio",
+     "photograph",
+      "postcard",
+      "yearbooks"
+      
+    ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "SLIPPERYROCK_TARGET_ALIAS_ENV": "dev",
+  "SLIPPERYROCK_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/KLNqdcCDMingest_test.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+   "MILLERSVILLE_OAI_CONFIG": {
+    "endpoint": "http://digital.klnpa.org/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+     "mvsphoto",
+     "wingpost"
+    ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "MILLERSVILLE_TARGET_ALIAS_ENV": "dev",
+  "MILLERSVILLE_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/KLNqdcCDMingest_test.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+   "BLOOMSBURG_OAI_CONFIG": {
+    "endpoint": "http://digital.klnpa.org/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+     "blmmap",
+     "blmphoto",
+     "blmpost"
+    ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "BLOOMSBURG_TARGET_ALIAS_ENV": "dev",
+  "BLOOMSBURG_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/KLNqdcCDMingest_test.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  
   "TEMPLE_OAI_CONFIG": {
     "endpoint": "http://digital.library.temple.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
