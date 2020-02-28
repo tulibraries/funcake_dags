@@ -184,7 +184,7 @@
       "wcutreasure",
       "wpa"
     ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "WESTCHESTER_TARGET_ALIAS_ENV": "dev",
@@ -204,10 +204,9 @@
      "audio",
      "photograph",
       "postcard",
-      "yearbooks"
-      
+      "yearbooks" 
     ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "SLIPPERYROCK_TARGET_ALIAS_ENV": "dev",
@@ -227,7 +226,7 @@
      "mvsphoto",
      "wingpost"
     ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "MILLERSVILLE_TARGET_ALIAS_ENV": "dev",
@@ -248,7 +247,7 @@
      "blmphoto",
      "blmpost"
     ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "BLOOMSBURG_TARGET_ALIAS_ENV": "dev",
@@ -298,7 +297,7 @@
       "p245801coll12",
       "p245801coll13"
     ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
   "TEMPLE_TARGET_ALIAS_ENV": "dev",
