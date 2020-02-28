@@ -192,7 +192,7 @@
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
-    "xsl_filename": "transforms/KLNqdcCDMingest_test.xsl",
+    "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
    "SLIPPERYROCK_OAI_CONFIG": {
@@ -214,7 +214,7 @@
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
-    "xsl_filename": "transforms/KLNqdcCDMingest_test.xsl",
+    "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
    "MILLERSVILLE_OAI_CONFIG": {
@@ -234,7 +234,7 @@
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
-    "xsl_filename": "transforms/KLNqdcCDMingest_test.xsl",
+    "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
    "BLOOMSBURG_OAI_CONFIG": {
@@ -255,7 +255,7 @@
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
-    "xsl_filename": "transforms/KLNqdcCDMingest_test.xsl",
+    "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   
