@@ -1,14 +1,5 @@
 {
   "AIRFLOW_DATA_BUCKET": "tulib-airflow-prod",
-  "DPLAH_OAI_CONFIG": {
-    "endpoint": "http://aggregator.padigital.org/oai",
-    "md_prefix": "oai_dc",
-    "all_sets": "True",
-    "excluded_sets": [],
-    "included_sets": [],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
   "DPLAH_TARGET_ALIAS_ENV": "dev",
   "DPLAH_XSL_CONFIG": {
     "schematron_filter": "validations/dplah_reqd_fields.sch",
