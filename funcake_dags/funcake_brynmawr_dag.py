@@ -42,7 +42,7 @@ OAI_INCLUDED_SETS = OAI_CONFIG.get("included_sets")
 OAI_ENDPOINT = OAI_CONFIG.get("endpoint")
 OAI_EXCLUDED_SETS = OAI_CONFIG.get("excluded_sets", [])
 OAI_ALL_SETS = OAI_CONFIG.get("excluded_sets", "False")
-OAI_SCHEMATRON_FILTER = OAI_CONFIG.get("schematron_filter", "validations/dcingest_reqd_fields.sch")
+OAI_SCHEMATRON_FILTER = OAI_CONFIG.get("schematron_filter", "validations/qdcingest_reqd_fields.sch")
 OAI_SCHEMATRON_REPORT = OAI_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
 
 XSL_CONFIG = Variable.get("BRYNMAWR_XSL_CONFIG", default_var={}, deserialize_json=True)
