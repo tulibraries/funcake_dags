@@ -249,6 +249,104 @@
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
+   "LEHIGH_OAI_CONFIG": {
+    "endpoint": "http://cdm.lib.lehigh.edu/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+     "letters",
+     "postal"
+    ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "LEHIGH_TARGET_ALIAS_ENV": "dev",
+  "LEHIGH_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+   "BRYNMAWR_OAI_CONFIG": {
+    "endpoint": "http://triptych.brynmawr.edu/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+     "almaclarke",
+     "BMC_AdvertisingCards",
+     "BMC_collnew",
+     "BMC_photoarc",
+     "BMC_postcard",
+     "BMC_scrpbks",
+     "BMC_yrbks",
+     "castle",
+     "Mellink"
+    ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "BRYNMAWR_TARGET_ALIAS_ENV": "dev",
+  "BRYNMAWR_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+     "SWATHAVERFORD_OAI_CONFIG": {
+    "endpoint": "http://triptych.brynmawr.edu/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+     "SC_Truman",
+     "SC_Broad"
+    ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "SWATHAVERFORD_TARGET_ALIAS_ENV": "dev",
+  "SWATHAVERFORD_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+     "WIDENER_OAI_CONFIG": {
+    "endpoint": "http://digitalwolfgram.widener.edu/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": [],
+    "included_sets": [
+     "p16069coll20",
+     "p16069coll34",
+     "p16069coll5",
+     "p16069coll19",
+     "p16069coll24",
+     "p16069coll27",
+     "p16069coll22",
+     "p16069coll32",
+     "p16069coll12",
+     "p16069coll24",
+     "p16069coll23",
+     "p16069coll17",
+     "p16069coll31"
+    ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+  },
+  "WIDENER_TARGET_ALIAS_ENV": "dev",
+  "WIDENER_XSL_CONFIG": {
+    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
   
   "TEMPLE_OAI_CONFIG": {
     "endpoint": "http://digital.library.temple.edu/oai/oai.php",
