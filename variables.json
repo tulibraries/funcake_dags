@@ -256,7 +256,7 @@
     "excluded_sets": [],
     "included_sets": [
      "letters",
-     "postal",
+     "postal"
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
@@ -334,7 +334,7 @@
      "p16069coll24",
      "p16069coll23",
      "p16069coll17",
-     "p16069coll31",
+     "p16069coll31"
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
