@@ -17,8 +17,11 @@ down:
 tty-webserver:
 	$(INTO-SUBMODULE) && $(MAKE) tty-root-webserver
 
-tty-schedular:
-	$(INTO-SUBMODULE) && $(MAKE) tty-schedular
+tty-scheduler:
+	$(INTO-SUBMODULE) && $(MAKE) tty-scheduler
+
+tty-worker:
+	$(INTO-SUBMODULE) && $(MAKE) tty-worker
 
 tty-root-worker:
 	$(INTO-SUBMODULE) && $(MAKE) tty-root-worker
@@ -26,6 +29,5 @@ tty-root-worker:
 tty-root-webserver:
 	$(INTO-SUBMODULE) && $(MAKE) tty-root-webserver
 
-tty-root-schedular:
-	$(INTO-SUBMODULE) && $(MAKE) tty-root-schedular
-
+tty-root-scheduler:
+	$(INTO-SUBMODULE) && $(MAKE) tty-root-scheduler
