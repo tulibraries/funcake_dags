@@ -2,7 +2,7 @@ from funcake_dags.template import create_dag
 
 
 DAG = create_dag(
-        dag_id="foo",
+        dag_id="westchester",
         oai_config_name="WESTCHESTER_OAI_CONFIG",
         xsl_config_name="WESTCHESTER_XSL_CONFIG",
         target_alias_env_name="WESTCHESTER_TARGET_ALIAS_ENV")
