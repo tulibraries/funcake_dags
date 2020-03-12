@@ -1,8 +1,7 @@
 from funcake_dags.template import create_dag
 
-DAG_ID = "funcake_westchester"
-globals()[DAG_ID] = create_dag(
-    dag_id=DAG_ID,
+create_dag(
+    dag_id="funcake_westchester",
     oai_config_name="WESTCHESTER_OAI_CONFIG",
     xsl_config_name="WESTCHESTER_XSL_CONFIG",
     target_alias_env_name="WESTCHESTER_TARGET_ALIAS_ENV")

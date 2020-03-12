@@ -207,4 +207,6 @@ def create_dag(dag_id, oai_config_name, xsl_config_name, target_alias_env_name):
         REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_FILTER)
         PUBLISH.set_upstream(REFRESH_COLLECTION_FOR_ALIAS)
         NOTIFY_SLACK.set_upstream(PUBLISH)
+
+    globals()[dag_id] = dag
     return dag
