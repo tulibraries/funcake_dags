@@ -31,3 +31,6 @@ tty-root-webserver:
 
 tty-root-scheduler:
 	$(INTO-SUBMODULE) && $(MAKE) tty-root-scheduler
+
+load-vars:
+	$(INTO-SUBMODULE) && $(MAKE) load-vars
