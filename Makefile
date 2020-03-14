@@ -15,13 +15,13 @@ down:
 	$(INTO-SUBMODULE) && $(MAKE) down
 
 tty-webserver:
-	$(INTO-SUBMODULE) && $(MAKE) tty-root-webserver
-
-tty-scheduler:
-	$(INTO-SUBMODULE) && $(MAKE) tty-scheduler
+	$(INTO-SUBMODULE) && $(MAKE) tty-webserver
 
 tty-worker:
 	$(INTO-SUBMODULE) && $(MAKE) tty-worker
+
+tty-scheduler:
+	$(INTO-SUBMODULE) && $(MAKE) tty-scheduler
 
 tty-root-worker:
 	$(INTO-SUBMODULE) && $(MAKE) tty-root-worker
