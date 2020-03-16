@@ -20,6 +20,7 @@ XSL=https://raw.githubusercontent.com/${XSL_REPO}/${XSL_BRANCH}/${XSL_FILENAME}
 echo Transformation File: $XSL
 
 # Grab list of items from designated aws bucket (creds are envvars), then index each item
+TOTAL_TRANSFORMED=0
 RESP=`aws s3api list-objects --bucket $BUCKET --prefix ${DAG_ID}/${DAG_TS}/${SOURCE}`
 for SOURCE_XML in `echo $RESP | jq -r '.Contents[].Key'`
 do
@@ -35,5 +36,10 @@ do
 	sed -e "s|<?xml version=.*?>|<collection dag-id='$DAG_ID' dag-timestamp='$DAG_TS'>|g" $SOURCE_XML-1.xml > $SOURCE_XML-2.xml
 	echo "</collection>" >> $SOURCE_XML-2.xml
 
-	java -jar $SAXON_CP -xsl:$SCRIPTS_PATH/batch-transform.xsl -s:$SOURCE_XML-2.xml | aws s3 cp - s3://$BUCKET/$TRANSFORM_XML
+	java -jar $SAXON_CP -xsl:$SCRIPTS_PATH/batch-transform.xsl -s:$SOURCE_XML-2.xml -o:$SOURCE_XML-transformed.xml
+	COUNT=$(cat $SOURCE_XML-transformed.xml | grep -o "<oai_dc:dc" | wc -l)
+	TOTAL_TRANSFORMED=$(expr $TOTAL_TRANSFORMED + $COUNT) 
+	aws s3 cp $SOURCE_XML-transformed.xml s3://$BUCKET/$TRANSFORM_XML
 done
+
+echo "Total Records transformed: $TOTAL_TRANSFORMED"
