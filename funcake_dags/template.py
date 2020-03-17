@@ -55,6 +55,7 @@ def get_harvest_task(dag, config):
         return BashOperator(
                 task_id="harvest_csv",
                 bash_command="csv_transform_to_s3.sh ",
+                xcom_push=True,
                 env={**os.environ, **{
                     "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
                     "DAGID": dag.dag_id,
