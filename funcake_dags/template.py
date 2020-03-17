@@ -1,13 +1,14 @@
 """DAG Template for DPLA OAI & Index ("Publish") to SolrCloud."""
+from datetime import datetime, timedelta
+import os
+from tulflow import harvest, tasks, transform, validate
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.hooks.base_hook import BaseHook
+from airflow.hooks.S3_hook import S3Hook
 from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
-from datetime import datetime, timedelta
 from funcake_dags.task_slack_posts import slackpostonfail, slackpostonsuccess
-from tulflow import harvest, tasks, transform, validate
-import os
 
 # Define the DAG
 DEFAULT_ARGS = {
@@ -88,6 +89,9 @@ def get_harvest_task(dag, config):
                     },
                 dag=dag)
 
+def field_count_report():
+    hook=S3Hook(s3_conn_id="AIRFLOW_S3")
+
 
 def create_dag(dag_id):
     dag_id = namespace(dag_id)
@@ -127,6 +131,22 @@ def create_dag(dag_id):
             dag=dag)
 
         HARVEST = get_harvest_task(dag, config)
+
+        HARVEST_FIELD_COUNT_REPORT = PythonOperator(
+            task_id="harvest_field_count_report",
+            provide_context=True,
+            python_callable=field_count_report,
+            # op_kwargs={
+            #     "access_id": AIRFLOW_S3.login,
+            #     "access_secret": AIRFLOW_S3.password,
+            #     "bucket": AIRFLOW_DATA_BUCKET,
+            #     "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
+            #     "schematron_filename": SCHEMATRON_FILTER,
+            #     "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
+            #     "report_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered",
+            #     "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+            # },
+            dag=dag)
 
         HARVEST_SCHEMATRON_REPORT = PythonOperator(
             task_id="harvest_schematron_report",
@@ -206,6 +226,22 @@ def create_dag(dag_id):
             },
             dag=dag)
 
+        TRANSFORM_FIELD_COUNT_REPORT = PythonOperator(
+            task_id="transform_field_count_report",
+            provide_context=True,
+            python_callable=field_count_report,
+            # op_kwargs={
+            #     "access_id": AIRFLOW_S3.login,
+            #     "access_secret": AIRFLOW_S3.password,
+            #     "bucket": AIRFLOW_DATA_BUCKET,
+            #     "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
+            #     "schematron_filename": SCHEMATRON_FILTER,
+            #     "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
+            #     "report_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered",
+            #     "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
+            # },
+            dag=dag)
+
         REFRESH_COLLECTION_FOR_ALIAS = tasks.refresh_sc_collection_for_alias(
             sc_conn=SOLR_CONN,
             sc_coll_name=f"{SOLR_CONFIGSET}-{dag_id}-{TARGET_ALIAS_ENV}",
@@ -239,6 +275,8 @@ def create_dag(dag_id):
         # SET UP TASK DEPENDENCIES
         HARVEST.set_upstream(SET_COLLECTION_NAME)
 
+        HARVEST_FIELD_COUNT_REPORT.set_upstream(HARVEST)
+
         HARVEST_SCHEMATRON_REPORT.set_upstream(HARVEST)
 
         HARVEST_FILTER.set_upstream(HARVEST)
@@ -250,6 +288,8 @@ def create_dag(dag_id):
         XSL_TRANSFORM_SCHEMATRON_REPORT.set_upstream(XSL_TRANSFORM)
 
         XSL_TRANSFORM_FILTER.set_upstream(XSL_TRANSFORM)
+
+        TRANSFORM_FIELD_COUNT_REPORT.set_upstream(XSL_TRANSFORM_FILTER)
 
         REFRESH_COLLECTION_FOR_ALIAS.set_upstream(XSL_TRANSFORM_SCHEMATRON_REPORT)
 
