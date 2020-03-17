@@ -89,8 +89,8 @@ def get_harvest_task(dag, config):
                     },
                 dag=dag)
 
-def field_count_report():
-    hook=S3Hook(s3_conn_id="AIRFLOW_S3")
+def field_count_report(source_prefix):
+    hook=S3Hook(AIRFLOW_DATA_BUCKET)
 
 
 def create_dag(dag_id):
@@ -136,16 +136,9 @@ def create_dag(dag_id):
             task_id="harvest_field_count_report",
             provide_context=True,
             python_callable=field_count_report,
-            # op_kwargs={
-            #     "access_id": AIRFLOW_S3.login,
-            #     "access_secret": AIRFLOW_S3.password,
-            #     "bucket": AIRFLOW_DATA_BUCKET,
-            #     "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
-            #     "schematron_filename": SCHEMATRON_FILTER,
-            #     "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
-            #     "report_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered",
-            #     "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
-            # },
+            op_kwargs={
+                "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/"
+            },
             dag=dag)
 
         HARVEST_SCHEMATRON_REPORT = PythonOperator(
@@ -230,16 +223,9 @@ def create_dag(dag_id):
             task_id="transform_field_count_report",
             provide_context=True,
             python_callable=field_count_report,
-            # op_kwargs={
-            #     "access_id": AIRFLOW_S3.login,
-            #     "access_secret": AIRFLOW_S3.password,
-            #     "bucket": AIRFLOW_DATA_BUCKET,
-            #     "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
-            #     "schematron_filename": SCHEMATRON_FILTER,
-            #     "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
-            #     "report_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered",
-            #     "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
-            # },
+            op_kwargs={
+                "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered/",
+            },
             dag=dag)
 
         REFRESH_COLLECTION_FOR_ALIAS = tasks.refresh_sc_collection_for_alias(
