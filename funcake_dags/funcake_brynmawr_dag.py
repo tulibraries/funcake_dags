@@ -56,7 +56,7 @@ XSL_CONFIG = Variable.get("BRYNMAWR_XSL_CONFIG", default_var={}, deserialize_jso
 XSL_SCHEMATRON_FILTER = XSL_CONFIG.get("schematron_filter", "validations/funcake_reqd_fields.sch")
 XSL_SCHEMATRON_REPORT = XSL_CONFIG.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
 XSL_BRANCH = XSL_CONFIG.get("xsl_branch", "master")
-XSL_FILENAME = XSL_CONFIG.get("xsl_filename", "transforms/qdcCDMingest.xsl")
+XSL_FILENAME = XSL_CONFIG.get("xsl_filename", "transforms/TriCoqdcCDMingest.xsl")
 XSL_REPO = XSL_CONFIG.get("xsl_repo", "tulibraries/aggregator_mdx")
 
 # Publication-related Solr URL, Configset, Alias
