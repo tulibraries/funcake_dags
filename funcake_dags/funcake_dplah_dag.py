@@ -219,7 +219,8 @@ PUBLISH = BashOperator(
         "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
         "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
         "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
-        "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
+        "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME,
+        "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME
     },
     dag=DAG
 )
