@@ -134,8 +134,7 @@ def calc_completeness(stats_averages):
                                              completeness["wwww_completeness"]) / float(3))
     return completeness
 
-
-def pretty_print_stats(stats_averages):
+def pretty_stats(stats_averages):
     record_count = stats_averages["record_count"]
     #get header length
     element_length = 0
@@ -143,23 +142,27 @@ def pretty_print_stats(stats_averages):
         if element_length < len(element):
             element_length = len(element)
 
-    print("\n\n")
+    stats = "\n\n"
     for element in sorted(stats_averages["field_info"]):
         percent = (stats_averages["field_info"][element]["field_count"] / float(record_count)) * 100
         percentPrint = "=" * int(percent / 4)
         columnOne = " " * (element_length - len(element)) + element
-        print("%s: |%-25s| %6s/%s | %3d%% " % (
+        stats += "%s: |%-25s| %6s/%s | %3d%% " % (
             columnOne,
             percentPrint,
             stats_averages["field_info"][element]["field_count"],
             record_count,
             percent
-        ))
+        ) + "\n"
 
-    print("\n")
     completeness = calc_completeness(stats_averages)
     for i in ["dc_completeness", "collection_completeness", "wwww_completeness", "average_completeness"]:
-        print("%23s %f" % (i, completeness[i]))
+        stats += "%23s %f" % (i, completeness[i])
+    return stats
+
+def pretty_print_stats(stats_averages):
+    print(pretty_stats(stats_averages))
+
 
 
 def main():
