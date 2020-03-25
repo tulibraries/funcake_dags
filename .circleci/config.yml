@@ -14,7 +14,7 @@ jobs:
           command: |
             sudo pip install pipenv
             SLUGIFY_USES_TEXT_UNIDECODE=yes pipenv install --dev
-            pipenv run pylint -E funcake_dags/ --ignore=funcake_dags/scripts/metadata_breakers
+            pipenv run pylint -E funcake_dags/
             PYTHONPATH=. pipenv run pytest
   qa_deploy:
     docker:

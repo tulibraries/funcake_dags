@@ -35,7 +35,7 @@ class Record:
         
         
     def get_record_status(self):
-        return self.elem.find("header").get("status", "active")
+        return self.elem.find("{*}header").get("status", "active")
         
         
     def get_elements(self):
@@ -148,9 +148,9 @@ def main():
             if r.get_elements() != None :
                 for i in r.get_elements():
                         if options.id and options.add_qualifier:
-                            print("{}\t{}\t{}".format((meta_id, i["qualifier"], i["value"].decode('utf-8'))))
+                            print("{}\t{}\t{}".format(meta_id, i["qualifier"], i["value"].decode('utf-8')))
                         elif options.add_qualifier:
-                            print("{}\t{}".format((i["qualifier"], i["value"].decode('utf-8'))))
+                            print("{}\t{}".format(i["qualifier"], i["value"].decode('utf-8')))
                         elif options.id and options.add_qualifier == False:
                             print("{}\t{}".format(meta_id, i["value"].decode('utf-8').replace('\n', ' ').replace('\t', ' ')))
                         else:
