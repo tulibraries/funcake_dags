@@ -146,7 +146,7 @@ def pretty_print_stats(stats_averages):
     print("\n\n")
     for element in sorted(stats_averages["field_info"]):
         percent = (stats_averages["field_info"][element]["field_count"] / float(record_count)) * 100
-        percentPrint = "=" * (int(percent) / 4)
+        percentPrint = "=" * int(percent / 4)
         columnOne = " " * (element_length - len(element)) + element
         print("%s: |%-25s| %6s/%s | %3d%% " % (
             columnOne,
