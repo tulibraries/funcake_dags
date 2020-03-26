@@ -155,9 +155,10 @@ def pretty_stats(stats_averages):
             percent
         ) + "\n"
 
+    stats += "\n"
     completeness = calc_completeness(stats_averages)
     for i in ["dc_completeness", "collection_completeness", "wwww_completeness", "average_completeness"]:
-        stats += "%23s %f" % (i, completeness[i])
+        stats += "%23s %f" % (i, completeness[i]) + "\n"
     return stats
 
 def pretty_print_stats(stats_averages):
