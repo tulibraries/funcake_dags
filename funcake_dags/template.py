@@ -5,10 +5,10 @@ from tulflow import harvest, tasks, transform, validate
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.hooks.base_hook import BaseHook
-from airflow.hooks.S3_hook import S3Hook
 from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
 from funcake_dags.task_slack_posts import slackpostonfail, slackpostonsuccess
+from funcake_dags.field_counter import field_count_report
 
 # Define the DAG
 DEFAULT_ARGS = {
@@ -89,10 +89,6 @@ def get_harvest_task(dag, config):
                     },
                 dag=dag)
 
-def field_count_report(source_prefix):
-    hook=S3Hook(AIRFLOW_DATA_BUCKET)
-
-
 def create_dag(dag_id):
     dag_id = namespace(dag_id)
     dag = DAG(
@@ -137,7 +133,8 @@ def create_dag(dag_id):
             provide_context=True,
             python_callable=field_count_report,
             op_kwargs={
-                "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/"
+                "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/",
+                "bucket": AIRFLOW_DATA_BUCKET,
             },
             dag=dag)
 
@@ -225,6 +222,7 @@ def create_dag(dag_id):
             python_callable=field_count_report,
             op_kwargs={
                 "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered/",
+                "bucket": AIRFLOW_DATA_BUCKET,
             },
             dag=dag)
 
