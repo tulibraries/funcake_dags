@@ -45,7 +45,7 @@ class FieldCounter:
                 r = Record(elem)
 
                 if (self.s % 1000) == 0 and self.s != 0:
-                    print("%d records processed" % self.s)
+                    logging.info("%d records processed" % self.s)
                 self.s += 1
                 if r.get_record_status() != "deleted":
                     dc_breaker.collect_stats(self.stats_aggregate, r.get_stats())

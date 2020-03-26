@@ -39,7 +39,7 @@ class TestFieldCounter(unittest.TestCase):
         stats += "collection_completeness 100.000000\n"
         stats += "      wwww_completeness 0.000000\n"
         stats += "   average_completeness 40.000000\n"
-        
+
         self.assertEqual(["INFO:root:" + stats], log.output)
 
     @mock_s3
@@ -87,7 +87,7 @@ class TestFieldCounter(unittest.TestCase):
         stats += "collection_completeness 100.000000\n"
         stats += "      wwww_completeness 0.000000\n"
         stats += "   average_completeness 40.000000\n"
-        
+
         self.assertEqual(["INFO:root:" + stats], log.output)
 
     @mock_s3

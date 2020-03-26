@@ -6,7 +6,7 @@ class RepoInvestigatorException(Exception):
     """This is our base exception for this script"""
     def __init__(self, value):
         self.value = value
-   
+
     def __str__(self):
         return "%s" % (self.value,)
 
@@ -15,14 +15,14 @@ UNTL = "{%s}" % UNTL_NAMESPACE
 UNTL_NSMAP = { "untl" : UNTL_NAMESPACE }
 
 name_fields = ["creator", "contributor", "publisher"]
-    
+
 class Record:
-    
+
     def __init__(self, elem, options):
         self.elem = elem
         self.options = options
-        
-        
+
+
     def get_meta_id(self):
         metas = self.elem[1][0].findall(UNTL_NAMESPACE + "meta")
         for meta in metas:
@@ -32,12 +32,12 @@ class Record:
             else:
                 self.meta_id = None
         return self.meta_id
-        
-        
+
+
     def get_record_status(self):
         return self.elem.find("{*}header").get("status", "active")
-        
-        
+
+
     def get_elements(self):
         out = []
         elements = self.elem[1][0].findall(UNTL_NAMESPACE + self.options.element)
@@ -74,12 +74,12 @@ class Record:
                     element_dict["value"] = element.text.encode("utf-8").strip()
                     element_dict["qualifier"] = element.get("qualifier", None)
                     out.append(element_dict)
-                    
+
         if len(out) == 0:
             out = None
         return out
-        
-        
+
+
     def get_all_data(self):
         out = []
         for i in self.elem[1][0]:
@@ -113,19 +113,19 @@ def main():
                   help="print if there is value of defined element in record")
     parser.add_option("-d", "--dump", action="store_true", dest="dump", default=False,
                   help="Dump all record data to a tab delimited format")
-    
-    
+
+
     (options, args) = parser.parse_args()
-    
+
     if len(args) == 0:
         print(usage)
         exit()
-    
+
     for event, elem in ElementTree.iterparse(args[0]):
         if elem.tag == "record":
             r = Record(elem, options)
             meta_id = r.get_meta_id()
-            
+
             if options.dump == True:
                 if r.get_record_status() != "deleted":
                     record_fields = r.get_all_data()
@@ -144,7 +144,7 @@ def main():
                     print("{}\t{}".format(meta_id, present))
                 elem.clear()
                 continue
-                
+
             if r.get_elements() != None :
                 for i in r.get_elements():
                         if options.id and options.add_qualifier:
@@ -158,4 +158,4 @@ def main():
             elem.clear()
 if __name__ == "__main__":
     main()
-    
+
