@@ -8,6 +8,7 @@ pylint = "*"
 pytest = "*"
 apache-airflow = "*"
 localstack = "*"
+moto = "*"
 
 [packages]
 tulflow = ">=0.4.6"
