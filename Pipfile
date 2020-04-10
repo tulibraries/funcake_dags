@@ -8,9 +8,10 @@ pylint = "*"
 pytest = "*"
 apache-airflow = "*"
 localstack = "*"
+moto = "*"
 
 [packages]
-tulflow = ">=0.4.6"
+tulflow = "==0.5.3"
 pexpect = "*"
 xmltodict = "*"
 sickle = "*"
