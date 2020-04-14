@@ -23,7 +23,9 @@ Example of Harvest Config value
 # Note that ids will automatically be prefixed with 'funcake_' as a namespace.
 # The dag_id for "westchester" will automatically be "funcake_westchester".
 
-dag_ids = []
+dag_ids = [
+	"lasalle_cdm"
+	]
 
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
