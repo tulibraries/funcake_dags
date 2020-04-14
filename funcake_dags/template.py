@@ -105,6 +105,10 @@ def create_dag(dag_id):
 
     SCHEMATRON_REPORT = config.get("schematron_report", "validations/padigital_missing_thumbnailURL.sch")
 
+    SCHEMATRON_XSL_FILTER = config.get("schematron_xsl_filter", "validations/padigital_reqd_fields.sch")
+
+    SCHEMATRON_XSL_REPORT = config.get("schematron_xsl_report", "validations/padigital_missing_thumbnailURL.sch")
+
     XSL_REPO = config.get("xsl_repo", "tulibraries/aggregator_mdx")
 
     XSL_BRANCH = config.get("xsl_branch", "master")
@@ -195,7 +199,7 @@ def create_dag(dag_id):
                 "access_secret": AIRFLOW_S3.password,
                 "bucket": AIRFLOW_DATA_BUCKET,
                 "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
-                "schematron_filename": SCHEMATRON_REPORT,
+                "schematron_filename": SCHEMATRON_XSL_REPORT,
                 "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/"
             },
             dag=dag)
@@ -209,7 +213,7 @@ def create_dag(dag_id):
                 "access_secret": AIRFLOW_S3.password,
                 "bucket": AIRFLOW_DATA_BUCKET,
                 "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
-                "schematron_filename": SCHEMATRON_FILTER,
+                "schematron_filename": SCHEMATRON_XSL_FILTER,
                 "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed/",
                 "report_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered",
                 "timestamp": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
