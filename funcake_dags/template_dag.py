@@ -18,6 +18,8 @@ Example of Harvest Config value
     "included_sets": ["aebye","ajt","amc", ...], <--- OPTIONAL
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+    "schematron_xsl_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch"
 }
 """
 
