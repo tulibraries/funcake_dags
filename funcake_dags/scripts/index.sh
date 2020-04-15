@@ -29,5 +29,5 @@ do
   bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$FOLDER$record_set) | tee -a $TEMPFILE
 done
 
-PUBLISH_TASK_REPORT=$AIRFLOW_APP_HOME/dags/funcake_dags/scripts/publish_task_report.rb
+PUBLISH_TASK_REPORT=$AIRFLOW_HOME/dags/funcake_dags/scripts/publish_task_report.rb
 echo $TEMPFILE | ruby $PUBLISH_TASK_REPORT

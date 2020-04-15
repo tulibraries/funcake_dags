@@ -58,7 +58,7 @@ class FieldCounter:
         return dc_breaker.pretty_stats(stats_averages)
 
 
-def field_count_report(bucket, source_prefix, conn_id="AIRFLOW_S3"):
+def field_count_report(bucket, source_prefix, conn_id="AIRFLOW_S3", **context):
     hook=S3Hook(conn_id)
     field_counter = FieldCounter()
 
