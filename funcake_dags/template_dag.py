@@ -27,7 +27,8 @@ Example of Harvest Config value
 # The dag_id for "westchester" will automatically be "funcake_westchester".
 
 dag_ids = [
-	"lasalle_cdm"
+	"lasalle_cdm",
+    "lasalle_csv"
 	]
 
 for dag_id in dag_ids:
