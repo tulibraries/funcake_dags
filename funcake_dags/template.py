@@ -225,7 +225,7 @@ def create_dag(dag_id):
             provide_context=True,
             python_callable=field_count_report,
             op_kwargs={
-                "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed_filtered/",
+                "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
                 "bucket": AIRFLOW_DATA_BUCKET,
             },
             dag=dag)
