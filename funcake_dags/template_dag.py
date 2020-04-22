@@ -16,7 +16,12 @@ Example of Harvest Config value
     "excluded_sets": [], <--- OPTIONAL
     "included_sets": ["aebye","ajt","amc", ...], <--- OPTIONAL
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
 }
 """
 
@@ -25,7 +30,7 @@ Example of Harvest Config value
 
 dag_ids = [
 	"lasalle_cdm",
-    "lasalle_csv"
+    "lehigh_csv"
 	]
 
 for dag_id in dag_ids:
