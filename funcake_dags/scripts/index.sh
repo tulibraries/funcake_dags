@@ -20,7 +20,14 @@ bundle install
 
 # grab list of items from designated aws bucket (creds are envvars), then index each item
 RESP=`aws s3 ls s3://$BUCKET/$FOLDER | awk '{print $4}'`
+
+TEMPFILE=$(mktemp /tmp/index-output.XXXXXX)
+trap 'rm -f $TEMPFILE' EXIT
+
 for record_set in `echo $RESP`
 do
-  bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$FOLDER$record_set)
+  bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$FOLDER$record_set) | tee -a $TEMPFILE
 done
+
+PUBLISH_TASK_REPORT=$AIRFLOW_APP_HOME/dags/funcake_dags/scripts/publish_task_report.rb
+echo $TEMPFILE | ruby $PUBLISH_TASK_REPORT
