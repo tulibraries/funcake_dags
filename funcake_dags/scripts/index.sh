@@ -30,4 +30,4 @@ do
 done
 
 PUBLISH_TASK_REPORT=$AIRFLOW_HOME/dags/funcake_dags/scripts/publish_task_report.rb
-echo $TEMPFILE | ruby $PUBLISH_TASK_REPORT
+cat $TEMPFILE | ruby $PUBLISH_TASK_REPORT
