@@ -31,7 +31,8 @@ Example of Harvest Config value
 
 dag_ids = [
 	"lasalle_cdm",
-    "lehigh_csv"
+    "lehigh_csv",
+    "penn_walters_csv"
 	]
 
 for dag_id in dag_ids:
