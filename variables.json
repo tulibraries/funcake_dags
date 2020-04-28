@@ -28,6 +28,16 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "LASALLE_CDM_TARGET_ALIAS_ENV": "dev",
+  "PENN_WALTERS_CSV_HARVEST_CONFIG": {
+    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/generic_csv.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "PENN_WALTERS_CSV_TARGET_ALIAS_ENV": "dev",
   "LEHIGH_CSV_HARVEST_CONFIG": {
     "schematron_filter": "validations/csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
