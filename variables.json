@@ -8,6 +8,36 @@
     "xsl_filename": "transforms/dplah.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
+  "LASALLE_CDM_HARVEST_CONFIG": {
+    "endpoint": "http://cdm15860.contentdm.oclc.org/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": "False",
+    "excluded_sets": "False",
+    "included_sets": [
+      "p15860coll1",
+      "p15860coll2",
+      "p15860coll5",
+      "p15860coll7"
+    ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "LASALLE_CDM_TARGET_ALIAS_ENV": "dev",
+  "LEHIGH_CSV_HARVEST_CONFIG": {
+    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/lehigh_csv.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "LEHIGH_CSV_TARGET_ALIAS_ENV": "dev",
   "FREE_LIBRARY_CSV_SCHEMATRON_FILTER": "validations/dcingest_reqd_fields.sch",
   "FREE_LIBRARY_CSV_SCHEMATRON_REPORT": "validations/padigital_missing_thumbnailURL.sch",
   "FREE_LIBRARY_XSL_CONFIG": {
