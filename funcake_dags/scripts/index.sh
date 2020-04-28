@@ -26,8 +26,8 @@ trap 'rm -f $TEMPFILE' EXIT
 
 for record_set in `echo $RESP`
 do
-  bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$FOLDER$record_set) | tee -a $TEMPFILE
+  bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$FOLDER$record_set) 2>&1 | tee -a $TEMPFILE
 done
 
-PUBLISH_TASK_REPORT=$AIRFLOW_APP_HOME/dags/funcake_dags/scripts/publish_task_report.rb
-echo $TEMPFILE | ruby $PUBLISH_TASK_REPORT
+PUBLISH_TASK_REPORT=$AIRFLOW_HOME/dags/funcake_dags/scripts/publish_task_report.rb
+cat $TEMPFILE | ruby $PUBLISH_TASK_REPORT
