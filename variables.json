@@ -80,7 +80,7 @@
     "configset": "funcake-0",
     "replication_factor": 2
   },
-  "HISTORIC_PITT_OAI_CONFIG": {
+  "HISTORIC_PITT_HARVEST_CONFIG": {
     "endpoint": "http://historicpittsburgh.org/oai2",
     "md_prefix": "oai_dc",
     "all_sets": "False",
@@ -114,7 +114,7 @@
     "xsl_filename": "transforms/historicpitt.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-    "SHI_OAI_CONFIG": {
+    "SHI_HARVEST_CONFIG": {
     "endpoint": "https://digital.sciencehistory.org/oai",
     "md_prefix": "oai_dc",
     "all_sets": "True",
@@ -131,7 +131,7 @@
     "xsl_filename": "transforms/SHIingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "PENNSTATE_OAI_CONFIG": {
+  "PENNSTATE_HARVEST_CONFIG": {
     "endpoint": "http://digital.libraries.psu.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -166,7 +166,7 @@
     "xsl_filename": "transforms/pennstateingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
       },
-  "USCRANTON_OAI_CONFIG": {
+  "USCRANTON_HARVEST_CONFIG": {
     "endpoint": "http://digitalservices.scranton.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -202,7 +202,7 @@
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "WESTCHESTER_OAI_CONFIG": {
+  "WESTCHESTER_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -236,7 +236,7 @@
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-   "SLIPPERYROCK_OAI_CONFIG": {
+   "SLIPPERYROCK_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -258,7 +258,7 @@
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-   "MILLERSVILLE_OAI_CONFIG": {
+   "MILLERSVILLE_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -278,7 +278,7 @@
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-   "BLOOMSBURG_OAI_CONFIG": {
+   "BLOOMSBURG_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -300,7 +300,7 @@
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-   "LEHIGH_OAI_CONFIG": {
+   "LEHIGH_HARVEST_CONFIG": {
     "endpoint": "http://cdm.lib.lehigh.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -320,7 +320,7 @@
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-   "BRYNMAWR_OAI_CONFIG": {
+   "BRYNMAWR_HARVEST_CONFIG": {
     "endpoint": "http://triptych.brynmawr.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -347,7 +347,7 @@
     "xsl_filename": "transforms/TriCoqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-     "SWATHAVERFORD_OAI_CONFIG": {
+     "SWATHAVERFORD_HARVEST_CONFIG": {
     "endpoint": "http://triptych.brynmawr.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -367,7 +367,7 @@
     "xsl_filename": "transforms/TriCoqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-     "WIDENER_OAI_CONFIG": {
+     "WIDENER_HARVEST_CONFIG": {
     "endpoint": "http://digitalwolfgram.widener.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -399,7 +399,7 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   
-  "TEMPLE_OAI_CONFIG": {
+  "TEMPLE_HARVEST_CONFIG": {
     "endpoint": "http://digital.library.temple.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -448,7 +448,7 @@
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "VILLANOVA_OAI_CONFIG": {
+  "VILLANOVA_HARVEST_CONFIG": {
     "endpoint": "http://digital.library.villanova.edu/OAI/Server",
     "all_sets": "False",
     "excluded_sets": [],
