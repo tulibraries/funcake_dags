@@ -106,15 +106,14 @@
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "HISTORIC_PITT_TARGET_ALIAS_ENV": "dev",
-  "HISTORIC_PITT_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/historicpitt.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-    "SHI_OAI_CONFIG": {
+  "HISTORIC_PITT_TARGET_ALIAS_ENV": "dev",
+    "SHI_HARVEST_CONFIG": {
     "endpoint": "https://digital.sciencehistory.org/oai",
     "md_prefix": "oai_dc",
     "all_sets": "True",
@@ -123,15 +122,14 @@
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "SHI_TARGET_ALIAS_ENV": "dev",
-  "SHI_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/SHIingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "PENNSTATE_OAI_CONFIG": {
+ "SHI_TARGET_ALIAS_ENV": "dev",
+  "PENNSTATE_HARVEST_CONFIG": {
     "endpoint": "http://digital.libraries.psu.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -158,15 +156,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "PENNSTATE_TARGET_ALIAS_ENV": "dev",
-  "PENNSTATE_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/pennstateingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
       },
-  "USCRANTON_OAI_CONFIG": {
+ "PENNSTATE_TARGET_ALIAS_ENV": "dev",
+  "USCRANTON_HARVEST_CONFIG": {
     "endpoint": "http://digitalservices.scranton.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -194,15 +191,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "USCRANTON_TARGET_ALIAS_ENV": "dev",
-  "USCRANTON_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "WESTCHESTER_OAI_CONFIG": {
+  "USCRANTON_TARGET_ALIAS_ENV": "dev",
+  "WESTCHESTER_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -228,15 +224,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "WESTCHESTER_TARGET_ALIAS_ENV": "dev",
-  "WESTCHESTER_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-   "SLIPPERYROCK_OAI_CONFIG": {
+  "WESTCHESTER_TARGET_ALIAS_ENV": "dev",
+   "SLIPPERYROCK_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -250,15 +245,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "SLIPPERYROCK_TARGET_ALIAS_ENV": "dev",
-  "SLIPPERYROCK_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-   "MILLERSVILLE_OAI_CONFIG": {
+ "SLIPPERYROCK_TARGET_ALIAS_ENV": "dev",
+   "MILLERSVILLE_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -270,15 +264,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "MILLERSVILLE_TARGET_ALIAS_ENV": "dev",
-  "MILLERSVILLE_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-   "BLOOMSBURG_OAI_CONFIG": {
+  "MILLERSVILLE_TARGET_ALIAS_ENV": "dev",
+   "BLOOMSBURG_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -292,14 +285,13 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "BLOOMSBURG_TARGET_ALIAS_ENV": "dev",
-  "BLOOMSBURG_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
+ "BLOOMSBURG_TARGET_ALIAS_ENV": "dev",
    "LEHIGH_OAI_CONFIG": {
     "endpoint": "http://cdm.lib.lehigh.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
@@ -312,15 +304,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "LEHIGH_TARGET_ALIAS_ENV": "dev",
-  "LEHIGH_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-   "BRYNMAWR_OAI_CONFIG": {
+  "LEHIGH_TARGET_ALIAS_ENV": "dev",
+   "BRYNMAWR_HARVEST_CONFIG": {
     "endpoint": "http://triptych.brynmawr.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -339,15 +330,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "BRYNMAWR_TARGET_ALIAS_ENV": "dev",
-  "BRYNMAWR_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/TriCoqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-     "SWATHAVERFORD_OAI_CONFIG": {
+ "BRYNMAWR_TARGET_ALIAS_ENV": "dev",
+     "SWATHAVERFORD_HARVEST_CONFIG": {
     "endpoint": "http://triptych.brynmawr.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -359,15 +349,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "SWATHAVERFORD_TARGET_ALIAS_ENV": "dev",
-  "SWATHAVERFORD_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/TriCoqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-     "WIDENER_OAI_CONFIG": {
+  "SWATHAVERFORD_TARGET_ALIAS_ENV": "dev",
+     "WIDENER_HARVEST_CONFIG": {
     "endpoint": "http://digitalwolfgram.widener.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -390,16 +379,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "WIDENER_TARGET_ALIAS_ENV": "dev",
-  "WIDENER_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  
-  "TEMPLE_OAI_CONFIG": {
+    "WIDENER_TARGET_ALIAS_ENV": "dev",
+  "TEMPLE_HARVEST_CONFIG": {
     "endpoint": "http://digital.library.temple.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -440,15 +427,14 @@
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "TEMPLE_TARGET_ALIAS_ENV": "dev",
-  "TEMPLE_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "VILLANOVA_OAI_CONFIG": {
+  "TEMPLE_TARGET_ALIAS_ENV": "dev",
+  "VILLANOVA_HARVEST_CONFIG": {
     "endpoint": "http://digital.library.villanova.edu/OAI/Server",
     "all_sets": "False",
     "excluded_sets": [],
@@ -459,12 +445,11 @@
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
   },
-  "VILLANOVA_TARGET_ALIAS_ENV": "dev",
-  "VILLANOVA_XSL_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/villanova.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
-  }
+  },
+  "VILLANOVA_TARGET_ALIAS_ENV": "dev",
 }
