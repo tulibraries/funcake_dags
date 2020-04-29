@@ -48,21 +48,21 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "LEHIGH_CSV_TARGET_ALIAS_ENV": "dev",
-  "FREE_LIBRARY_CSV_SCHEMATRON_FILTER": "validations/csv_reqd_fields.sch",
-  "FREE_LIBRARY_CSV_SCHEMATRON_REPORT": "validations/padigital_missing_thumbnailURL.sch",
-  "FREE_LIBRARY_XSL_CONFIG": {
+  "FREE_LIBRARY_HARVEST_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/free_library_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"                      
   },
   "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
-  "USCRANTON_CSV_SCHEMATRON_FILTER": "validations/csv_reqd_fields.sch",
-  "USCRANTON_CSV_SCHEMATRON_REPORT": "validations/padigital_missing_thumbnailURL.sch",
-  "USCRANTON_CSV_XSL_CONFIG": {
+  "USCRANTON_CSV_HARVEST_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/uscranton_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -80,7 +80,7 @@
     "configset": "funcake-0",
     "replication_factor": 2
   },
-  "HISTORIC_PITT_OAI_CONFIG": {
+  "HISTORIC_PITT_HARVEST_CONFIG": {
     "endpoint": "http://historicpittsburgh.org/oai2",
     "md_prefix": "oai_dc",
     "all_sets": "False",
@@ -105,9 +105,8 @@
       ],
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/historicpitt.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -121,9 +120,8 @@
     "included_sets": [],
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/SHIingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -155,9 +153,8 @@
       ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/pennstateingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -190,9 +187,8 @@
       ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -223,9 +219,8 @@
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -244,9 +239,8 @@
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -263,9 +257,8 @@
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -284,15 +277,14 @@
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
  "BLOOMSBURG_TARGET_ALIAS_ENV": "dev",
-   "LEHIGH_OAI_CONFIG": {
+   "LEHIGH_HARVEST_CONFIG": {
     "endpoint": "http://cdm.lib.lehigh.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": "False",
@@ -303,9 +295,8 @@
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -329,9 +320,8 @@
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/TriCoqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -348,9 +338,8 @@
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/TriCoqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -378,9 +367,8 @@
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -426,9 +414,8 @@
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
@@ -444,9 +431,8 @@
     "md_prefix": "oai_dc",
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
-  },
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/villanova.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
