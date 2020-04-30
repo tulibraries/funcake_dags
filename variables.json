@@ -14,7 +14,7 @@
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
-  ],
+  ]
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
@@ -30,7 +30,7 @@
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
-  ],
+  ]
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
@@ -46,7 +46,7 @@
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
-  ],
+  ]
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
@@ -62,7 +62,7 @@
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
-  ],
+  ]
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
@@ -78,7 +78,7 @@
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
-  ],
+  ]
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
@@ -94,7 +94,7 @@
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
-  ],
+  ]
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
@@ -533,5 +533,5 @@
     "xsl_filename": "transforms/villanova.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "VILLANOVA_TARGET_ALIAS_ENV": "dev",
+  "VILLANOVA_TARGET_ALIAS_ENV": "dev"
 }
