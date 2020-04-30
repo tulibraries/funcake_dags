@@ -30,11 +30,33 @@ Example of Harvest Config value
 # The dag_id for "westchester" will automatically be "funcake_westchester".
 
 dag_ids = [
-	"lasalle_cdm",
+    "lasalle_cdm",
     "lehigh_csv",
-    "penn_walters_csv"
+    "penn_walters_csv",
+    "shi",
+    "bloomsburg",
+    "brynmawr",
+    "dplah",
+    "free_library_of_philadelphia",
+    "historic_pitt",
+    "lehigh",
+    "millersville",
+    "pennstate",
+    "slipperyrock",
+    "swathaverford",
+    "temple",
+    "uscranton_csv",
+    "uscranton",
+    "villanova",
+    "westchester",
+    "widener",
+    "penn_digitalimages",
+    "penn_holy",
+    "penn_inhand",
+    "penn_print",
+    "penn_wheeler",
+    "penn_women"
 	]
-
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
     globals()[dag.dag_id] = dag
