@@ -49,7 +49,13 @@ dag_ids = [
     "uscranton",
     "villanova",
     "westchester",
-    "widener"
+    "widener",
+    "penn_digitalimages",
+    "penn_holy",
+    "penn_inhand",
+    "penn_print",
+    "penn_wheeler",
+    "penn_women"
 	]
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
