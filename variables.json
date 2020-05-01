@@ -1,12 +1,5 @@
 {
   "AIRFLOW_DATA_BUCKET": "tulib-airflow-prod",
-  "DPLAH_HARVEST_CONFIG": {
-    "schematron_filter": "validations/dplah_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
-    "xsl_filename": "transforms/dplah.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx"
-  },
   "DPLAH_TARGET_ALIAS_ENV": "dev",
   "PENN_DIGITALIMAGES_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/archives/oai-pmh.xml",
