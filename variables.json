@@ -1,16 +1,16 @@
 {
   "AIRFLOW_DATA_BUCKET": "tulib-airflow-prod",
-  "DPLAH_TARGET_ALIAS_ENV": "dev",
-  "DPLAH_XSL_CONFIG": {
+  "DPLAH_HARVEST_CONFIG": {
     "schematron_filter": "validations/dplah_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
     "xsl_filename": "transforms/dplah.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
+  "DPLAH_TARGET_ALIAS_ENV": "dev",
   "PENN_DIGITALIMAGES_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/archives/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
+    "md_prefix": "oai_dc",
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
@@ -25,7 +25,7 @@
   "PENN_DIGITAL_IMAGES_TARGET_ALIAS_ENV": "dev",
   "PENN_HOLY_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/holyland/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
+    "md_prefix": "oai_dc",
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
@@ -40,7 +40,7 @@
   "PENN_HOLY_TARGET_ALIAS_ENV": "dev",
   "PENN_INHAND_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/medren/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
+    "md_prefix": "oai_dc",
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
@@ -55,7 +55,7 @@
   "PENN_INHAND_TARGET_ALIAS_ENV": "dev",
   "PENN_PRINT_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/print/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
+    "md_prefix": "oai_dc",
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
@@ -70,7 +70,7 @@
   "PENN_PRINT_TARGET_ALIAS_ENV": "dev",
   "PENN_WHEELER_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/wheeler/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
+    "md_prefix": "oai_dc",
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
@@ -85,7 +85,7 @@
   "PENN_WHEELER_TARGET_ALIAS_ENV": "dev",
   "PENN_WOMEN_HARVEST_CONFIG": {
     "endpoint": "http://digital.library.upenn.edu/webbin/OAI-celebration",
-    "md_prefix": "oai_qdc",
+    "md_prefix": "oai_dc",
     "all_sets": "True",
     "excluded_sets": [],
     "included_sets": [],
