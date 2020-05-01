@@ -95,7 +95,7 @@
     "endpoint": "http://cdm15860.contentdm.oclc.org/oai/oai.php",
     "md_prefix": "oai_qdc",
     "all_sets": false,
-    "excluded_sets": false,
+    "excluded_sets": [],
     "included_sets": [
       "p15860coll1",
       "p15860coll2",
