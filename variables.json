@@ -1,17 +1,10 @@
 {
   "AIRFLOW_DATA_BUCKET": "tulib-airflow-prod",
   "DPLAH_TARGET_ALIAS_ENV": "dev",
-  "DPLAH_XSL_CONFIG": {
-    "schematron_filter": "validations/dplah_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
-    "xsl_filename": "transforms/dplah.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx"
-  },
   "PENN_DIGITALIMAGES_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/archives/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
-    "all_sets": "True",
+    "md_prefix": "oai_dc",
+    "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
@@ -25,8 +18,8 @@
   "PENN_DIGITAL_IMAGES_TARGET_ALIAS_ENV": "dev",
   "PENN_HOLY_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/holyland/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
-    "all_sets": "True",
+    "md_prefix": "oai_dc",
+    "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
@@ -40,8 +33,8 @@
   "PENN_HOLY_TARGET_ALIAS_ENV": "dev",
   "PENN_INHAND_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/medren/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
-    "all_sets": "True",
+    "md_prefix": "oai_dc",
+    "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
@@ -55,8 +48,8 @@
   "PENN_INHAND_TARGET_ALIAS_ENV": "dev",
   "PENN_PRINT_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/print/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
-    "all_sets": "True",
+    "md_prefix": "oai_dc",
+    "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
@@ -70,8 +63,8 @@
   "PENN_PRINT_TARGET_ALIAS_ENV": "dev",
   "PENN_WHEELER_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/wheeler/oai-pmh.xml",
-    "md_prefix": "oai_qdc",
-    "all_sets": "True",
+    "md_prefix": "oai_dc",
+    "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
@@ -85,8 +78,8 @@
   "PENN_WHEELER_TARGET_ALIAS_ENV": "dev",
   "PENN_WOMEN_HARVEST_CONFIG": {
     "endpoint": "http://digital.library.upenn.edu/webbin/OAI-celebration",
-    "md_prefix": "oai_qdc",
-    "all_sets": "True",
+    "md_prefix": "oai_dc",
+    "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
@@ -101,8 +94,8 @@
   "LASALLE_CDM_HARVEST_CONFIG": {
     "endpoint": "http://cdm15860.contentdm.oclc.org/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
-    "excluded_sets": "False",
+    "all_sets": false,
+    "excluded_sets": [],
     "included_sets": [
       "p15860coll1",
       "p15860coll2",
@@ -161,7 +154,7 @@
   "FUNCAKE_OAI_SOLR_CONFIGSET": "funcake-oai-2",
   "FUNCAKE_OAI_CONFIG": {
     "endpoint": "https://funnelcake.padigital.org/oai_dev",
-    "all_sets": "True",
+    "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
     "md_prefix": "oai_dc"
@@ -173,7 +166,7 @@
   "HISTORIC_PITT_HARVEST_CONFIG": {
     "endpoint": "http://historicpittsburgh.org/oai2",
     "md_prefix": "oai_dc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
       "pitt_collection.32", 
@@ -205,7 +198,7 @@
     "SHI_HARVEST_CONFIG": {
     "endpoint": "https://digital.sciencehistory.org/oai",
     "md_prefix": "oai_dc",
-    "all_sets": "True",
+    "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
@@ -220,7 +213,7 @@
   "PENNSTATE_HARVEST_CONFIG": {
     "endpoint": "http://digital.libraries.psu.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
       "aebye",
@@ -253,7 +246,7 @@
   "USCRANTON_HARVEST_CONFIG": {
     "endpoint": "http://digitalservices.scranton.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
       "aquinas",
@@ -287,7 +280,7 @@
   "WESTCHESTER_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
      "p17189coll1",
@@ -319,7 +312,7 @@
    "SLIPPERYROCK_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
      "audio",
@@ -339,7 +332,7 @@
    "MILLERSVILLE_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
      "mvsphoto",
@@ -357,7 +350,7 @@
    "BLOOMSBURG_HARVEST_CONFIG": {
     "endpoint": "http://digital.klnpa.org/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
      "blmmap",
@@ -377,7 +370,7 @@
    "LEHIGH_HARVEST_CONFIG": {
     "endpoint": "http://cdm.lib.lehigh.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
      "letters",
@@ -395,7 +388,7 @@
    "BRYNMAWR_HARVEST_CONFIG": {
     "endpoint": "http://triptych.brynmawr.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
      "almaclarke",
@@ -420,7 +413,7 @@
      "SWATHAVERFORD_HARVEST_CONFIG": {
     "endpoint": "http://triptych.brynmawr.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
      "SC_Truman",
@@ -438,7 +431,7 @@
      "WIDENER_HARVEST_CONFIG": {
     "endpoint": "http://digitalwolfgram.widener.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
      "p16069coll20",
@@ -467,7 +460,7 @@
   "TEMPLE_HARVEST_CONFIG": {
     "endpoint": "http://digital.library.temple.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
       "p15037coll1",
@@ -513,7 +506,7 @@
   "TEMPLE_TARGET_ALIAS_ENV": "dev",
   "VILLANOVA_HARVEST_CONFIG": {
     "endpoint": "http://digital.library.villanova.edu/OAI/Server",
-    "all_sets": "False",
+    "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
       "dpla"
