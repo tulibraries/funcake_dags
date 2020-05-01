@@ -37,7 +37,7 @@ dag_ids = [
     "bloomsburg",
     "brynmawr",
     "dplah",
-    "free_library_of_philadelphia",
+    "free_library",
     "historic_pitt",
     "lehigh",
     "millersville",
