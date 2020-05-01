@@ -36,7 +36,7 @@ class FieldCounter:
         self.s = 0
         
     def count(self, xml_string):
-        parser = XMLPullParser()
+        parser = XMLPullParser(huge_tree=True)
         parser.feed(xml_string)
         for event, elem in parser.read_events():
 
