@@ -78,9 +78,9 @@ def get_harvest_task(dag, config):
                 op_kwargs={
                     "access_id": AIRFLOW_S3.login,
                     "access_secret": AIRFLOW_S3.password,
-                    "all_sets": config.get("all_sets", "False"),
+                    "all_sets": config.get("all_sets", False),
                     "bucket_name": AIRFLOW_DATA_BUCKET,
-                    "excluded_sets": config.get("execluded_sets", []),
+                    "excluded_sets": config.get("excluded_sets", []),
                     "included_sets": config.get("included_sets"),
                     "metadata_prefix": config.get("md_prefix"),
                     "oai_endpoint": config.get("endpoint"),
