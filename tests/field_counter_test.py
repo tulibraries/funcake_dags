@@ -19,6 +19,10 @@ class TestFieldCounter(unittest.TestCase):
     <Title>Birth and Baptismal Certificate (Geburts und Taufschein) for Jonas Laber</Title>
     <Creator>Anonymous</Creator>
   </record>
+  <record airflow-record-id="2">
+    <Item_No>frk00001</Item_No>
+    <Creator>Anonymous</Creator>
+  </record>
 </collection>
         """
         s3 = boto3.client('s3', region_name='us-east-1')
@@ -31,15 +35,16 @@ class TestFieldCounter(unittest.TestCase):
             field_count_report(bucket, key)
 
         stats = "\n\n"
-        stats += "Creator: |=========================|      3/3 | 100% \n"
-        stats += "Item_No: |=========================|      3/3 | 100% \n"
-        stats += "  Title: |=========================|      3/3 | 100% \n"
+        stats += "Creator: |=========================|      6/6 | 100% \n"
+        stats += "Item_No: |=========================|      6/6 | 100% \n"
+        stats += "  Title: |============             |      3/6 |  50% \n"
         stats += "\n"
-        stats += "        dc_completeness 20.000000\n"
-        stats += "collection_completeness 100.000000\n"
+        stats += "        dc_completeness 16.666667\n"
+        stats += "collection_completeness 83.333333\n"
         stats += "      wwww_completeness 0.000000\n"
-        stats += "   average_completeness 40.000000\n"
+        stats += "   average_completeness 33.333333\n"
 
+        self.assertEqual.__self__.maxDiff = None
         self.assertEqual(["INFO:root:" + stats], log.output)
 
     @mock_s3
@@ -66,6 +71,19 @@ class TestFieldCounter(unittest.TestCase):
         </oai_qdc:qualifieddcsi>
       </oai:metadata>
     </oai:record>
+    <oai:record>
+      <oai:header>
+        <oai:identifier>oai:digital.klnpa.org:photograph/1</oai:identifier>
+        <oai:datestamp>2017-10-27</oai:datestamp>
+        <oai:setSpec>photograph</oai:setSpec>
+      </oai:header>
+      <oai:metadata>
+        <oai_qdc:qualifieddcsi xmlns:oai_qdc="http://worldcat.org/xmlschemas/qdc-1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+          <dc:subject>bar</dc:subject>
+          <dc:creator>Pearson, J. R.</dc:creator>
+        </oai_qdc:qualifieddcsi>
+      </oai:metadata>
+    </oai:record>
   </oai:ListRecords>
 </oai:OAI-PMH>
         """
@@ -79,15 +97,16 @@ class TestFieldCounter(unittest.TestCase):
             field_count_report(bucket, key)
 
         stats = "\n\n"
-        stats += "creator: |=========================|      3/3 | 100% \n"
-        stats += "subject: |=========================|      3/3 | 100% \n"
-        stats += "  title: |=========================|      3/3 | 100% \n"
+        stats += "creator: |=========================|      6/6 | 100% \n"
+        stats += "subject: |=========================|      6/6 | 100% \n"
+        stats += "  title: |============             |      3/6 |  50% \n"
         stats += "\n"
-        stats += "        dc_completeness 20.000000\n"
-        stats += "collection_completeness 100.000000\n"
+        stats += "        dc_completeness 16.666667\n"
+        stats += "collection_completeness 83.333333\n"
         stats += "      wwww_completeness 0.000000\n"
-        stats += "   average_completeness 40.000000\n"
+        stats += "   average_completeness 33.333333\n"
 
+        self.assertEqual.__self__.maxDiff = None
         self.assertEqual(["INFO:root:" + stats], log.output)
 
     @mock_s3
