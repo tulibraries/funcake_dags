@@ -1,4 +1,5 @@
 from funcake_dags.template import create_dag
+from airflow import DAG # Required or airflow-webserver skips file.
 
 """
 This file will automatically create a dag for every dag_id added to the dag_ids array below.
@@ -16,15 +17,46 @@ Example of Harvest Config value
     "excluded_sets": [], <--- OPTIONAL
     "included_sets": ["aebye","ajt","amc", ...], <--- OPTIONAL
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch"
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
 }
 """
 
 # Note that ids will automatically be prefixed with 'funcake_' as a namespace.
 # The dag_id for "westchester" will automatically be "funcake_westchester".
 
-dag_ids = []
-
+dag_ids = [
+    "lasalle_cdm",
+    "lehigh_csv",
+    "penn_walters_csv",
+    "shi",
+    "bloomsburg",
+    "brynmawr",
+    "dplah",
+    "free_library",
+    "historic_pitt",
+    "lehigh",
+    "millersville",
+    "pennstate",
+    "slipperyrock",
+    "swathaverford",
+    "temple",
+    "uscranton_csv",
+    "uscranton",
+    "villanova",
+    "westchester",
+    "widener",
+    "penn_digitalimages",
+    "penn_holy",
+    "penn_inhand",
+    "penn_print",
+    "penn_wheeler",
+    "penn_women"
+	]
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
     globals()[dag.dag_id] = dag

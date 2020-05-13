@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e pipefail
+set -aux
 
 # This file is used to apply an xslt tranformation to some source files and
 # push them to a configured s3 bucket.
@@ -31,12 +32,12 @@ do
   TRANSFORM_XML=$(echo $SOURCE_XML | sed -e "s/$SOURCE/$DEST/g")
   echo Writing to $TRANSFORM_XML
 
-	java -jar $SAXON_CP -xsl:$XSL -s:$SOURCE_URL -o:$SOURCE_XML-1.xml
+	java -jar $SAXON_CP -xsl:$XSL -s:$SOURCE_URL -o:$SOURCE_XML-1.xml -t
 
 	sed -e "s|<?xml version=.*?>|<collection dag-id='$DAG_ID' dag-timestamp='$DAG_TS'>|g" $SOURCE_XML-1.xml > $SOURCE_XML-2.xml
 	echo "</collection>" >> $SOURCE_XML-2.xml
 
-	java -jar $SAXON_CP -xsl:$SCRIPTS_PATH/batch-transform.xsl -s:$SOURCE_XML-2.xml -o:$SOURCE_XML-transformed.xml
+	java -jar $SAXON_CP -xsl:$SCRIPTS_PATH/batch-transform.xsl -s:$SOURCE_XML-2.xml -o:$SOURCE_XML-transformed.xml -t
 	COUNT=$(cat $SOURCE_XML-transformed.xml | grep -o "<oai_dc:dc" | wc -l)
 	TOTAL_TRANSFORMED=$(expr $TOTAL_TRANSFORMED + $COUNT) 
 	aws s3 cp $SOURCE_XML-transformed.xml s3://$BUCKET/$TRANSFORM_XML
