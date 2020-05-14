@@ -97,14 +97,14 @@ class TestFieldCounter(unittest.TestCase):
             field_count_report(bucket, key)
 
         stats = "\n\n"
-        stats += "creator: |=========================|      6/6 | 100% \n"
-        stats += "subject: |=========================|      6/6 | 100% \n"
-        stats += "  title: |============             |      3/6 |  50% \n"
+        stats += "{http://purl.org/dc/elements/1.1/}creator: |=========================|      6/6 | 100% \n"
+        stats += "{http://purl.org/dc/elements/1.1/}subject: |=========================|      6/6 | 100% \n"
+        stats += "  {http://purl.org/dc/elements/1.1/}title: |============             |      3/6 |  50% \n"
         stats += "\n"
         stats += "        dc_completeness 16.666667\n"
         stats += "collection_completeness 83.333333\n"
-        stats += "      wwww_completeness 0.000000\n"
-        stats += "   average_completeness 33.333333\n"
+        stats += "      wwww_completeness 37.500000\n"
+        stats += "   average_completeness 45.833333\n"
 
         self.assertEqual.__self__.maxDiff = None
         self.assertEqual(["INFO:root:" + stats], log.output)
@@ -134,11 +134,12 @@ class TestFieldCounter(unittest.TestCase):
             field_count_report(bucket, key)
 
         stats = "\n\n"
-        stats += "isPartOf: |=========================|      3/3 | 100% \n"
-        stats += "   title: |=========================|      3/3 | 100% \n"
+        stats += "{http://purl.org/dc/terms/}isPartOf: |=========================|      3/3 | 100% \n"
+        stats += "   {http://purl.org/dc/terms/}title: |=========================|      3/3 | 100% \n"
         stats += "\n"
         stats += "        dc_completeness 13.333333\n"
         stats += "collection_completeness 100.000000\n"
         stats += "      wwww_completeness 0.000000\n"
         stats += "   average_completeness 37.777778\n"
+        self.assertEqual.__self__.maxDiff = None
         self.assertEqual(["INFO:root:" + stats], log.output)
