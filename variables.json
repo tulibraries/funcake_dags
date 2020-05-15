@@ -136,7 +136,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
-    "xsl_filename": "transforms/generic_csv.xsl",
+    "xsl_filename": "transforms/free_library_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"                      
   },
   "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
@@ -146,7 +146,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
-    "xsl_filename": "transforms/free_library_csv.xsl",
+    "xsl_filename": "transforms/generic_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"                      
   },
   "PHILAMUSEUMOFART_TARGET_ALIAS_ENV": "dev",
@@ -156,18 +156,17 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
-    "xsl_filename": "transforms/free_library_csv.xsl",
+    "xsl_filename": "transforms/generic_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"                      
   },
   "STATELIBRARY_CSV_TARGET_ALIAS_ENV": "dev",
-   "CATHOLICRESEARCHCTR_TARGET_ALIAS_ENV": "dev",
-   "STATELIBRARY_CSV_HARVEST_CONFIG": {
+   "CATHOLICRESEARCHCTR_HARVEST_CONFIG": {
     "schematron_filter": "validations/padigital_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "master",
-    "xsl_filename": "transforms/free_library_csv.xsl",
+    "xsl_filename": "transforms/generic_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"                      
   },
   "CATHOLICRESEARCHCTR_TARGET_ALIAS_ENV": "dev",
