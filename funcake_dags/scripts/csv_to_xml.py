@@ -8,6 +8,7 @@ from lxml import etree
 
 DAGID = os.environ.get("DAGID")
 TIMESTAMP = os.environ.get("TIMESTAMP")
+TOTAL_COUNT = 0
 
 CSV_FILES = [f for f in os.listdir(".") if f.endswith(".csv") or f.endswith(".CSV")]
 
@@ -15,11 +16,12 @@ def csv_reader_to_xml_string(csv_reader, dag_id, timestamp):
     root = etree.Element("collection")
     root.attrib["dag-id"] = dag_id
     root.attrib["dag-timestamp"] = timestamp
-
     headers = next(csv_reader, None) # skip the HEADERS
+    global TOTAL_COUNT
     for count, record in enumerate(csv_reader):
         record_xml = etree.SubElement(root, "record")
         record_xml.attrib["airflow-record-id"] = str(count + 1)
+        TOTAL_COUNT += 1
         for i, field in enumerate(record):
             if field:
                 header = headers[i].strip(" ").replace(" ", "_")
@@ -35,6 +37,8 @@ def main():
             xml_string = csv_reader_to_xml_string(csv_reader, DAGID, TIMESTAMP)
         with open(XML_FILE, "wb") as ofile:
             ofile.write(xml_string)
+    print("Total Record Count: " + str(TOTAL_COUNT))
+
 
 if __name__ == "__main__":
     main()
