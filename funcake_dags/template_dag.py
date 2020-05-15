@@ -55,7 +55,10 @@ dag_ids = [
     "penn_inhand",
     "penn_print",
     "penn_wheeler",
-    "penn_women"
+    "penn_women",
+    "philamuseumofart",
+    "statelibrary_csv",
+    "catholicresearchctr"	
 	]
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
