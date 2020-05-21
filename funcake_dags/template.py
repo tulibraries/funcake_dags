@@ -89,7 +89,7 @@ def get_harvest_task(dag, config):
                     },
                 dag=dag)
 
-def create_dag(dag_id):
+def create_dag(dag_id, config = {}):
     dag_id = namespace(dag_id)
     dag = DAG(
             dag_id=dag_id,
@@ -99,7 +99,9 @@ def create_dag(dag_id):
             schedule_interval=None)
 
     config_name = name(dag_id) + "_HARVEST_CONFIG"
-    config = Variable.get(config_name, deserialize_json=True)
+
+    if config == None or config == {}:
+        config = Variable.get(config_name, deserialize_json=True)
 
     SCHEMATRON_FILTER = config.get("schematron_filter", "validations/qdcingest_reqd_fields.sch")
 
