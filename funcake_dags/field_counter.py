@@ -24,7 +24,7 @@ class Record(dc_breaker.Record):
     def get_stats(self):
         stats = {}
         for element in self.get_elements():
-            fieldname = QName(element.tag).localname
+            fieldname = element.tag
             stats.setdefault(fieldname, 0)
             stats[fieldname] += 1
         return stats

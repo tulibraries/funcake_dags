@@ -140,8 +140,38 @@
     "xsl_repository": "tulibraries/aggregator_mdx"                      
   },
   "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
+  "PHILAMUSEUMOFART_HARVEST_CONFIG": {
+    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/generic_csv.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"                      
+  },
+  "PHILAMUSEUMOFART_TARGET_ALIAS_ENV": "dev",
+   "STATELIBRARY_CSV_HARVEST_CONFIG": {
+    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/generic_csv.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"                      
+  },
+  "STATELIBRARY_CSV_TARGET_ALIAS_ENV": "dev",
+   "CATHOLICRESEARCHCTR_HARVEST_CONFIG": {
+    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/generic_csv.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"                      
+  },
+  "CATHOLICRESEARCHCTR_TARGET_ALIAS_ENV": "dev",
   "USCRANTON_CSV_HARVEST_CONFIG": {
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_filter": "validations/csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -194,6 +224,28 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "HISTORIC_PITT_TARGET_ALIAS_ENV": "dev",
+  "APS_HARVEST_CONFIG": {
+    "endpoint": "http://diglib.amphilsoc.org/oai2",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "graphics_Mss.B.P.31.15d",
+      "graphics_Mss.B.P165",
+      "graphics_Mss.Ms.Coll.76.17",
+      "text_Mss.365.P381p",
+      "text_Mss.B.F826",
+      "islandora_graphics_collection"
+      ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "master",
+    "xsl_filename": "transforms/historicpitt.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "APS_TARGET_ALIAS_ENV": "dev",
     "SHI_HARVEST_CONFIG": {
     "endpoint": "https://digital.sciencehistory.org/oai",
     "md_prefix": "oai_dc",
