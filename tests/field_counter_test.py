@@ -143,3 +143,27 @@ class TestFieldCounter(unittest.TestCase):
         stats += "   average_completeness 37.777778\n"
         self.assertEqual.__self__.maxDiff = None
         self.assertEqual(["INFO:root:" + stats], log.output)
+
+
+
+    @mock_s3
+    def test_field_count_report_with_no_records(self):
+        bucket = "tulib-airflow-prod"
+        key = "foobar/2019-12-12_17-17-40/transformed-filtered/"
+        conn = boto3.resource('s3', region_name='us-east-1')
+        conn.create_bucket(Bucket=bucket)
+
+        coll_xml="<collection></collection>"
+
+        s3 = boto3.client('s3', region_name='us-east-1')
+        s3.put_object(Bucket=bucket, Key=key+'coll_1.xml', Body=coll_xml)
+        s3.put_object(Bucket=bucket, Key=key+'coll_2.xml', Body=coll_xml)
+        s3.put_object(Bucket=bucket, Key=key+'coll_3.xml', Body=coll_xml)
+
+
+        with self.assertLogs(level='INFO') as log:
+            field_count_report(bucket, key)
+
+        stats = "Nothing to report. No records were found."
+        self.assertEqual.__self__.maxDiff = None
+        self.assertEqual(["WARNING:root:" + stats], log.output)
