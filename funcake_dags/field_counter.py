@@ -67,4 +67,7 @@ def field_count_report(bucket, source_prefix, conn_id="AIRFLOW_S3", **context):
         oai_xml = response['Body'].read()
         field_counter.count(oai_xml)
 
-    logging.info(field_counter.report())
+    if field_counter.stats_aggregate["record_count"] == 0:
+        logging.warning("Nothing to report. No records were found.")
+    else:
+        logging.info(field_counter.report())

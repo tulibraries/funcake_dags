@@ -11,7 +11,7 @@ localstack = "*"
 moto = "*"
 
 [packages]
-tulflow = "==0.6.0"
+tulflow = "==0.6.1"
 pexpect = "*"
 xmltodict = "*"
 sickle = "*"
