@@ -37,7 +37,7 @@ jobs:
             pipenv run ansible-galaxy install -r requirements.yml
             cp .circleci/.vault ~/.vault;
             chmod +x ~/.vault
-            pipenv run ansible-playbook -i inventory/qa/hosts playbook.yml --vault-password-file=~/.vault -e 'ansible_ssh_port=9229'
+            pipenv run ansible-playbook -i inventory/qa/hosts playbook.yml  --tags "jumphost,role::airflow::dags" --vault-password-file=~/.vault -e 'ansible_ssh_port=9229'
   prod_deploy:
     docker:
       - image: circleci/python:3.6
@@ -59,7 +59,7 @@ jobs:
             pipenv run ansible-galaxy install -r requirements.yml
             cp .circleci/.vault ~/.vault;
             chmod +x ~/.vault
-            pipenv run ansible-playbook -i inventory/prod/hosts playbook.yml --vault-password-file=~/.vault -e 'ansible_ssh_port=9229'  -e 'funcake_dags_branch=master'
+            pipenv run ansible-playbook -i inventory/prod/hosts playbook.yml --tags "jumphost,role::airflow::dags" --vault-password-file=~/.vault -e 'ansible_ssh_port=9229' -e 'funcake_dags_branch=master'
 
 workflows:
   version: 2
