@@ -15,7 +15,7 @@
     "xsl_filename": "transforms/penn_digitalimages.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "PENN_DIGITAL_IMAGES_TARGET_ALIAS_ENV": "dev",
+  "PENN_DIGITALIMAGES_TARGET_ALIAS_ENV": "dev",
   "PENN_HOLY_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/holyland/oai-pmh.xml",
     "md_prefix": "oai_dc",
