@@ -10,7 +10,7 @@ SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 class TestTemplate(unittest.TestCase):
     def setUp(self):
         airflow.models.Variable.set("FOO_HARVEST_CONFIG", {
-            "xsl_branch": "master",
+            "xsl_branch": "main",
             "xsl_filename": "transforms/dplah.xsl",
             "xsl_repo": "tulibraries/aggregator_mdx",
             "schematron_filter": "validations/padigital_reqd_fields.sch",
@@ -50,7 +50,7 @@ class TestTemplate(unittest.TestCase):
     def test_xsl_transform_task(self):
         task = self.dag.get_task("xsl_transform")
         self.assertEqual(task.bash_command, SCRIPTS_PATH + "/transform.sh " )
-        self.assertEqual(task.env["XSL_BRANCH"], "master" )
+        self.assertEqual(task.env["XSL_BRANCH"], "main" )
 
     def test_xsl_transform_schematron_report_task(self):
         task = self.dag.get_task("xsl_transform_schematron_report")

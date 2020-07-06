@@ -52,14 +52,14 @@ jobs:
           name: 'Run Ansible Airflow Playbook for Prod'
           command: |
             cd ..
-            git clone --single-branch --branch master https://github.com/tulibraries/ansible-playbook-airflow.git
+            git clone --single-branch --branch main https://github.com/tulibraries/ansible-playbook-airflow.git
             cd ansible-playbook-airflow
             sudo pip install pipenv
             pipenv install
             pipenv run ansible-galaxy install -r requirements.yml
             cp .circleci/.vault ~/.vault;
             chmod +x ~/.vault
-            pipenv run ansible-playbook -i inventory/prod/hosts playbook.yml --tags "jumphost,role::airflow::dags" --vault-password-file=~/.vault -e 'ansible_ssh_port=9229' -e 'funcake_dags_branch=master'
+            pipenv run ansible-playbook -i inventory/prod/hosts playbook.yml --tags "jumphost,role::airflow::dags" --vault-password-file=~/.vault -e 'ansible_ssh_port=9229' -e 'funcake_dags_branch=main'
 
 workflows:
   version: 2
@@ -80,11 +80,11 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
       - prod_deploy:
           requires:
             - request-prod-deploy
           filters:
             branches:
               only:
-                - master
+                - main
