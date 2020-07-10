@@ -624,7 +624,9 @@
       "publication:skmccommencement",
       "publication:textileprintingblocks",
       "publication:throat_and_voice",
-      "publication:tju_dmed_photo_album" 
+      "publication:tju_dmed_photo_album",
+      "publication:historical_photos",
+      "publication:historical_photos_ef"
     ],
     "md_prefix": "oai_dc",
     "schematron_filter": "validations/dcingest_reqd_fields.sch",
