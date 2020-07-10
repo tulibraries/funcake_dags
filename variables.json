@@ -591,5 +591,49 @@
     "xsl_filename": "transforms/villanova.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "VILLANOVA_TARGET_ALIAS_ENV": "dev"
+  "VILLANOVA_TARGET_ALIAS_ENV": "dev",
+  "TJU_HARVEST_CONFIG": {
+    "endpoint": "	http://jdc.jefferson.edu/do/oai/",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "publication:american_red_cross_base_hospital",
+ "publication:anatomy_act_of_penn", 
+      "publication:ariel",
+ "publication:base_hospital_no_38", 
+      "publication:catalogue_of_surgical_instruments", 
+      "publication:cooper",
+ "publication:dacosta_modernsurgery",
+ "publication:historical_addresses", 
+      "publication:jcbscommencement", 
+      "publication:jchpjcpcommencement", 
+      "publication:jcncommencement", 
+      "publication:jcphcommencement", 
+      "publication:jeffbiographies",
+ "publication:jefferson_review",
+ "publication:jmc_catalogs", 
+      "publication:jmc_yearbooks", 
+      "publication:jpgreenletters",
+      "publication:manuscripts_journals",
+  "publication:medicalnotebooks",
+  "publication:meigsobstetrics",
+  "publication:milsurgcsa", 
+      "publication:milsurgusa", 
+      "publication:nursing_alumni_bulletin", 
+      "publication:skmcclassday",
+ "publication:skmccommencement", 
+      "publication:textileprintingblocks", 
+      "publication:throat_and_voice", 
+      "publication:tju_dmed_photo_album"
+    ],
+    "md_prefix": "oai_dc",
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/villanova.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "TJU_TARGET_ALIAS_ENV": "dev"
 }
