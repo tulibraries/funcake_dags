@@ -61,7 +61,8 @@ dag_ids = [
     "catholicresearchctr",
     "aps",
     "curtis",
-    "tju"
+    "tju",
+    "ursinus"
 	]
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
