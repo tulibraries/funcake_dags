@@ -670,5 +670,26 @@
     "xsl_filename": "transforms/villanova.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "TJU_TARGET_ALIAS_ENV": "dev"
+  "TJU_TARGET_ALIAS_ENV": "dev",
+  "URSINUS_HARVEST_CONFIG": {
+    "endpoint": "http://digitalcommons.ursinus.edu/do/oai/",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "publication:dutchmanmag",
+      "publication:pafolklifemag",
+      "publication:pafolklifemagindex",
+      "publication:providence",
+      "publication:yosthistory"
+    ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/oai_dc.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "URSINUS_TARGET_ALIAS_ENV": "dev"
 }
