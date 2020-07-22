@@ -725,5 +725,5 @@
     "xsl_filename": "transforms/historicpitt.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "FANDM_TARGET_ALIAS_ENV": "dev",
+  "FANDM_TARGET_ALIAS_ENV": "dev"
 }
