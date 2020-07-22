@@ -691,5 +691,39 @@
     "xsl_filename": "transforms/oai_dc.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "URSINUS_TARGET_ALIAS_ENV": "dev"
+  "URSINUS_TARGET_ALIAS_ENV": "dev",
+  "FANDM_HARVEST_CONFIG": {
+    "endpoint": "https://digital.fandm.edu/oai2",
+    "md_prefix": "oai_qdc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "scholars-square_hist--alumni-mag-collection",
+      "scholars-square_hist--film",
+      "scholars-square_hist--founding-docs",
+      "scholars-square_hist--photo-albums",
+      "scholars-square_hist--photos",
+      "scholars-square_hist--newspaper",
+      "scholars-square_hist--yearbook",
+      "scholars-square_hist--wwi",
+      "scholars-square_sc--atlases",
+      "scholars-square_sc--hutson",
+      "scholars-square_sc--lancaster--journal--collection",
+      "scholars-square_sc--muench",
+      "scholars-square_sc--pa-dutchman-collection",
+      "scholars-square_sc--pa-german-broadside",
+      "scholars-square_sc--pa-german-fraktur",
+      "scholars-square_sc--reynolds",
+      "scholars-square_sc--wohlsen-marketing",
+      "scholars-square_sc--wohlsen-photos"
+    ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/historicpitt.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "FANDM_TARGET_ALIAS_ENV": "dev",
 }
