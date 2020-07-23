@@ -20,7 +20,7 @@ Example of Harvest Config value
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
 }
@@ -31,6 +31,7 @@ Example of Harvest Config value
 
 dag_ids = [
     "lasalle_cdm",
+    "lasalle_bepress",
     "lehigh_csv",
     "penn_walters_csv",
     "shi",
@@ -59,7 +60,10 @@ dag_ids = [
     "philamuseumofart",
     "statelibrary_csv",
     "catholicresearchctr",
-    "aps"
+    "aps",
+    "curtis",
+    "tju",
+    "ursinus"
 	]
 for dag_id in dag_ids:
     dag = create_dag(dag_id)

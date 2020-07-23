@@ -123,8 +123,8 @@ We run pylint and pytest to check the basics. These are run within a Pipenv shel
 
 ### CD
 
-We deploy via the tulibraries/ansible-playbook-airflow ansible playbook. This runs, pointing at the appropriate tulibraries/funcake_dags branch (qa or master) to clone & set up (run pip install based on the Pipenv files) within the relevant Airflow deployed environment.
+We deploy via the tulibraries/ansible-playbook-airflow ansible playbook. This runs, pointing at the appropriate tulibraries/funcake_dags branch (qa or main) to clone & set up (run pip install based on the Pipenv files) within the relevant Airflow deployed environment.
 
-PRs merged to QA cause a QA environment deploy of tulibraries/ansible-playbook-airflow ansible playbook; PRs merged to Master cause a Stage Environment deploy using that airflow playbook. PRs merged to Master also queue up a Production Environment deploy, that waits for user input before running.
+PRs merged to QA cause a QA environment deploy of tulibraries/ansible-playbook-airflow ansible playbook; PRs merged to main cause a Stage Environment deploy using that airflow playbook. PRs merged to main also queue up a Production Environment deploy, that waits for user input before running.
 
 The idea is to eventually touch the airflow ansible playbook as little as possible, and have DAG changes occur here & deploy from here.

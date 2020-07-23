@@ -11,11 +11,11 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/penn_digitalimages.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "PENN_DIGITAL_IMAGES_TARGET_ALIAS_ENV": "dev",
+  "PENN_DIGITALIMAGES_TARGET_ALIAS_ENV": "dev",
   "PENN_HOLY_HARVEST_CONFIG": {
     "endpoint": "http://dla.library.upenn.edu/dla/holyland/oai-pmh.xml",
     "md_prefix": "oai_dc",
@@ -26,7 +26,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/penn_holy.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -41,7 +41,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/penn_inhand.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -56,7 +56,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/penn_print.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -71,7 +71,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/penn_wheeler.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -86,11 +86,32 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/penn_women.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "PENN_WOMEN_TARGET_ALIAS_ENV": "dev",
+  "CURTIS_HARVEST_CONFIG": {
+    "endpoint": "http://cdm16667.contentdm.oclc.org/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "myfirst",
+      "p16667coll1",
+      "p16667coll3",
+      "p16667coll4",
+      "p16667coll5"
+    ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/qdcCDMingest.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "CURTIS_TARGET_ALIAS_ENV": "dev",
   "LASALLE_CDM_HARVEST_CONFIG": {
     "endpoint": "http://cdm15860.contentdm.oclc.org/oai/oai.php",
     "md_prefix": "oai_qdc",
@@ -105,17 +126,50 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "LASALLE_CDM_TARGET_ALIAS_ENV": "dev",
+  "LASALLE_BEPRESS_HARVEST_CONFIG": {
+    "endpoint": "http://digitalcommons.lasalle.edu/do/oai/",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "publication:alumni_assoc_newsletter",
+      "publication:alumni_news",
+      "publication:alumnus",
+      "publication:basketball_media_guides",
+      "publication:campus_news",
+      "publication:college_budget",
+      "publication:commencement_programs",
+      "publication:course_catalogs",
+      "publication:essays",
+      "publication:explorer",
+      "publication:explorer_news",
+      "publication:faculty_bulletins",
+      "publication:faculty_staff_directories",
+      "publication:lasalle_magazine",
+      "publication:press_releases",
+      "publication:student_handbooks",
+      "publication:vietnam_interviews"
+    ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/oai_dc.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "LASALLE_BEPRESS_TARGET_ALIAS_ENV": "dev",
   "PENN_WALTERS_CSV_HARVEST_CONFIG": {
     "schematron_filter": "validations/csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/generic_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -125,7 +179,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/lehigh_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -135,9 +189,9 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/free_library_csv.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx"                      
+    "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
   "PHILAMUSEUMOFART_HARVEST_CONFIG": {
@@ -145,9 +199,9 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/generic_csv.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx"                      
+    "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "PHILAMUSEUMOFART_TARGET_ALIAS_ENV": "dev",
    "STATELIBRARY_CSV_HARVEST_CONFIG": {
@@ -155,9 +209,9 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/generic_csv.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx"                      
+    "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "STATELIBRARY_CSV_TARGET_ALIAS_ENV": "dev",
    "CATHOLICRESEARCHCTR_HARVEST_CONFIG": {
@@ -165,9 +219,9 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/generic_csv.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx"                      
+    "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "CATHOLICRESEARCHCTR_TARGET_ALIAS_ENV": "dev",
   "USCRANTON_CSV_HARVEST_CONFIG": {
@@ -175,7 +229,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/uscranton_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -198,20 +252,20 @@
     "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
-      "pitt_collection.32", 
-      "pitt_collection.241", 
-      "pitt_collection.324", 
-      "pitt_collection.317", 
-      "pitt_collection.72", 
-      "pitt_collection.320", 
-      "pitt_collection.321", 
-      "pitt_collection.322", 
-      "pitt_collection.328", 
-      "pitt_collection.205", 
-      "pitt_collection.249", 
-      "pitt_collection.258", 
-      "pitt_collection.250", 
-      "pitt_collection.173", 
+      "pitt_collection.32",
+      "pitt_collection.241",
+      "pitt_collection.324",
+      "pitt_collection.317",
+      "pitt_collection.72",
+      "pitt_collection.320",
+      "pitt_collection.321",
+      "pitt_collection.322",
+      "pitt_collection.328",
+      "pitt_collection.205",
+      "pitt_collection.249",
+      "pitt_collection.258",
+      "pitt_collection.250",
+      "pitt_collection.173",
       "pitt_collection.212",
       "pitt_collection.97"
       ],
@@ -219,7 +273,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/historicpitt.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -241,7 +295,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/historicpitt.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -256,7 +310,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/SHIingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -289,7 +343,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/pennstateingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
       },
@@ -323,7 +377,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -355,7 +409,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -369,13 +423,13 @@
      "audio",
      "photograph",
       "postcard",
-      "yearbooks" 
+      "yearbooks"
     ],
     "schematron_filter": "validations/qdcingest_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -393,7 +447,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -413,7 +467,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/KLNqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -431,7 +485,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -456,7 +510,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/TriCoqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -474,7 +528,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/TriCoqdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -502,7 +556,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -549,7 +603,7 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/qdcCDMingest.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
@@ -566,9 +620,110 @@
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "master",
+    "xsl_branch": "main",
     "xsl_filename": "transforms/villanova.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "VILLANOVA_TARGET_ALIAS_ENV": "dev"
+  "VILLANOVA_TARGET_ALIAS_ENV": "dev",
+  "TJU_HARVEST_CONFIG": {
+    "endpoint": "http://jdc.jefferson.edu/do/oai/",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "publication:american_red_cross_base_hospital",
+      "publication:anatomy_act_of_penn",
+      "publication:ariel",
+      "publication:base_hospital_no_38",
+      "publication:catalogue_of_surgical_instruments",
+      "publication:cooper",
+      "publication:dacosta_modernsurgery",
+      "publication:historical_addresses",
+      "publication:jcbscommencement",
+      "publication:jchpjcpcommencement",
+      "publication:jcncommencement",
+      "publication:jcphcommencement",
+      "publication:jeffbiographies",
+      "publication:jefferson_review",
+      "publication:jmc_catalogs",
+      "publication:jmc_yearbooks",
+      "publication:jpgreenletters",
+      "publication:manuscripts_journals",
+      "publication:medicalnotebooks",
+      "publication:meigsobstetrics",
+      "publication:milsurgcsa",
+      "publication:milsurgusa",
+      "publication:nursing_alumni_bulletin",
+      "publication:skmcclassday",
+      "publication:skmccommencement",
+      "publication:textileprintingblocks",
+      "publication:throat_and_voice",
+      "publication:tju_dmed_photo_album",
+      "publication:historical_photos",
+      "publication:historical_photos_ef"
+    ],
+    "md_prefix": "oai_dc",
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/villanova.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "TJU_TARGET_ALIAS_ENV": "dev",
+  "URSINUS_HARVEST_CONFIG": {
+    "endpoint": "http://digitalcommons.ursinus.edu/do/oai/",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "publication:dutchmanmag",
+      "publication:pafolklifemag",
+      "publication:pafolklifemagindex",
+      "publication:providence",
+      "publication:yosthistory"
+    ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/oai_dc.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "URSINUS_TARGET_ALIAS_ENV": "dev",
+  "FANDM_HARVEST_CONFIG": {
+    "endpoint": "https://digital.fandm.edu/oai2",
+    "md_prefix": "oai_qdc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "scholars-square_hist--alumni-mag-collection",
+      "scholars-square_hist--film",
+      "scholars-square_hist--founding-docs",
+      "scholars-square_hist--photo-albums",
+      "scholars-square_hist--photos",
+      "scholars-square_hist--newspaper",
+      "scholars-square_hist--yearbook",
+      "scholars-square_hist--wwi",
+      "scholars-square_sc--atlases",
+      "scholars-square_sc--hutson",
+      "scholars-square_sc--lancaster--journal--collection",
+      "scholars-square_sc--muench",
+      "scholars-square_sc--pa-dutchman-collection",
+      "scholars-square_sc--pa-german-broadside",
+      "scholars-square_sc--pa-german-fraktur",
+      "scholars-square_sc--reynolds",
+      "scholars-square_sc--wohlsen-marketing",
+      "scholars-square_sc--wohlsen-photos"
+    ],
+    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/historicpitt.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "FANDM_TARGET_ALIAS_ENV": "dev"
 }
