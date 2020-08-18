@@ -9,9 +9,9 @@ pytest = "*"
 apache-airflow = "*"
 localstack = "*"
 moto = "*"
+tulflow = "==0.6.3"
 
 [packages]
-tulflow = "==0.6.3"
 pexpect = "*"
 xmltodict = "*"
 sickle = "*"
