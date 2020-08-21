@@ -61,6 +61,7 @@ dag_ids = [
     "statelibrary_csv",
     "catholicresearchctr",
     "aps",
+    "aps_static",
     "curtis",
     "tju",
     "ursinus",
