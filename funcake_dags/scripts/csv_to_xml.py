@@ -41,7 +41,7 @@ def main():
             xml_string = csv_reader_to_xml_string(csv_reader, DAGID, TIMESTAMP, counter)
         with open(XML_FILE, "wb") as ofile:
             ofile.write(xml_string)
-    print("Total Record Count: " + str(counter.count))
+    print("Total CSV to XML Record Count: " + str(counter.count))
 
 
 if __name__ == "__main__":

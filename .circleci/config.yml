@@ -72,18 +72,10 @@ workflows:
           filters:
             branches:
               only:
-                - qa
-      - request-prod-deploy:
-          type: approval
-          requires:
-            - lint_and_test
-          filters:
-            branches:
-              only:
                 - main
       - prod_deploy:
           requires:
-            - request-prod-deploy
+            - lint_and_test
           filters:
             branches:
               only:

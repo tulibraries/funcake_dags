@@ -160,7 +160,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/oai_dc.xsl",
+    "xsl_filename": "transforms/bepress_lasalle.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "LASALLE_BEPRESS_TARGET_ALIAS_ENV": "dev",
@@ -300,6 +300,16 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "APS_TARGET_ALIAS_ENV": "dev",
+  "APS_STATIC_HARVEST_CONFIG": {
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/historicpitt_static.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "APS_STATIC_TARGET_ALIAS_ENV": "dev",
     "SHI_HARVEST_CONFIG": {
     "endpoint": "https://digital.sciencehistory.org/oai",
     "md_prefix": "oai_dc",
@@ -667,7 +677,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/villanova.xsl",
+    "xsl_filename": "transforms/bepress_tju.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "TJU_TARGET_ALIAS_ENV": "dev",
@@ -703,8 +713,8 @@
       "scholars-square_hist--founding-docs",
       "scholars-square_hist--photo-albums",
       "scholars-square_hist--photos",
-      "scholars-square_hist--newspaper",
-      "scholars-square_hist--yearbook",
+      "scholars-square_hist--newspapers",
+      "scholars-square_hist--yearbooks",
       "scholars-square_hist--wwi",
       "scholars-square_sc--atlases",
       "scholars-square_sc--hutson",

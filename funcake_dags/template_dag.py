@@ -61,9 +61,11 @@ dag_ids = [
     "statelibrary_csv",
     "catholicresearchctr",
     "aps",
+    "aps_static",
     "curtis",
     "tju",
-    "ursinus"
+    "ursinus",
+    "fandm"
 	]
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
