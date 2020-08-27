@@ -667,7 +667,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/villanova.xsl",
+    "xsl_filename": "transforms/bepress_tju.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "TJU_TARGET_ALIAS_ENV": "dev",
