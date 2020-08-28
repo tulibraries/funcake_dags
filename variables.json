@@ -702,6 +702,30 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "URSINUS_TARGET_ALIAS_ENV": "dev",
+  "PCOM_HARVEST_CONFIG": {
+    "endpoint": "http://digitalcommons.pcom.edu/do/oai/",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "publication:axone",
+      "publication:classic_med_works",
+      "publication:commencements",
+      "publication:digest",
+      "publication:herald_of_osteopathy",
+      "publication:osteopathic_medicine",
+      "publication:phila_j_osteopathy",
+      "publication:yearbooks"
+    ],
+    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/pcom.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "PCOM_TARGET_ALIAS_ENV": "dev",
   "FANDM_HARVEST_CONFIG": {
     "endpoint": "https://digital.fandm.edu/oai2",
     "md_prefix": "oai_qdc",
