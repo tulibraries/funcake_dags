@@ -18,11 +18,11 @@
     "default": {
         "awscli": {
             "hashes": [
-                "sha256:ca0843a75918f2f8f6c7fdd50b9ae54ffd91708388f2e4a4d29412e4a4ca80f0",
-                "sha256:d96859e5a166fb519c9a3099255bb6526bd274e2e8568bff60eee86126756fc3"
+                "sha256:c146c1634edbedc32564c536afcaaaeedc3ecc5aa9db3cf64fe5870c1c1a2a32",
+                "sha256:e094505f698981417612d8204d55631e741b5ae8c3f81762ef5197737b286a5a"
             ],
             "index": "pypi",
-            "version": "==1.18.127"
+            "version": "==1.18.128"
         },
         "boto3": {
             "hashes": [
@@ -34,10 +34,10 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:96e2d0fd2893f2899316142df58911ba0f70c65016320f40bf1c366cd5a23090",
-                "sha256:9bad0c66527099103f52d836f4294b1f87372cff942bb8ff498996253ce8be44"
+                "sha256:198a62d387eb64b4c1dde33a9c41e96b07884c68c1442dd7c7d38123592aae7c",
+                "sha256:5f984def778b0000a12cf28ec727d64634ca46ab0dcdb5ce8b654bfb2a1fb99c"
             ],
-            "version": "==1.17.50"
+            "version": "==1.17.51"
         },
         "certifi": {
             "hashes": [
@@ -301,10 +301,10 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:96e2d0fd2893f2899316142df58911ba0f70c65016320f40bf1c366cd5a23090",
-                "sha256:9bad0c66527099103f52d836f4294b1f87372cff942bb8ff498996253ce8be44"
+                "sha256:198a62d387eb64b4c1dde33a9c41e96b07884c68c1442dd7c7d38123592aae7c",
+                "sha256:5f984def778b0000a12cf28ec727d64634ca46ab0dcdb5ce8b654bfb2a1fb99c"
             ],
-            "version": "==1.17.50"
+            "version": "==1.17.51"
         },
         "cached-property": {
             "hashes": [
@@ -755,15 +755,15 @@
         },
         "localstack-client": {
             "hashes": [
-                "sha256:2f29c74ec83ee52080407aea3b54e3fb54f5cf7364408e124dddbec3a0323720"
+                "sha256:bb023bd0c5a17ce4d580bf83d81baa468dd0d066888a1c65222185f035b391d1"
             ],
-            "version": "==1.1"
+            "version": "==1.2"
         },
         "localstack-ext": {
             "hashes": [
-                "sha256:dd6064501faf2983a1c4d9341eb4eeb775c8c6016f8e72c0f10e41acd2c2c015"
+                "sha256:7db53f635227ec92e2691c1eb08d775fbe8f0e8a47b2cb276fbdb4fa24691737"
             ],
-            "version": "==0.11.36.3"
+            "version": "==0.11.37"
         },
         "lockfile": {
             "hashes": [
@@ -861,10 +861,10 @@
         },
         "more-itertools": {
             "hashes": [
-                "sha256:68c70cc7167bdf5c7c9d8f6954a7837089c6a36bf565383919bb595efb8a17e5",
-                "sha256:b78134b2063dd214000685165d81c154522c3ee0a1c0d4d113c80361c234c5a2"
+                "sha256:6f83822ae94818eae2612063a5101a7311e68ae8002005b5e05f03fd74a86a20",
+                "sha256:9b30f12df9393f0d28af9210ff8efe48d10c94f73e5daf886f10c4b0b0b4f03c"
             ],
-            "version": "==8.4.0"
+            "version": "==8.5.0"
         },
         "moto": {
             "hashes": [
@@ -1149,10 +1149,10 @@
         },
         "responses": {
             "hashes": [
-                "sha256:17dcd2facb12182ec353b05b424b2e3f52783f0bf3ad6586e098a11ba75fa666",
-                "sha256:789e79e8d04b6338b5018d49663e7c8554492ea1469012572aff064cc7bcf4da"
+                "sha256:0de50fbf600adf5ef9f0821b85cc537acca98d66bc7776755924476775c1989c",
+                "sha256:e80d5276011a4b79ecb62c5f82ba07aa23fb31ecbc95ee7cad6de250a3c97444"
             ],
-            "version": "==0.11.0"
+            "version": "==0.12.0"
         },
         "rsa": {
             "hashes": [
