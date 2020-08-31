@@ -65,6 +65,7 @@ dag_ids = [
     "curtis",
     "tju",
     "ursinus",
+    "pcom",
     "fandm"
 	]
 for dag_id in dag_ids:
