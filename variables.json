@@ -7,7 +7,7 @@
     "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -22,7 +22,7 @@
     "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -37,7 +37,7 @@
     "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -52,7 +52,7 @@
     "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -67,7 +67,7 @@
     "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -82,7 +82,7 @@
     "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -103,7 +103,7 @@
       "p16667coll4",
       "p16667coll5"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -122,7 +122,7 @@
       "p15860coll5",
       "p15860coll7"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -155,7 +155,7 @@
       "publication:student_handbooks",
       "publication:vietnam_interviews"
     ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -165,7 +165,7 @@
   },
   "LASALLE_BEPRESS_TARGET_ALIAS_ENV": "dev",
   "PENN_WALTERS_CSV_HARVEST_CONFIG": {
-    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -175,7 +175,7 @@
   },
   "PENN_WALTERS_CSV_TARGET_ALIAS_ENV": "dev",
   "LEHIGH_CSV_HARVEST_CONFIG": {
-    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -185,7 +185,7 @@
   },
   "LEHIGH_CSV_TARGET_ALIAS_ENV": "dev",
   "FREE_LIBRARY_HARVEST_CONFIG": {
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -195,7 +195,7 @@
   },
   "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
   "PHILAMUSEUMOFART_HARVEST_CONFIG": {
-    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -205,7 +205,7 @@
   },
   "PHILAMUSEUMOFART_TARGET_ALIAS_ENV": "dev",
    "STATELIBRARY_CSV_HARVEST_CONFIG": {
-    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -215,7 +215,7 @@
   },
   "STATELIBRARY_CSV_TARGET_ALIAS_ENV": "dev",
    "CATHOLICRESEARCHCTR_HARVEST_CONFIG": {
-    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -225,7 +225,7 @@
   },
   "CATHOLICRESEARCHCTR_TARGET_ALIAS_ENV": "dev",
   "USCRANTON_CSV_HARVEST_CONFIG": {
-    "schematron_filter": "validations/csv_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -269,7 +269,7 @@
       "pitt_collection.212",
       "pitt_collection.97"
       ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -291,7 +291,7 @@
       "text_Mss.B.F826",
       "islandora_graphics_collection"
       ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -301,7 +301,7 @@
   },
   "APS_TARGET_ALIAS_ENV": "dev",
   "APS_STATIC_HARVEST_CONFIG": {
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -316,7 +316,7 @@
     "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -349,7 +349,7 @@
       "wpamaps",
       "ww1stereo"
       ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -383,7 +383,7 @@
       "SCRYB03",
       "zanerbloser"
       ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -415,7 +415,7 @@
       "wcutreasure",
       "wpa"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -435,7 +435,7 @@
       "postcard",
       "yearbooks"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -453,7 +453,7 @@
      "mvsphoto",
      "wingpost"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -473,7 +473,7 @@
      "blmpost",
      "CHSminutes"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -491,7 +491,7 @@
      "letters",
      "postal"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -516,7 +516,7 @@
      "castle",
      "Mellink"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -534,7 +534,7 @@
      "SC_Truman",
      "SC_Broad"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -562,7 +562,7 @@
      "p16069coll17",
      "p16069coll31"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -609,7 +609,7 @@
       "p245801coll12",
       "p245801coll13"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -626,7 +626,7 @@
       "dpla"
     ],
     "md_prefix": "oai_dc",
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -672,7 +672,7 @@
       "publication:historical_photos_ef"
     ],
     "md_prefix": "oai_dc",
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -693,7 +693,7 @@
       "publication:providence",
       "publication:yosthistory"
     ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -717,7 +717,7 @@
       "publication:phila_j_osteopathy",
       "publication:yearbooks"
     ],
-    "schematron_filter": "validations/dcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -751,7 +751,7 @@
       "scholars-square_sc--wohlsen-marketing",
       "scholars-square_sc--wohlsen-photos"
     ],
-    "schematron_filter": "validations/qdcingest_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
