@@ -185,7 +185,7 @@
   },
   "LEHIGH_CSV_TARGET_ALIAS_ENV": "dev",
   "FREE_LIBRARY_HARVEST_CONFIG": {
-    "schematron_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_csv_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
