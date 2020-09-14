@@ -730,7 +730,7 @@
   "PCOM_TARGET_ALIAS_ENV": "dev",
   "FANDM_HARVEST_CONFIG": {
     "endpoint": "https://digital.fandm.edu/oai2",
-    "md_prefix": "oai_qdc",
+    "md_prefix": "oai_dc",
     "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
@@ -758,7 +758,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/historicpitt.xsl",
+    "xsl_filename": "transforms/generic_islandora.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "FANDM_TARGET_ALIAS_ENV": "dev"
