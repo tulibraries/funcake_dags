@@ -753,7 +753,7 @@
       "scholars-square_sc--wohlsen-marketing",
       "scholars-square_sc--wohlsen-photos"
     ],
-    "schematron_filter": "validations/ingest_qdc_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -761,5 +761,28 @@
     "xsl_filename": "transforms/generic_islandora.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "FANDM_TARGET_ALIAS_ENV": "dev"
+  "FANDM_TARGET_ALIAS_ENV": "dev",
+  "SUSQU_HARVEST_CONFIG": {
+    "endpoint": "http://pahistoryharvest.com/oai-pmh-repository/request",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "7",
+      "8",
+      "10"
+    ],
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "WIP",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "SUSQU_TARGET_ALIAS_ENV": "dev"
 }
