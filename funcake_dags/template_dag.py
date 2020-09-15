@@ -67,6 +67,7 @@ dag_ids = [
     "ursinus",
     "pcom",
     "fandm",
+    "lafayette",
     "susqu"
 	]
 for dag_id in dag_ids:
