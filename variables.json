@@ -693,7 +693,8 @@
       "publication:pafolklifemag",
       "publication:pafolklifemagindex",
       "publication:providence",
-      "publication:yosthistory"
+      "publication:yosthistory",
+      "publication:ursinus_fraktur"
     ],
     "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -784,7 +785,7 @@
     "xsl_filename": "WIP",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "FANDM_TARGET_ALIAS_ENV": "dev",
+  "SUSQU_TARGET_ALIAS_ENV": "dev",
   "LAFAYETTE_HARVEST_CONFIG": {
   "endpoint": "https://ldr.lafayette.edu/catalog/oai",
   "md_prefix": "oai_dc",
@@ -802,6 +803,5 @@
   "xsl_filename": "transforms/lafayette.xsl",
   "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "LAFAYETTE_TARGET_ALIAS_ENV": "dev",
-  "SUSQU_TARGET_ALIAS_ENV": "dev"
+  "LAFAYETTE_TARGET_ALIAS_ENV": "dev"
 }
