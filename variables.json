@@ -782,26 +782,49 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "WIP",
+    "xsl_filename": "",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "SUSQU_TARGET_ALIAS_ENV": "dev",
   "LAFAYETTE_HARVEST_CONFIG": {
-  "endpoint": "https://ldr.lafayette.edu/catalog/oai",
-  "md_prefix": "oai_dc",
-  "all_sets": false,
-  "excluded_sets": [],
-  "included_sets": [
-    "collection:Lafayette_Newspaper_archive",
-    "collection:Lafayette_Magazine_archive"
-  ],
-  "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
-  "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
-  "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
-  "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-  "xsl_branch": "main",
-  "xsl_filename": "transforms/lafayette.xsl",
-  "xsl_repository": "tulibraries/aggregator_mdx"
+    "endpoint": "https://ldr.lafayette.edu/catalog/oai",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "collection:Lafayette_Newspaper_archive",
+      "collection:Lafayette_Magazine_archive"
+    ],
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/lafayette.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "LAFAYETTE_TARGET_ALIAS_ENV": "dev"
+  "LAFAYETTE_TARGET_ALIAS_ENV": "dev",
+  "ALLEGHENY_HARVEST_CONFIG": {
+    "endpoint": "http://oai.forum.jstor.org/oai",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "2946",
+      "3407",
+      "5814",
+      "8565",
+      "8950",
+      "8951",
+      "8952"
+    ],
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "ALLEGHENY_TARGET_ALIAS_ENV": "dev"
 }
