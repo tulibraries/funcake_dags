@@ -805,7 +805,7 @@
   },
   "LAFAYETTE_TARGET_ALIAS_ENV": "dev",
   "ALLEGHENY_HARVEST_CONFIG": {
-    "endpoint": "http://oai.forum.jstor.org/oai",
+    "endpoint": "http://oai.forum.jstor.org/oai/",
     "md_prefix": "oai_dc",
     "all_sets": false,
     "excluded_sets": [],
