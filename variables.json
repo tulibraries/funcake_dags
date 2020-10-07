@@ -786,6 +786,23 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "SUSQU_TARGET_ALIAS_ENV": "dev",
+  "MHAC_HARVEST_CONFIG": {
+    "endpoint": "https://www.mediahistoricarchives.org/oai",
+    "md_prefix": "oai_dcq",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "1",
+      "2"
+    ],
+    "schematron_filter": "validations/ingest_oai_validation.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "omeka_mhac.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
   "LAFAYETTE_HARVEST_CONFIG": {
     "endpoint": "https://ldr.lafayette.edu/catalog/oai",
     "md_prefix": "oai_dc",
