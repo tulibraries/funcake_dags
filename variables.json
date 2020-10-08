@@ -803,6 +803,7 @@
     "xsl_filename": "transforms/omeka_mhac.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
+  "MHAC_TARGET_ALIAS_ENV": "dev",
   "LAFAYETTE_HARVEST_CONFIG": {
     "endpoint": "https://ldr.lafayette.edu/catalog/oai",
     "md_prefix": "oai_dc",
