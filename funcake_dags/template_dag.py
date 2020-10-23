@@ -72,7 +72,8 @@ dag_ids = [
     "allegheny",
     "mhac",
     "cpp",
-    "chrc"
+    "chrc",
+    "phs"
 	]
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
