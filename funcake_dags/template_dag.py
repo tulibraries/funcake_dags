@@ -59,7 +59,6 @@ dag_ids = [
     "penn_women",
     "philamuseumofart",
     "statelibrary_csv",
-    "catholicresearchctr",
     "aps",
     "aps_static",
     "curtis",
