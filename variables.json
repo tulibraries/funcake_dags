@@ -996,7 +996,7 @@
   "CPP_TARGET_ALIAS_ENV": "dev",
   "CHRC_HARVEST_CONFIG": {
     "endpoint": "https://omeka.chrc-phila.org/oai",
-    "md_prefix": "oai_dc",
+    "md_prefix": "oai_dcq",
     "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
