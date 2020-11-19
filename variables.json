@@ -1204,5 +1204,26 @@
     "xsl_filename": "transforms/generic_csv.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
-  "ALLEGHENY_TARGET_ALIAS_ENV": "dev"
+  "ALLEGHENY_TARGET_ALIAS_ENV": "dev",
+  "TJU_EASTFALLS_HARVEST_CONFIG": {
+  "endpoint": "http://oai.forum.jstor.org/oai",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "941",
+      "3535",
+      "5768",
+      "20446",
+      "36325"
+    ],
+    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "TJU_EASTFALLS_TARGET_ALIAS_ENV": "dev"
 }
