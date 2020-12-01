@@ -74,7 +74,8 @@ dag_ids = [
     "chrc",
     "phs",
     "lcp",
-    "tju_eastfalls"
+    "tju_eastfalls",
+    "drexel_westphal"
 	]
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
