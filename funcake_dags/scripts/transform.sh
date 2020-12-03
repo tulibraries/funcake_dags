@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-set -e pipefail
-set -aux
+set -eaux pipefail
 
 # This file is used to apply an xslt tranformation to some source files and
 # push them to a configured s3 bucket.
