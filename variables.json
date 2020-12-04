@@ -1838,7 +1838,7 @@
       "collection:Lafayette_Magazine_archive",
       "collection:College_Archives_Image_Collection",
       "collection:Marquis_de_Lafayette_Prints_Collection",
-      "collection:McKelvy_Hous"
+      "collection:McKelvy_House"
     ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
