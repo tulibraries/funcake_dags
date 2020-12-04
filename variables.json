@@ -355,6 +355,7 @@
       "pitt_collection.150",
       "pitt_collection.151",
       "pitt_collection.154",
+      "pitt_collection.154",
       "pitt_collection.155",
       "pitt_collection.156",
       "pitt_collection.157",
@@ -428,8 +429,11 @@
       "pitt_collection.324",
       "pitt_collection.328",
       "pitt_collection.329",
+      "pitt_collection.332",
+      "pitt_collection.333",
       "pitt_collection.334",
       "pitt_collection.336",
+      "pitt_collection.337",
       "pitt_collection.339",
       "pitt_collection.341",
       "pitt_collection.343",
@@ -1128,7 +1132,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/",
+    "xsl_filename": "transforms/islandora_phs.xsl ",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "PHS_TARGET_ALIAS_ENV": "dev",
@@ -1237,7 +1241,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/",
+    "xsl_filename": "transforms/islandora_lcp.xsl ",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "LCP_TARGET_ALIAS_ENV": "dev",
@@ -1831,7 +1835,10 @@
     "excluded_sets": [],
     "included_sets": [
       "collection:Lafayette_Newspaper_archive",
-      "collection:Lafayette_Magazine_archive"
+      "collection:Lafayette_Magazine_archive",
+      "collection:College_Archives_Image_Collection",
+      "collection:Marquis_de_Lafayette_Prints_Collection",
+      "collection:McKelvy_Hous"
     ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
