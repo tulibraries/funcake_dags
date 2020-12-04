@@ -111,9 +111,9 @@ def create_dag(dag_id):
 
     XSL_REPO = config.get("xsl_repo", "tulibraries/aggregator_mdx")
 
-    XSL_BRANCH = config.get("xsl_branch", "master")
+    XSL_BRANCH = config.get("xsl_branch", "main")
 
-    XSL_FILENAME = config.get("xsl_filename", "transforms/KLNqdcCDMingest_test.xsl")
+    XSL_FILENAME = config.get("xsl_filename")
 
     target_alias_env_name = name(dag_id) + "_TARGET_ALIAS_ENV"
     TARGET_ALIAS_ENV = Variable.get(target_alias_env_name, default_var="dev")
