@@ -532,7 +532,6 @@
       "papd_spahs-pgpgcp",
       "papd_spahs-pgp1940",
       "papd_spahs-pgpphscp",
-      "papd_root",
       "papd_kpsfd-mac",
       "papd_ppofp-sch",
       "papd_ppofp-scp",
@@ -903,7 +902,6 @@
       "psa_parbpa",
       "psa_psbpa1931",
       "psa_pn1937",
-      "psa_root",
       "psa_pptcrb",
       "psa_pcgmrb",
       "psa_pclogrb",
@@ -1608,7 +1606,7 @@
       "publication:skmccommencement",
       "publication:textileprintingblocks",
       "publication:throat_and_voice",
-      "publication:tju_dmed_photo_album"   
+      "publication:tju_dmed_photo_album"
     ],
     "md_prefix": "oai_dc",
     "schematron_filter": "validations/ingest_oai_validation.sch",
