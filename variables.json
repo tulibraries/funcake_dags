@@ -119,8 +119,7 @@
     "included_sets": [
       "p15860coll1",
       "p15860coll5",
-      "p15860coll7",
-      "p15860coll2"
+      "p15860coll7"
     ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
