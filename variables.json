@@ -119,7 +119,8 @@
     "included_sets": [
       "p15860coll1",
       "p15860coll5",
-      "p15860coll7"
+      "p15860coll7",
+      "p15860coll2"
     ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -1280,7 +1281,17 @@
       "psuphoto",
       "whf",
       "wpamaps",
-      "ww1stereo"
+      "ww1stereo",
+      "arted",
+      "cls",
+      "def",
+      "gbp",
+      "priestley",
+      "froth",
+      "chamberlin",
+      "ulp",
+      "wrc",
+      "wls"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -1366,7 +1377,9 @@
      "audio",
      "photograph",
       "postcard",
-      "yearbooks"
+      "yearbooks",
+      "p17189coll5",
+      "alternator"
     ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -1493,7 +1506,8 @@
      "p16069coll12",
      "p16069coll23",
      "p16069coll17",
-     "p16069coll31"
+     "p16069coll31",
+     "p16069coll26"
     ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
