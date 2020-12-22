@@ -624,7 +624,7 @@
                 "sha256:b8de9eff2b35fb037368f28a7df1df4e6436f578fa74423505b6c6a778d5b5dd",
                 "sha256:c2d6341ff566f609e89a2acb2db190e5e1d23d5409d6cc8d2fe34d72443876d4"
             ],
-            "markers": "python_version < '3.8'",
+            "markers": "python_version == '3.6'",
             "version": "==2.1.1"
         },
         "importlib-resources": {
@@ -753,10 +753,10 @@
         },
         "localstack": {
             "hashes": [
-                "sha256:28d4a14480f867b7459c30584a776e91da593d50fe366a262dd6c1716ed74e7b"
+                "sha256:f2d3fa98d884ef94ffceb8b0ec4e166686732fdcc60bc4bffcf113fb3f224aa9"
             ],
             "index": "pypi",
-            "version": "==0.11.3.3"
+            "version": "==0.12.3"
         },
         "localstack-client": {
             "hashes": [
@@ -766,9 +766,9 @@
         },
         "localstack-ext": {
             "hashes": [
-                "sha256:e635e883dc68b04f8eb0adb6fcf2d23e705379cc49d47455f96238c77b7c6699"
+                "sha256:d458d6086be8cf60c3f3b4cdabc77412603e2474b38fa7f4be4bff352be2d087"
             ],
-            "version": "==0.12.2.1"
+            "version": "==0.12.2.2"
         },
         "lockfile": {
             "hashes": [
