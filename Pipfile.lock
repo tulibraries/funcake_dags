@@ -478,10 +478,10 @@
         },
         "docker": {
             "hashes": [
-                "sha256:317e95a48c32de8c1aac92a48066a5b73e218ed096e03758bcdd799a7130a1a1",
-                "sha256:cffc771d4ea1389fc66bc95cb72d304aa41d1a1563482a9a000fba3a84ed5071"
+                "sha256:0604a74719d5d2de438753934b755bfcda6f62f49b8e4b30969a4b0a2a8a1220",
+                "sha256:e455fa49aabd4f22da9f4e1c1f9d16308286adc60abaf64bf3e1feafaed81d06"
             ],
-            "version": "==4.4.0"
+            "version": "==4.4.1"
         },
         "docopt": {
             "hashes": [
@@ -600,10 +600,10 @@
         },
         "graphviz": {
             "hashes": [
-                "sha256:2b85f105024e229ec330fe5067abbe9aa0d7708921a585ecc2bf56000bf5e027",
-                "sha256:403b55553b235875fa521023a06d9c29b46f3a956f960d4e0a5b956bca9eb9ce"
+                "sha256:3cad5517c961090dfc679df6402a57de62d97703e2880a1a46147bb0dc1639eb",
+                "sha256:d2d25af1c199cad567ce4806f0449cb74eb30cf451fd7597251e1da099ac6e57"
             ],
-            "version": "==0.15"
+            "version": "==0.16"
         },
         "gunicorn": {
             "hashes": [
@@ -753,10 +753,10 @@
         },
         "localstack": {
             "hashes": [
-                "sha256:28d4a14480f867b7459c30584a776e91da593d50fe366a262dd6c1716ed74e7b"
+                "sha256:e94c0e88a051331af94208ce18279d46a49890d104d88bfbe16af4e42042fffe"
             ],
             "index": "pypi",
-            "version": "==0.11.3.3"
+            "version": "==0.12.4"
         },
         "localstack-client": {
             "hashes": [
@@ -766,9 +766,9 @@
         },
         "localstack-ext": {
             "hashes": [
-                "sha256:e635e883dc68b04f8eb0adb6fcf2d23e705379cc49d47455f96238c77b7c6699"
+                "sha256:b5ae015552ee123447b5c45911426da59cad05cbb1f17bfc533228234c8954fb"
             ],
-            "version": "==0.12.2.1"
+            "version": "==0.12.3.1"
         },
         "lockfile": {
             "hashes": [
@@ -1161,10 +1161,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:3e6b7dd2d1e0a59084bcee14a17af60c5c562cdc16d828e8eba2e683d3a7e268",
-                "sha256:5c55e189b682d420be27c6995ba6edce0c0a77dd67bfbe2ae6607134d5851ffd"
+                "sha256:16962c5fb8db4a8f63a26646d8886e9d769b6c511543557bc84e9569fb9a9cb4",
+                "sha256:180befebb1927b16f6b57101720075a984c019ac16b1b7575673bea42c6c3da5"
             ],
-            "version": "==2020.4"
+            "version": "==2020.5"
         },
         "pytzdata": {
             "hashes": [
