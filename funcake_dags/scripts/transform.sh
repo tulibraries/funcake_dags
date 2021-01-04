@@ -24,7 +24,8 @@ echo Transformation File: $XSL
 if [ -z ${XSL_FILENAME} ] || [ ${XSL_FILENAME} == "transforms/" ]; then
 	echo "There is no XSL_FILENAME defined."
 	exit 1
-else
+fi
+
 TOTAL_TRANSFORMED=0
 RESP=`aws s3api list-objects --bucket $BUCKET --prefix ${DAG_ID}/${DAG_TS}/${SOURCE}`
 for SOURCE_XML in `echo $RESP | jq -r '.Contents[].Key'`
@@ -48,4 +49,3 @@ do
 done
 
 echo "Total Records transformed: $TOTAL_TRANSFORMED"
-fi
