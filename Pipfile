@@ -17,7 +17,7 @@ xmltodict = "*"
 sickle = "*"
 awscli = "*"
 boto3 = "*"
-lxml = "==4.6.2"
+lxml = "==4.4.3"
 
 [requires]
 python_version = "3.6"
