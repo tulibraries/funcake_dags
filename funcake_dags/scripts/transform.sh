@@ -27,6 +27,7 @@ if [ -z ${XSL_FILENAME} ] || [ ${XSL_FILENAME} == "transforms/" ]; then
 fi
 
 TOTAL_TRANSFORMED=0
+TOTAL_UNIQUE_RECORDS=0
 RESP=`aws s3api list-objects --bucket $BUCKET --prefix ${DAG_ID}/${DAG_TS}/${SOURCE}`
 for SOURCE_XML in `echo $RESP | jq -r '.Contents[].Key'`
 do
@@ -44,8 +45,11 @@ do
 
 	java -jar $SAXON_CP -xsl:$SCRIPTS_PATH/batch-transform.xsl -s:$SOURCE_XML-2.xml -o:$SOURCE_XML-transformed.xml -t
 	COUNT=$(cat $SOURCE_XML-transformed.xml | grep -o "<oai_dc:dc" | wc -l)
+	UNIQUE_RECORDS_COUNT=$(cat $SOURCE_XML-transformed.xml | grep "^<dcterms:identifier>\|</dcterms:identifier>$" | sort --u | wc -l)
 	TOTAL_TRANSFORMED=$(expr $TOTAL_TRANSFORMED + $COUNT)
+	TOTAL_UNIQUE_RECORDS=$(expr $TOTAL_UNIQUE_RECORDS + $UNIQUE_RECORDS_COUNT)
 	aws s3 cp $SOURCE_XML-transformed.xml s3://$BUCKET/$TRANSFORM_XML
 done
 
 echo "Total Records transformed: $TOTAL_TRANSFORMED"
+echo "Total Unique Records: $TOTAL_UNIQUE_RECORDS"
