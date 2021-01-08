@@ -109,6 +109,7 @@ class TestFieldCounter(unittest.TestCase):
         self.assertEqual.__self__.maxDiff = None
         self.assertEqual(["INFO:root:" + stats], log.output)
 
+    @unittest.skip("counter was modified to ignore dc tag")
     @mock_s3
     def test_field_count_report_collection(self):
         bucket = "tulib-airflow-prod"
