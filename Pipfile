@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 pylint = "*"
 pytest = "*"
-apache-airflow = "*"
+apache-airflow = "==1.10.14"
 localstack = "*"
 moto = "*"
 tulflow = "==0.6.3"
@@ -17,7 +17,7 @@ xmltodict = "*"
 sickle = "*"
 awscli = "*"
 boto3 = "*"
-lxml = "==4.6.2"
+lxml = "==4.4.3"
 
 [requires]
 python_version = "3.6"
