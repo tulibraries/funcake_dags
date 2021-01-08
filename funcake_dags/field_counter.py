@@ -34,14 +34,14 @@ class FieldCounter:
     def __init__(self):
         self.stats_aggregate={ "record_count": 0, "field_info": {} }
         self.s = 0
-        
+
     def count(self, xml_string):
         parser = XMLPullParser(huge_tree=True)
         parser.feed(xml_string)
         for event, elem in parser.read_events():
 
             elem_tag = QName(elem.tag).localname
-            if elem_tag == "record" or elem_tag == "dc":
+            if elem_tag == "record":
                 r = Record(elem)
 
                 if (self.s % 1000) == 0 and self.s != 0:
