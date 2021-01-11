@@ -2,6 +2,10 @@
 set -e pipefail
 set -aux
 
+# Ensure old tmp files are removed
+rm -f /tmp/identifier-output.*
+rm -f /tmp/all-identifiers.*
+
 # This file is used to apply an xslt tranformation to some source files and
 # push them to a configured s3 bucket.
 
@@ -46,6 +50,19 @@ do
 	COUNT=$(cat $SOURCE_XML-transformed.xml | grep -o "<oai_dc:dc" | wc -l)
 	TOTAL_TRANSFORMED=$(expr $TOTAL_TRANSFORMED + $COUNT)
 	aws s3 cp $SOURCE_XML-transformed.xml s3://$BUCKET/$TRANSFORM_XML
+
+	TEMPFILE=$(mktemp /tmp/identifier-output.XXXXXX)
+	cat $SOURCE_XML-transformed.xml | grep "^<dcterms:identifier>\|</dcterms:identifier>$" >> $TEMPFILE
 done
 
+IDENTIFIER_FILE=$(mktemp /tmp/all-identifiers.XXXXXX)
+for file in /tmp/identifier-output.*;
+do
+	sort --u $file
+done | sort -u > $IDENTIFIER_FILE
+
+UNIQUE_RECORD_COUNT=$(cat $IDENTIFIER_FILE | wc -l)
+
+
 echo "Total Records transformed: $TOTAL_TRANSFORMED"
+echo "Unique Record Count: $UNIQUE_RECORD_COUNT"
