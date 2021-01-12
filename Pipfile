@@ -9,7 +9,7 @@ pytest = "*"
 apache-airflow = "==1.10.14"
 localstack = "*"
 moto = "*"
-tulflow = "==0.6.3"
+tulflow = "==0.7.2"
 
 [packages]
 pexpect = "*"
