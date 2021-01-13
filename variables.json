@@ -1063,7 +1063,6 @@
       "psa_wcusn",
       "psa_wewra",
       "psa_wdshprbachi",
-      "psa_wdshfdrr",
       "psa_wpabccmm",
       "psa_wwip"
       ],
@@ -1072,7 +1071,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/",
+    "xsl_filename": "",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "POWER_PSA_TARGET_ALIAS_ENV": "dev",
