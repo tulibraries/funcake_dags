@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 pylint = "*"
 pytest = "*"
-apache-airflow = "==1.10.14"
+apache-airflow = "==2.0.0"
 localstack = "*"
 moto = "*"
 tulflow = "==0.7.2"
