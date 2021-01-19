@@ -1881,7 +1881,7 @@
       "20446",
       "36325"
     ],
-    "schematron_filter": "validations/ingest_dc_reqd_fields.sch",
+    "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
