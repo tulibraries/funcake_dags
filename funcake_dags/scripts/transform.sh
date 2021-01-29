@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e pipefail
-set -aux
+set -oux
 
 # Ensure old tmp files are removed
 rm -f /tmp/identifier-output.*
