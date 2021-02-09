@@ -38,12 +38,14 @@ class FieldCounter:
     def count(self, xml_string):
         parser = XMLPullParser(huge_tree=True)
         parser.feed(xml_string)
+        tags = ["dc", "record"]
         for event, elem in parser.read_events():
 
             elem_tag = QName(elem.tag).localname
-            if elem_tag == "record":
+            if elem_tag in tags:
+                if len(tags) == 2:
+                    tags = [elem_tag]
                 r = Record(elem)
-
                 if (self.s % 1000) == 0 and self.s != 0:
                     logging.info("%d records processed" % self.s)
                 self.s += 1
