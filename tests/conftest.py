@@ -27,7 +27,7 @@ def pytest_sessionstart():
     airflow.models.Variable.set("FUNCAKE_DEV_CONFIGSET", "funcake-0")
     airflow.models.Variable.set("FUNCAKE_PROD_CONFIGSET", "funcake-0")
     airflow.models.Variable.set("FUNCAKE_OAI_CONFIG", {"endpoint": "http://localhost/oai", "include_sets": ["i_love_cats"], "exclude_sets": [], "md_prefix": "kittens"}, serialize_json=True)
-    airflow.models.Variable.set("FUNCAKE_SOLR_CONFIG", {"configset": "funcake-0", "replication_factor": 1}, serialize_json=True)
+    airflow.models.Variable.set("FUNCAKE_SOLR_CONFIG", {"configset": "funcake-0", "replication_factor": 4}, serialize_json=True)
     airflow.models.Variable.set("VILLANOVA_OAI_CONFIG", {"endpoint": "http://localhost/oai", "included_sets": ["i_love_cats"], "excluded_sets": [], "md_prefix": "kittens"}, serialize_json=True)
     airflow.models.Variable.set("VILLANOVA_XSL_CONFIG", {"xsl_branch": "main", "xsl_filename": "transforms/villanova.xsl", "xsl_repo": "tulibraries/aggregator_mdx", "schematron_filter": "validations/padigital_reqd_fields.sch", "schematron_report": "validations/padigital_missing_thumbnailURL.sch"}, serialize_json=True)
     airflow.models.Variable.set("VILLANOVA_SOLR_CONFIGSET", "funcake-oai-0")
