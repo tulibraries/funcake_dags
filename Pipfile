@@ -16,6 +16,7 @@ sickle = "*"
 awscli = "*"
 
 [packages]
+cryptography = "==3.3.2"
 
 [requires]
 python_version = "3.6"
