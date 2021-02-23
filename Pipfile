@@ -7,16 +7,16 @@ verify_ssl = true
 pylint = "*"
 pytest = "*"
 apache-airflow = "==1.10.14"
+cryptography = "==3.3.2"
 localstack = "*"
 moto = "*"
-tulflow = "==0.7.2"
+tulflow = "==0.8.0"
 pexpect = "*"
 xmltodict = "*"
 sickle = "*"
 awscli = "*"
 
 [packages]
-cryptography = "==3.3.2"
 
 [requires]
 python_version = "3.6"
