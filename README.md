@@ -3,7 +3,7 @@
 [![CircleCI](https://circleci.com/gh/tulibraries/funcake_dags.svg?style=svg)](https://circleci.com/gh/tulibraries/funcake_dags)
 ![pylint Score](https://mperlet.github.io/pybadge/badges/9.47.svg)
 
-This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Airflow DAGs (Directed Acyclic Graphs, e.g., data processing workflows) for data indexing to Solr + related jobs. These DAGs are expecting to be run within an Airflow installation akin to the one built by our [TUL Airflow Playbook (private repository)](https://github.com/tulibraries/ansible-playbook-airflow).
+This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Airflow DAGs (Directed Acyclic Graphs, e.g., data processing workflows) for data indexing to Solr and related jobs. These DAGs are expecting to be run within an Airflow installation akin to the one built by our [TUL Airflow Playbook (private repository)](https://github.com/tulibraries/ansible-playbook-airflow).
 
 ## Repository Structure
 
@@ -18,18 +18,20 @@ These the Airflow expectations for these Funnel Cake DAGs to successfully run:
 
 **Libraries & Packages**
 
-- Python 3.7
+- Python: Version as specified in `.python-version`, currently 3.6.8.
 - Python Packages: see the [Pipfile](Pipfile)
 
 **Airflow Variables**
 
-- `FUNCAKE_CONFIGSET`: The SolrCloud Configset identifier to use for creating new Funnel Cake Collections & updating Aliases. Based on the https://github.com/tulibraries/funcake-solr latest release
+These variable are initially set in the `variables.json` file.
+
+: `FUNCAKE_CONFIGSET`: The SolrCloud Configset identifier to use for creating new Funnel Cake Collections & updating Aliases. Based on the https://github.com/tulibraries/funcake-solr latest release
 - `FUNCAKE_OAI_ENDPT`: The OAI Endpoint to be harvested for indexing.
 - `FUNCAKE_OAI_SET`: The OAI set used for harvesting from the OAI Endpoint (above). If all sets wanted, set to "" (but you have to set).
 - `FUNCAKE_MD_PREFIX`: The OAI metadata prefix used for harvesting from the OAI Endpoint (above). This is required, per OAI-PMH specifications.
 - `AIRFLOW_DATA_BUCKET`: The AWS S3 Bucket label (label / name, not ARN or URI) the harvested OAI-PMH XML data is put into / indexed from.
 - `AIRFLOW_HOME`: The Airflow system home directory path. Used here for locating our `scripts` repository when running the indexing bash script.
-
+-
 See the rest of the expected variables in `variables.json`.
 
 **Airflow Connections**
@@ -38,33 +40,63 @@ See the rest of the expected variables in `variables.json`.
 
 ## Local Development
 
-### Run with local setup
-WIP.
+### Required Variables
 
-* `make up`: Sets up local airflow with these dags.
-* `make down`: Close the local setup.
-* `make reload`: Reload configurations for local setup.
-* `make tty-webserver`: Enter airflow webserver container instance.
-* `make tty-worker`: Enter airflow worker container instance.
-* `make tty-schedular`: Enter airflow schedular contain instance.
+DPLAH_HARVEST_CONFIG
+
+### Run with local setup
+
+Control local Airflow DAG server with `make` commands documented in `airflow-docker-dev-setup/README.md`
 
 ### Run with Airflow Playbook Make Commands
 
-Basically, clone https://github.com/tulibraries/ansible_playbook_airflow locally; in a shell at the top level of that repository, run `make up` then `make update`; then git clone/pull your working funcake_dags code to ansible_playbook_airflow/dags/funcake-dags. This shows & runs your development DAG code in the Airflow docker containers, with a webserver at http://localhost:8080.
+Clone https://github.com/tulibraries/ansible_playbook_airflow locally; in a shell at the top level of that repository, run `make up` then git clone/pull your working funcake_dags code to ansible_playbook_airflow/dags/funcake-dags. This shows & runs your development DAG code in the Airflow docker containers, with a webserver at http://localhost:8080.
 
 The steps for this, typed out:
 
-```
-$ cd ~/path/to/cloned/ansible-playbook-airflow
-$ pipenv shell
-(ansible-playbook-airflow) $ make up
-# update `data/example-variables.json` to add whatever Airflow variables you want; you can also do this in the GUI if preferred.
-# update `Makefile` to add whatever Airflow variables you want; you can also do this in the GUI if preferred.
-# check http://localhost:8010 is running okay
-(ansible-playbook-airflow) $ make update
-```
+$ git clone https://github.com/tulibraries/funcake_dags.git
+$ cd funcake_dags
+#
+# Edit`variables.json` to modify Airflow variables or additional Airflow variables
+#
+$ make up
+#
+# check http://localhost:8010 is running okay.
 
-Then change into `dags/funcake_dags` and `git pull origin your-working-branch` to get your working branch locally available. *Symlinks will not work due to how Airflow & Docker handle mounts.* You could manually copy over files if that works better for you.
+If the website shows
+`Broken DAG: [/opt/airflow/dags/funcake_dags/template_dag.py] 'Variable DPLAH_HARVEST_CONFIG does not exist'`
+
+Set the `DPLAH_HARVEST_CONFIG`:
+1. Select the "Admin" menu
+2. Select the "Variable" menu item
+3. Click the "Create" tab
+4. For Key, enter `DPLAH_HARVEST_CONFIG`
+5. For Value, enter:
+```
+{
+    "all_sets": true,
+    "endpoint": "https://owl:password@aggregator.padigital.org/oai",
+    "excluded_sets": [],
+    "included_sets": [],
+    "md_prefix": "oai_dc",
+    "schematron_filter": "validations/ingest_oai_validation.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/dplah_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/dplah.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+}
+```
+6. Click "Save"
+7. On the top navigation bar, select "DAGs" and verify the error message is gone
+
+Continuing...
+
+You should see all of your Funcake DAG's listed.
+
+
+In the shell, cd into `funcake_dags` and `git pull origin your-working-branch` to get your working branch locally available. *Symlinks will not work due to how Airflow & Docker handle mounts.* You could manually copy over files if that works better for you.
 
 Continuing from above:
 
