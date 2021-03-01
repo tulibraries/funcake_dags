@@ -1,9 +1,16 @@
 {
   "AIRFLOW_DATA_BUCKET": "tulib-airflow-prod",
   "DPLAH_TARGET_ALIAS_ENV": "dev",
+<<<<<<< HEAD
   "FUNCAKE_OAI_SOLR_CONFIGSET": "funcake-oai-2",
   "FUNCAKE_OAI_CONFIG": {
     "endpoint": "https://funnelcake.padigital.org/oai_dev",
+=======
+
+  "PENN_DIGITALIMAGES_HARVEST_CONFIG": {
+    "endpoint": "http://dla.library.upenn.edu/dla/archives/oai-pmh.xml",
+    "md_prefix": "oai_dc",
+>>>>>>> Describe setting DPLAH_HARVEST_CONFIG
     "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],

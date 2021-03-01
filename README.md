@@ -63,38 +63,9 @@ $ make up
 #
 # check http://localhost:8010 is running okay.
 
-If the website shows
-`Broken DAG: [/opt/airflow/dags/funcake_dags/template_dag.py] 'Variable DPLAH_HARVEST_CONFIG does not exist'`
+On the initial startup, the dashboard may display an empty or partial list of DAGs and the status at the top may show the error message: `Broken DAG: [/opt/airflow/dags/funcake_dags/template_dag.py] 'Variable DPLAH_HARVEST_CONFIG does not exist'`.  Create the `DPLAY_HARVEST_CONFIG` from the QA TUL Infrastrucutre Airflow Server.
 
-Set the `DPLAH_HARVEST_CONFIG`:
-1. Select the "Admin" menu
-2. Select the "Variable" menu item
-3. Click the "Create" tab
-4. For Key, enter `DPLAH_HARVEST_CONFIG`
-5. For Value, enter:
-```
-{
-    "all_sets": true,
-    "endpoint": "https://owl:password@aggregator.padigital.org/oai",
-    "excluded_sets": [],
-    "included_sets": [],
-    "md_prefix": "oai_dc",
-    "schematron_filter": "validations/ingest_oai_validation.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
-    "schematron_xsl_filter": "validations/dplah_reqd_fields.sch",
-    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "main",
-    "xsl_filename": "transforms/dplah.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx"
-}
-```
-6. Click "Save"
-7. On the top navigation bar, select "DAGs" and verify the error message is gone
-
-Continuing...
-
-You should see all of your Funcake DAG's listed.
-
+NOTE: `DPLAH_HARVEST_CONFIG` contains a password and must never be saved in the GIT repository
 
 In the shell, cd into `funcake_dags` and `git pull origin your-working-branch` to get your working branch locally available. *Symlinks will not work due to how Airflow & Docker handle mounts.* You could manually copy over files if that works better for you.
 
