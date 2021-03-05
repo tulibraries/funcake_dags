@@ -460,7 +460,7 @@
   "HISTORIC_PITT_TARGET_ALIAS_ENV": "dev",
   "POWER_PAPD_HARVEST_CONFIG": {
     "endpoint": "https://digitalarchives.powerlibrary.org/papd/oai2",
-    "md_prefix": "oai_dc",
+    "md_prefix": "oai_qdc",
     "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
@@ -633,7 +633,7 @@
   "POWER_PAPD_TARGET_ALIAS_ENV": "dev",
   "POWER_PSA_HARVEST_CONFIG": {
     "endpoint": "https://digitalarchives.powerlibrary.org/psa/oai2",
-    "md_prefix": "oai_dc",
+    "md_prefix": "oai_qdc",
     "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
