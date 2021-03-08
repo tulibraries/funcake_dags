@@ -11,7 +11,9 @@ This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Air
 **Libraries & Packages**
 
 - Python: Version as specified in `.python-version`, currently 3.6.8.
-- Python Packages: see the [Pipfile](Pipfile)
+- Pip: 18.1+
+- Pipenv: 2020-11-15+
+- Python Package Dependencies: see the [Pipfile](Pipfile)
 - Docker 20.10+
 - Docker-Compose: 1.27+
 
@@ -19,7 +21,7 @@ This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Air
 
 These variable are initially set in the `variables.json` file.
 
-: `FUNCAKE_CONFIGSET`: The SolrCloud Configset identifier to use for creating new Funnel Cake Collections & updating Aliases. Based on the https://github.com/tulibraries/funcake-solr latest release
+- `FUNCAKE_CONFIGSET`: The SolrCloud Configset identifier to use for creating new Funnel Cake Collections & updating Aliases. Based on the https://github.com/tulibraries/funcake-solr latest release
 - `FUNCAKE_OAI_ENDPT`: The OAI Endpoint to be harvested for indexing.
 - `FUNCAKE_OAI_SET`: The OAI set used for harvesting from the OAI Endpoint (above). If all sets wanted, set to "" (but you have to set).
 - `FUNCAKE_MD_PREFIX`: The OAI metadata prefix used for harvesting from the OAI Endpoint (above). This is required, per OAI-PMH specifications.
@@ -53,7 +55,7 @@ Wait for Airflow and associated servers to build and start up. This may take sev
 
 Open a browser and visit http://localhost:8010 to verify  Airflow server is running.
 
-On the initial startup, the dashboard may display an empty or partial list of DAGs and the status at the top may show the Broken DAG error message indicating that a connection or variable. Create the connection and copy it's attributes from the [TUL Production Airflow Server Connections](http://localhost:8010/admin/connection/) or [TUL QA Airflow Server Connections](http://localhost:8010/admin/connection/).  Create the variable and copy it's value from the [TUL Production Airflow Server Variables](http://localhost:8010/admin/variable/) or [TUL QA Airflow Server Variables](http://localhost:8010/admin/variable/).
+On initial startup, the dashboard may display an empty or partial list of DAGs and the status at the top may show the Broken DAG error message indicating that a connection or variable. Create the connection and copy it's attributes from the [TUL Production Airflow Server Connections](http://localhost:8010/admin/connection/) or [TUL QA Airflow Server Connections](http://localhost:8010/admin/connection/).  Create the variable and copy it's value from the [TUL Production Airflow Server Variables](http://localhost:8010/admin/variable/) or [TUL QA Airflow Server Variables](http://localhost:8010/admin/variable/).
 
 Specific Make targets and their descriptions are documented in [Airflow Docket Dev Setup](airflow-docker-dev-setup/README.md).
 
@@ -68,48 +70,28 @@ Specific Make targets and their descriptions are documented in [Airflow Docket D
 
 ## Linting & Testing
 
-How to run the `pylint` linter on this repository:
+Perform syntax and style checks on airflow code with `pylint`
 
+To install and configure `pylint`
 ```
-# Ensure you have the correct Python & Pip running:
-$ python --version
-  Python 3.7.2
-$ pip --version
-  pip 18.1 from /home/tul08567/.pyenv/versions/3.7.2/lib/python3.7/site-packages/pip (python 3.7)
-# Install Pipenv:
 $ pip install pipenv
-  Collecting pipenv ...
-# Install requirements in Pipenv; requires envvar:
 $ SLUGIFY_USES_TEXT_UNIDECODE=yes pipenv install --dev
-  Pipfile.lock not found, creating ...
-# Run the linter:
-$ pipenv run pylint funcake_dags
-  ...
 ```
 
-Linting for Errors only (`pipenv run pylint cob_datapipeline -E`) is run by Travis on every PR.
+To `lint` the DAGs
+```
+$ pipenv run pylint funcake_dags
+```
 
-How to run pytests (unit tests, largely) on this repository (run by Travis on every PR):
+Use `pytest` to run unit and functional tests on this project.
 
 ```
 $ pipenv run pytest
 ```
 
+`lint` and `pytest` are run automatically by CircleCI on each pull request.
+
+
 ## Deployment
 
-CircleCI is used for continuous integration and deployment. details are in the CircleCI configuration file: [`cob_datapipeline/.circleci/config.yml`](https://github.com/tulibraries/cob_datapipeline/blob/main/.circleci/config.yml)
-
-### Continiuous Integration (CI)
-
-ingegration performed by CircleCI performs basic  pylint and pytest checks. These are run within a Pipenv shell to manage expected packages across all possibly environments.
-
-### Continuous Deployment (CD)
-
-The Funcake Airflow DAG is deployed by way of an [Airflow server Ansible playbook](tulibraries/ansible-playbook-airflow). This runs, pointing at the appropriate tulibraries/funcake_dags branch (qa or main) to clone & set up (run pip install based on the Pipenv files) within the relevant Airflow deployed environment.
-
-Deployment to QA is triggered by a pull request.
-Deployment to Productino is tribbered by issuing a release.
-
-PRs merged to QA cause a QA environment deploy of tulibraries/ansible-playbook-airflow ansible playbook; PRs merged to main cause a Stage Environment deploy using that airflow playbook. PRs merged to main also queue up a Production Environment deploy, that waits for user input before running.
-
-The idea is to eventually touch the airflow ansible playbook as little as possible, and have DAG changes occur here & deploy from here.
+CircleCI checks (lints and tests) code and deploys to the QA and Prod servers when development branches are merged into the `main` branch. See the [CircleCI configuration file](cob_datapipeline/.circleci/config.yml) for details.

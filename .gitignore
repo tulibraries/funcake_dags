@@ -107,3 +107,6 @@ venv.bak/
 .docker
 dags
 data
+
+# Ignore temp files
+*.sw[p-z]
