@@ -2,11 +2,11 @@
 import os
 import unittest
 import airflow
-from funcake_dags.dev_combine_index_dag import DAG as FCDAGDEV
-from funcake_dags.prod_combine_index_dag import DAG as FCDAGPROD
+from funcake_dags.funcake_dev_index_dag import DAG as FCDAGDEV
+from funcake_dags.funcake_prod_index_dag import DAG as FCDAGPROD
 
-class TestCombineIndexDevDAG(unittest.TestCase):
-    """Primary Class for Testing the Combine to FunCake Solr Index DAG."""
+class TestFuncakeDevIndexDAG(unittest.TestCase):
+    """Primary Class for Testing the FunCake Solr Index DAG."""
 
     def setUp(self):
         """Method to set up the DAG Class instance for testing."""
@@ -55,8 +55,8 @@ class TestCombineIndexDevDAG(unittest.TestCase):
         self.assertEqual(task.env["AWS_SECRET_ACCESS_KEY"], "elephants-secret")
 
 
-class TestCombineIndexProdDAG(unittest.TestCase):
-    """Primary Class for Testing the Combine to FunCake Solr Index DAG."""
+class TestFuncakeProdIndexDAG(unittest.TestCase):
+    """Primary Class for Testing the FunCake Solr Index DAG."""
 
     def setUp(self):
         """Method to set up the DAG Class instance for testing."""

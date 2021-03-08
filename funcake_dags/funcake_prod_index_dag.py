@@ -6,7 +6,7 @@ from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from tulflow import harvest, tasks
-from funcake_dags.task_slack_posts import slackpostonfail, slackpostonsuccess
+from funcake_dags.tasks.task_slack_posts import slackpostonfail, slackpostonsuccess
 
 """
 INIT SYSTEMWIDE VARIABLES
@@ -22,7 +22,7 @@ CONFIGSET = FUNCAKE_SOLR_CONFIG.get("configset")
 REPLICATION_FACTOR = FUNCAKE_SOLR_CONFIG.get("replication_factor")
 TIMESTAMP = "{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}"
 COLLECTION = CONFIGSET + "-" + TIMESTAMP
-ALIAS = CONFIGSET + "-dev"
+ALIAS = CONFIGSET + "-prod"
 if "://" in SOLR_CONN.host:
     SOLR_COLL_ENDPT = SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
 else:
@@ -53,7 +53,7 @@ DEFAULT_ARGS = {
 }
 
 DAG = DAG(
-    'funcake_dev_index',
+    'funcake_prod_index',
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,
@@ -86,8 +86,7 @@ HARVEST_OAI = PythonOperator(
 #pylint: disable-msg=too-many-function-args
 # this is ticketed for fix; either make class or dictionary for solr args
 CREATE_COLLECTION = tasks.create_sc_collection(
-    DAG,
-    SOLR_CONN.conn_id,
+    DAG, SOLR_CONN.conn_id,
     COLLECTION,
     REPLICATION_FACTOR,
     CONFIGSET

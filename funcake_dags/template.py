@@ -7,8 +7,8 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.hooks.base_hook import BaseHook
 from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
-from funcake_dags.task_slack_posts import slackpostonfail, slackpostonsuccess
-from funcake_dags.field_counter import field_count_report
+from funcake_dags.tasks.task_slack_posts import slackpostonfail, slackpostonsuccess
+from funcake_dags.lib.field_counter import field_count_report
 
 # Define the DAG
 DEFAULT_ARGS = {
