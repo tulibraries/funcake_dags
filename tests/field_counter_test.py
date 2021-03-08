@@ -1,4 +1,4 @@
-from funcake_dags.field_counter import field_count_report
+from funcake_dags.lib.field_counter import field_count_report
 import unittest
 import boto3
 from moto import mock_s3
