@@ -19,10 +19,10 @@
     "develop": {
         "alembic": {
             "hashes": [
-                "sha256:8a8ccd58a262b1e3ac79b7224d0f9a4ac3bf96ace149972feb3ef9d7a06ac8b5",
-                "sha256:bcb9b6cd58761a517e19d927642cd8364f37cd2db4d28dd04ffad9cf70079ddf"
+                "sha256:66bbb0e7d6277b007dfe7e27237093c79b76cf4f94e6fbd0f7af6f9409546fe6",
+                "sha256:f33d561f3ce2ca390f1c87ff3849cd7d97bb93bae9c91357727263498e10028f"
             ],
-            "version": "==1.5.6"
+            "version": "==1.5.7"
         },
         "apache-airflow": {
             "hashes": [
@@ -65,10 +65,11 @@
         },
         "awscli": {
             "hashes": [
-                "sha256:191c07061bf227775437bf0b6e6209e0db50affcd8d5a37ba9fe5d87b6b80585"
+                "sha256:0d97812be62cc447bd1585de0766d57576455f5deb4d411dde6d193ab6e1abee",
+                "sha256:870e61bf8fd1d7e57f50c4aa7257ec98858e8bbb651630a631061a2c8b53545b"
             ],
             "index": "pypi",
-            "version": "==1.19.23"
+            "version": "==1.19.26"
         },
         "babel": {
             "hashes": [
@@ -79,17 +80,16 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:1ca39de26205439832fa740fcc200de85f107b615dae445f869a16b76672e663",
-                "sha256:d6716f6701aae771f6ff2386a1d641855a99a9fedd64bd25476b83bacdd50c94"
+                "sha256:64a8900b3a110e2d6ff4d87f4d8cd56f0c8527361d9fc9385fcb50efe7a4975a",
+                "sha256:8e9ff8006c41889ed8a11831dee62adf922e071f14d54c52946d1f7855ae7a8e"
             ],
-            "version": "==1.17.23"
+            "version": "==1.17.26"
         },
         "botocore": {
             "hashes": [
-                "sha256:d5ea913331e93cecde25773841397c5d2abbc04f38b1c96c636444e8bb3478f8",
-                "sha256:f3ae5cae250c3fb200d33abacbee3f0c6513fc6f1d17a851b04a3998de68c829"
+                "sha256:4a785847a351e59f2329627fc9a19cf50f07644ea68996a1595d5a20487a423f"
             ],
-            "version": "==1.20.23"
+            "version": "==1.20.26"
         },
         "cached-property": {
             "hashes": [
@@ -485,9 +485,9 @@
         },
         "localstack-ext": {
             "hashes": [
-                "sha256:8431e79ed11bb77cca9cf67b4fe1df0fc545b16b29aeb547967db73d76974cf0"
+                "sha256:8cd936211bc81fb4cd6a8007272fee385ce698d12bdc19b6f3d28bf533188048"
             ],
-            "version": "==0.12.5.23"
+            "version": "==0.12.5.25"
         },
         "lockfile": {
             "hashes": [
@@ -1004,6 +1004,7 @@
                 "sha256:78f9a9bf4e7be0c5ded4583326e7461e3a3c5aae24073648b4bdfa797d78c9d2",
                 "sha256:9d689e6ca1b3038bc82bf8d23e944b6b6037bc02301a574935b2dd946e0353b9"
             ],
+            "markers": "python_version >= '3.6'",
             "version": "==4.7.2"
         },
         "s3transfer": {
