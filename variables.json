@@ -1853,9 +1853,13 @@
     "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
+      "collection:College_Archives_Image_Collection",
+      "collection:Gerald_&_Rella_Warner_Dutch_East_Indies_Negatives",
+      "collection:Gerald_&_Rella_Warner_Japan_Slides",
+      "collection:Gerald_&_Rella_Warner_Manchuria_Negatives",  
+      "collection:Gerald_&_Rella_Warner_Taiwan_Negatives",
       "collection:Lafayette_Newspaper_archive",
       "collection:Lafayette_Magazine_archive",
-      "collection:College_Archives_Image_Collection",
       "collection:Marquis_de_Lafayette_Prints_Collection",
       "collection:McKelvy_House"
     ],
@@ -1966,7 +1970,7 @@
       "pitt_collection.325",
       "pitt_collection.326",
       "pitt_collection.330",
-      "pitt_collection.335"   
+      "pitt_collection.335"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
