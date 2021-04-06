@@ -19,7 +19,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/generic_csv.xsl",
+    "xsl_filename": "transforms/csv_generic_semic.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "ALLEGHENY_TARGET_ALIAS_ENV": "dev",
@@ -213,7 +213,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/generic_csv.xsl",
+    "xsl_filename": "transforms/csv_generic_semic.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "DREXEL_WESTPHAL_TARGET_ALIAS_ENV": "dev",
@@ -257,7 +257,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/free_library_csv.xsl",
+    "xsl_filename": "transforms/csv_free_library.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "FREE_LIBRARY_TARGET_ALIAS_ENV": "dev",
@@ -679,7 +679,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/cdm_generic.xsl",
+    "xsl_filename": "transforms/cdm_generic_pipe.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "LEHIGH_TARGET_ALIAS_ENV": "dev",
@@ -689,7 +689,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/lehigh_csv.xsl",
+    "xsl_filename": "transforms/csv_generic_pipe.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "LEHIGH_CSV_TARGET_ALIAS_ENV": "dev",
@@ -819,7 +819,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/generic_csv.xsl",
+    "xsl_filename": "transforms/csv_generic_semic.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "PENN_WALTERS_CSV_TARGET_ALIAS_ENV": "dev",
@@ -902,7 +902,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/generic_csv.xsl",
+    "xsl_filename": "transforms/csv_generic_semic.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "PHILAMUSEUMOFART_TARGET_ALIAS_ENV": "dev",
@@ -1674,7 +1674,7 @@
    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
    "xsl_branch": "main",
-   "xsl_filename": "transforms/generic_csv.xsl",
+   "xsl_filename": "transforms/csv_generic_semic.xsl",
    "xsl_repository": "tulibraries/aggregator_mdx"
  },
  "STATELIBRARY_CSV_TARGET_ALIAS_ENV": "dev",
@@ -1822,7 +1822,7 @@
    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
    "xsl_branch": "main",
-   "xsl_filename": "transforms/generic_csv.xsl",
+   "xsl_filename": "transforms/csv_generic_semic.xsl",
    "xsl_repository": "tulibraries/aggregator_mdx"
  },
  "TJU_EASTFALLS_TARGET_ALIAS_ENV": "dev",
@@ -1888,7 +1888,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/uscranton_csv.xsl",
+    "xsl_filename": "transforms/csv_uscranton.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "USCRANTON_CSV_TARGET_ALIAS_ENV": "dev",
