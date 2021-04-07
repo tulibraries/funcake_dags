@@ -3,8 +3,8 @@ set -e pipefail
 set -oux
 
 # Ensure old tmp files are removed
-rm -f /tmp/identifier-output.*
-rm -f /tmp/all-identifiers.*
+rm -f /tmp/identifier-output-$DAG_ID.*
+rm -f /tmp/all-identifiers-$DAG_ID.*
 
 # This file is used to apply an xslt tranformation to some source files and
 # push them to a configured s3 bucket.
@@ -55,8 +55,8 @@ do
 	cat $SOURCE_XML-transformed.xml | grep "^<dcterms:identifier>\|</dcterms:identifier>$" >> $TEMPFILE
 done
 
-IDENTIFIER_FILE=$(mktemp /tmp/all-identifiers.XXXXXX)
-for file in /tmp/identifier-output.*;
+IDENTIFIER_FILE=$(mktemp /tmp/all-identifiers-$DAG_ID.XXXXXX)
+for file in /tmp/identifier-output-$DAG_ID.*;
 do
 	sort --u $file
 done | sort -u > $IDENTIFIER_FILE
