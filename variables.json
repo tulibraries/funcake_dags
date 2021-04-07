@@ -96,7 +96,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/TriCocdm_generic.xsl",
+    "xsl_filename": "transforms/cdm_trico.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "BRYNMAWR_TARGET_ALIAS_ENV": "dev",
@@ -1642,7 +1642,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/SHIingest.xsl",
+    "xsl_filename": "transforms/samvera_shi.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
  "SHI_TARGET_ALIAS_ENV": "dev",
@@ -1715,7 +1715,7 @@
    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
    "xsl_branch": "main",
-   "xsl_filename": "transforms/TriCocdm_generic.xsl",
+   "xsl_filename": "transforms/cdm_trico.xsl",
    "xsl_repository": "tulibraries/aggregator_mdx"
  },
  "SWATHAVERFORD_TARGET_ALIAS_ENV": "dev",
@@ -1905,7 +1905,7 @@
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
     "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
     "xsl_branch": "main",
-    "xsl_filename": "transforms/villanova.xsl",
+    "xsl_filename": "transforms/vufind_villanova.xsl",
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "VILLANOVA_TARGET_ALIAS_ENV": "dev",
