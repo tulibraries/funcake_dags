@@ -51,7 +51,7 @@ do
 	TOTAL_TRANSFORMED=$(expr $TOTAL_TRANSFORMED + $COUNT)
 	aws s3 cp $SOURCE_XML-transformed.xml s3://$BUCKET/$TRANSFORM_XML
 
-	TEMPFILE=$(mktemp /tmp/identifier-output.XXXXXX)
+	TEMPFILE=$(mktemp /tmp/identifier-output-$DAG_ID.XXXXXX)
 	cat $SOURCE_XML-transformed.xml | grep "^<dcterms:identifier>\|</dcterms:identifier>$" >> $TEMPFILE
 done
 
