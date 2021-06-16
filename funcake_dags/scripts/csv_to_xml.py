@@ -30,7 +30,7 @@ def csv_reader_to_xml_string(csv_reader, dag_id, timestamp, counter):
                 header = headers[i].strip(" ").replace(" ", "_")
                 field_xml = etree.SubElement(record_xml, header)
                 field_xml.text = field
-    return etree.tostring(root, pretty_print=True, encoding="utf-8").decode("utf-8")
+    return etree.tostring(root, pretty_print=True)
 
 def main():
     counter = Counter()
