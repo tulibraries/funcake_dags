@@ -64,6 +64,7 @@
       "blmmap",
       "blmphoto",
       "blmpost",
+      "blmwwi",
       "CHSminutes"
     ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
@@ -376,7 +377,6 @@
       "pitt_collection.150",
       "pitt_collection.151",
       "pitt_collection.152",
-      "pitt_collection.154",
       "pitt_collection.154",
       "pitt_collection.155",
       "pitt_collection.156",
