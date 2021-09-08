@@ -28,6 +28,8 @@ Example of Harvest Config value
 
 # Note that ids will automatically be prefixed with 'funcake_' as a namespace.
 # The dag_id for "westchester" will automatically be "funcake_westchester".
+# Dag_ids should match the institution code used in filenames and the lookup table in aggregator_mdx, minus the prepended repo code.
+# For example, the corresponding dag_id for "cdm_temple.xsl" should be "temple".
 
 dag_ids = [
     "allegheny",
