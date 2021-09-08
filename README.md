@@ -1,20 +1,21 @@
-# Funnel Cake DAGs
+# PA Digital Aggregator DAGs
 
 [![CircleCI](https://circleci.com/gh/tulibraries/funcake_dags.svg?style=svg)](https://circleci.com/gh/tulibraries/funcake_dags)
 ![pylint Score](https://mperlet.github.io/pybadge/badges/9.47.svg)
 
-This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Airflow DAGs (Directed Acyclic Graphs, e.g., data processing workflows) for data indexing to Solr + related jobs. These DAGs are expecting to be run within an Airflow installation akin to the one built by our [TUL Airflow Playbook (private repository)](https://github.com/tulibraries/ansible-playbook-airflow).
+This repository contains files related to Airflow DAGs ([Directed Acyclic Graphs](https://airflow.apache.org/docs/apache-airflow/stable/concepts/dags.html), e.g., data processing workflows) used for PA Digital aggregation processes. This includes python files as well as required local development, test, deployment, and CI files.
 
-## Repository Structure
+There are two types of Airflow DAGs generated in this repository:
+- **DAGs for contributing institutions**: DAGs for each contributing institution are generated using DAG template files, *funcake_dags/template.py* and *funcake_dags/template_dag.py*. With the template files, each DAG executes a workflow that harvests, validates, transforms, and publishes metadata to a dev or prod OAI-PMH endpoint. Each DAG is customized using variables configuration in Airflow. These variables are maintained in *variables.json* and manually loaded into Airflow.
+- **DAGs for Funnel Cake**: *funcake_dags/funcake_prod_index_dag.py* and *funcake_dags/funcake_dev_index_dag.py* indexes metadata accessible via the dev OAI-PMH endpoint into a single SolrCloud collection used for [Funnel Cake](https://github.com/tulibraries/funnel_cake).
 
-This repository has 3 main groups of files:
-- Airflow DAG definition python files (ending with `_dag.py`);
-- Airflow DAG tasks python files used by the above (starting with `task_`);
-- and required local development, test, deployment, and CI files (`tests`, `configs`, `.travis`, Pipfile, etc.).
+For more general information about the project, see [About the PA Digital Aggregator](https://padigital.org/about-aggregator/).
 
 ## Airflow Expectations
 
-These the Airflow expectations for these Funnel Cake DAGs to successfully run:
+These DAGs are expecting to be run within an Airflow installation akin to the one built by our [TUL Airflow Playbook (private repository)](https://github.com/tulibraries/ansible-playbook-airflow).
+
+These are the Airflow expectations for these Funnel Cake DAGs to successfully run:
 
 **Libraries & Packages**
 
@@ -22,6 +23,7 @@ These the Airflow expectations for these Funnel Cake DAGs to successfully run:
 - Python Packages: see the [Pipfile](Pipfile)
 
 **Airflow Variables**
+NEEDS UPDATING
 
 - `FUNCAKE_CONFIGSET`: The SolrCloud Configset identifier to use for creating new Funnel Cake Collections & updating Aliases. Based on the https://github.com/tulibraries/funcake-solr latest release
 - `FUNCAKE_OAI_ENDPT`: The OAI Endpoint to be harvested for indexing.
