@@ -5,9 +5,9 @@
 
 This repository contains files related to Airflow DAGs ([Directed Acyclic Graphs](https://airflow.apache.org/docs/apache-airflow/stable/concepts/dags.html), e.g., data processing workflows) used for PA Digital aggregation processes. This includes python files as well as required local development, test, deployment, and CI files.
 
-There are two types of Airflow DAGs generated in this repository:
-- **DAGs for contributing institutions**: DAGs for each contributing institution are generated using DAG template files, *funcake_dags/template.py* and *funcake_dags/template_dag.py*. With the template files, each DAG executes a workflow that harvests, validates, transforms, and publishes metadata to a dev or prod OAI-PMH endpoint. Each DAG is customized using variables configuration in Airflow. These variables are maintained in *variables.json* and manually loaded into Airflow.
-- **DAGs for Funnel Cake**: *funcake_dags/funcake_prod_index_dag.py* and *funcake_dags/funcake_dev_index_dag.py* indexes metadata accessible via the dev OAI-PMH endpoint into a single SolrCloud collection used for [Funnel Cake](https://github.com/tulibraries/funnel_cake).
+There are two types of Airflow DAGs generated in this repository and found in the subdirectory *funcake_dags*:
+- **DAGs for contributing institutions**: DAGs for each contributing institution are generated using DAG template files, *template.py* and *template_dag.py*. Based on these template files, each DAG executes a workflow that harvests, validates, transforms, and publishes metadata to a dev or prod OAI-PMH endpoint. Each DAG is customized using variables configuration in Airflow. These variables are maintained in *variables.json* and manually loaded into Airflow.
+- **DAGs for Funnel Cake**: *funcake_prod_index_dag.py* and *funcake_dev_index_dag.py* indexes metadata accessible via the dev OAI-PMH endpoint into a single SolrCloud collection used for [Funnel Cake](https://github.com/tulibraries/funnel_cake).
 
 For more general information about the project, see [About the PA Digital Aggregator](https://padigital.org/about-aggregator/).
 
