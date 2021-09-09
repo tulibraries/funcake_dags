@@ -19,21 +19,13 @@ This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Air
 
 **Airflow Variables**
 
-These variable are initially set in the `variables.json` file.
-
-- `FUNCAKE_CONFIGSET`: The SolrCloud Configset identifier to use for creating new Funnel Cake Collections & updating Aliases. Based on the https://github.com/tulibraries/funcake-solr latest release
-- `FUNCAKE_OAI_ENDPT`: The OAI Endpoint to be harvested for indexing.
-- `FUNCAKE_OAI_SET`: The OAI set used for harvesting from the OAI Endpoint (above). If all sets wanted, set to "" (but you have to set).
-- `FUNCAKE_MD_PREFIX`: The OAI metadata prefix used for harvesting from the OAI Endpoint (above). This is required, per OAI-PMH specifications.
-- `AIRFLOW_DATA_BUCKET`: The AWS S3 Bucket label (label / name, not ARN or URI) the harvested OAI-PMH XML data is put into / indexed from.
-- `AIRFLOW_HOME`: The Airflow system home directory path. Used here for locating our `scripts` repository when running the indexing bash script.
-
-Other expected variables are listed in [variables.json](variables.json)
+Variables are listed in [variables.json](variables.json)
 
 **Airflow Connections**
 - `SOLRCLOUD`: An HTTP Connection used to connect to SolrCloud.
 - `AIRFLOW_S3`: An AWS (not S3 with latest Airflow upgrade) Connection used to manage AWS credentials (which we use to interact with our Airflow Data S3 Bucket).
-
+- `AIRFLOW_CONN_SLACK_WEBHOOK`: Slack failure notifications 
+- `FUNCAKE_SLACK_WEBHOOK`: Slack success notifications
 
 ## Local Development
 
@@ -91,6 +83,18 @@ $ pipenv run pytest
 
 `lint` and `pytest` are run automatically by CircleCI on each pull request.
 
+
+You may also test using `airflow-docker-dev-setup/Makefile`
+
+First, ensure `airflow-docker-dev-setup` submodule installation
+
+```
+$ git submodule update --init --recursive
+```
+
+```
+$ make -f airflow-docker-dev-setup/Makefile test
+```
 
 ## Deployment
 
