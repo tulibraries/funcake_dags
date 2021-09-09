@@ -10,7 +10,7 @@ This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Air
 
 **Libraries & Packages**
 
-- Python: Version as specified in `.python-version`, currently 3.6.8.
+- Python: Version as specified in `.python-version`.
 - Pip: 18.1+
 - Pipenv: 2020-11-15+
 - Python Package Dependencies: see the [Pipfile](Pipfile)
