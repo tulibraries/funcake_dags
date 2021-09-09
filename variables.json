@@ -1016,10 +1016,10 @@
       "pitt_collection.319",
       "pitt_collection.325",
       "pitt_collection.326",
+      "pitt_collection.327",
       "pitt_collection.330",
       "pitt_collection.335",
       "pitt_collection.340",
-      "pitt_collection.357",
       "pitt_collection.360"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
