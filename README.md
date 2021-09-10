@@ -18,7 +18,7 @@ This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Air
 - Docker-Compose: 1.27+
 
 **Airflow Variables**
-
+These variable are initially set in the `variables.json` file.  Variables for this project are primarily handled by the PA Digital team.  They will be the ones to add or update variables as needed.
 Variables are listed in [variables.json](variables.json)
 
 **Airflow Connections**
