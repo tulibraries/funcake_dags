@@ -1,12 +1,19 @@
-# Funnel Cake DAGs
+# PA Digital Aggregator DAGs
 
 [![CircleCI](https://circleci.com/gh/tulibraries/funcake_dags.svg?style=svg)](https://circleci.com/gh/tulibraries/funcake_dags)
 ![pylint Score](https://mperlet.github.io/pybadge/badges/9.47.svg)
 
-This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Airflow DAGs (Directed Acyclic Graphs, e.g., data processing workflows) for data indexing to Solr and related jobs. These DAGs are expecting to be run within an Airflow installation akin to the one built by our [TUL Airflow Playbook (private repository)](https://github.com/tulibraries/ansible-playbook-airflow).
+This repository contains files related to Airflow DAGs (Directed Acyclic Graphs, e.g. data processing workflows) used for PA Digital aggregation processes.
 
+There are two types of Airflow DAGs generated from this repository:
+- **DAGs for PA Digital contributing institutions**: DAGs for each institution are generated using DAG template files, `funcake_dags/template.py` and `funcake_dags/template_dag.py`. Each DAG is customized using Airflow variables. These variables are maintained in `variables.json` and manually loaded into Airflow. Based on these template files and variables, each DAG executes a workflow that harvests, validates, transforms, and publishes metadata to an individual Solr collection, which can be accessed via a shared dev or prod OAI-PMH endpoint (based on the *target alias env* defined in variables). Related validation and transformation files can be found in [aggregator_mdx](https://github.com/tulibraries/aggregator_mdx).
+- **DAGs for Funnel Cake site**: `funcake_dags/funcake_prod_index_dag.py` and `funcake_dags/funcake_dev_index_dag.py` index metadata accessible via the dev OAI-PMH endpoint into a single SolrCloud collection to be used with the Blacklight application, [Funnel Cake](https://github.com/tulibraries/funnel_cake)(for the prod and dev instances respectively).
 
-## Prequisites
+Some DAG tasks in this repository use Temple University Libraries' centralized python library [tulflow](https://github.com/tulibraries/tulflow).
+
+These DAGs are expecting to be run within an Airflow installation akin to the one built by our [TUL Airflow Playbook (private repository)](https://github.com/tulibraries/ansible-playbook-airflow).
+
+## Prerequisites
 
 **Libraries & Packages**
 
@@ -18,18 +25,19 @@ This is the repository for Funnel Cake (PA Digital / DPLA Data QA Interface) Air
 - Docker-Compose: 1.27+
 
 **Airflow Variables**
-These variable are initially set in the `variables.json` file.  Variables for this project are primarily handled by the PA Digital team.  They will be the ones to add or update variables as needed.
-Variables are listed in [variables.json](variables.json)
+
+These variables are initially set in the `variables.json` file.  Variables for this project are primarily handled by the PA Digital team.  They will be the ones to add or update variables as needed.
+Variables are listed in [variables.json](variables.json).
 
 **Airflow Connections**
 - `SOLRCLOUD`: An HTTP Connection used to connect to SolrCloud.
 - `AIRFLOW_S3`: An AWS (not S3 with latest Airflow upgrade) Connection used to manage AWS credentials (which we use to interact with our Airflow Data S3 Bucket).
-- `AIRFLOW_CONN_SLACK_WEBHOOK`: Slack failure notifications 
+- `AIRFLOW_CONN_SLACK_WEBHOOK`: Slack failure notifications
 - `FUNCAKE_SLACK_WEBHOOK`: Slack success notifications
 
 ## Local Development
 
-This project uses the UNIX `make` command to build, run, stop, configure, and test Funcake DAGS for local development. Steps to get started follow.
+This project uses the UNIX `make` command to build, run, stop, configure, and test DAGS for local development. Steps to get started follow.
 
 ### Up and running
 
