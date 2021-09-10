@@ -1,4 +1,4 @@
-# Funnel Cake DAGs
+# PA Digital Aggregator DAGs
 
 [![CircleCI](https://circleci.com/gh/tulibraries/funcake_dags.svg?style=svg)](https://circleci.com/gh/tulibraries/funcake_dags)
 ![pylint Score](https://mperlet.github.io/pybadge/badges/9.47.svg)
