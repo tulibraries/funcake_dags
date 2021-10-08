@@ -41,6 +41,14 @@ def pytest_sessionstart():
         login="puppy",
         password="chow"
     )
+    solrcloud_writer = airflow.models.Connection(
+        conn_id="SOLRCLOUD-WRITER",
+        conn_type="http",
+        host="127.0.0.1",
+        port="8983",
+        login="puppy",
+        password="chow"
+    )
     s3 = airflow.models.Connection(
         conn_id="AIRFLOW_S3",
         conn_type="AWS",
@@ -55,6 +63,7 @@ def pytest_sessionstart():
     )
     airflow_session = airflow.settings.Session()
     airflow_session.add(solrcloud)
+    airflow_session.add(solrcloud_writer)
     airflow_session.add(s3)
     airflow_session.add(slack)
     airflow_session.commit()

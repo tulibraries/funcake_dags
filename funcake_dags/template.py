@@ -30,7 +30,7 @@ AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
 
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 
-SOLR_CONN = BaseHook.get_connection("SOLRCLOUD")
+SOLR_CONN = BaseHook.get_connection("SOLRCLOUD-WRITER")
 
 SOLR_CONFIGSET = Variable.get("FUNCAKE_OAI_SOLR_CONFIGSET", default_var="funcake-oai-0")
 
