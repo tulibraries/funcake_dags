@@ -16,6 +16,7 @@ xmltodict = "*"
 sickle = "*"
 awscli = "*"
 sqlalchemy = "==1.3.23"
+flask-openid = "==1.3.0"
 flask-sqlalchemy = "==2.4.4"
 Werkzeug = "==0.16.1"
 
