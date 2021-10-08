@@ -63,6 +63,7 @@ def pytest_sessionstart():
     )
     airflow_session = airflow.settings.Session()
     airflow_session.add(solrcloud)
+    airflow_session.add(solrcloud_writer)
     airflow_session.add(s3)
     airflow_session.add(slack)
     airflow_session.commit()
