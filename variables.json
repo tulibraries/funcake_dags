@@ -383,6 +383,7 @@
       "pitt_collection.157",
       "pitt_collection.161",
       "pitt_collection.162",
+      "pitt_collection.168",
       "pitt_collection.172",
       "pitt_collection.173",
       "pitt_collection.174",
@@ -472,7 +473,10 @@
       "pitt_collection.355",
       "pitt_collection.356",
       "pitt_collection.359",
-      "pitt_collection.361"
+      "pitt_collection.361",
+      "pitt_collection.362",
+      "pitt_collection.363",
+      "pitt_collection.365"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
