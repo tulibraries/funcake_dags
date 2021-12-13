@@ -7,7 +7,7 @@ verify_ssl = true
 pylint = "*"
 pytest = "*"
 apache-airflow = "==1.10.14"
-cryptography = "==3.3.2"
+cryptography = "==36.0.0"
 jinja2 = "==2.11.3"
 localstack = "*"
 moto = "*"
