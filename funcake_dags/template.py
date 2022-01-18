@@ -235,6 +235,7 @@ def create_dag(dag_id):
             sc_coll_name=f"{SOLR_CONFIGSET}-{dag_id}-{TARGET_ALIAS_ENV}",
             sc_alias=f"{SOLR_CONFIGSET}-{TARGET_ALIAS_ENV}",
             configset=SOLR_CONFIGSET,
+            replicationFactor=4,
             dag=dag)
 
         PUBLISH = BashOperator(
