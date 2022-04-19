@@ -19,7 +19,7 @@ jinja2 = "==2.11.3"
 lxml = "==4.7.1"
 markupsafe= "==2.0.1"
 marshmallow = "==2.21.0"
-moto = "==2.0.6"
+moto = "==3.1.5"
 # numpy required in circleci context.
 numpy= "*"
 paramiko = "*"
