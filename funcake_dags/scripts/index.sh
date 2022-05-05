@@ -31,3 +31,7 @@ done
 
 PUBLISH_TASK_REPORT=$AIRFLOW_HOME/dags/funcake_dags/scripts/publish_task_report.rb
 cat $TEMPFILE | ruby $PUBLISH_TASK_REPORT
+
+INGEST_COUNT=$(grep 'finished Traject::Indexer\#process:.*records in.*seconds' $TEMPFILE | wc -l);
+RESP_COUNT=$(echo $RESP | wc -w)
+if [ $INGEST_COUNT -ne $RESP_COUNT ]; then echo FAILED: Ingest count does not match number of files; exit 1; fi
