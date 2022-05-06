@@ -69,10 +69,15 @@ class TestTemplate(unittest.TestCase):
         self.assertEqual(task.op_kwargs["alias"], "funcake-oai-0-dev")
         self.assertEqual(task.op_kwargs["collection"], "funcake-oai-0-funcake_foo-dev")
 
-    def test_pulish_stask(self):
+    def test_pulish_task(self):
         task = self.dag.get_task("publish")
         self.assertEqual(task.bash_command, SCRIPTS_PATH + "/index.sh " )
         self.assertEqual(task.env["FUNCAKE_OAI_SOLR_URL"], "http://127.0.0.1:8983/solr/funcake-oai-0-funcake_foo-dev" )
+
+    def test_validate_alias_task(self):
+        task = self.dag.get_task("validate_alias")
+        self.assertEqual(task.op_kwargs["alias"], "funcake-oai-0-dev")
+        self.assertEqual(task.op_kwargs["collection"], "funcake-oai-0-funcake_foo-dev")
 
     def test_success_slack_trigger__task(self):
         task = self.dag.get_task("success_slack_trigger")
