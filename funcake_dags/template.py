@@ -254,10 +254,10 @@ def create_dag(dag_id):
             }},
             dag=dag)
 
-        def validate_alias(conn, collection, alias):
+        def validate_alias(conn, collection, alias, **args):
             login = conn.login
             password = conn.password
-            url = tasks.get_solr_url(conn, collection)
+            url = conn.host + (f":{conn.port}" if conn.port else "")
             sc = SolrApiUtils(url, auth_user=login, auth_pass=password)
 
             if not sc.is_collection_in_alias(collection, alias):
