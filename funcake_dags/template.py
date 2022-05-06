@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta
 import os
 from tulflow import harvest, tasks, transform, validate
+from tulflow.solr_api_utils import SolrApiUtils
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.hooks.base_hook import BaseHook
@@ -253,6 +254,26 @@ def create_dag(dag_id):
             }},
             dag=dag)
 
+        def validate_alias(conn, collection, alias):
+            login = conn.login
+            password = conn.password
+            url = tasks.get_solr_url(conn, collection)
+            sc = SolrApiUtils(url, auth_user=login, auth_pass=password)
+
+            if not sc.is_collection_in_alias(collection, alias):
+                raise ValueError("Expected collection " + collection + "to be in alias (" + alias + "). But not found.");
+
+        VALIDATE_ALIAS = PythonOperator(
+            task_id="validate_alias",
+            provide_context=True,
+            python_callable=validate_alias,
+            op_kwargs= {
+                "conn": SOLR_CONN,
+                "collection": f"{SOLR_CONFIGSET}-{dag_id}-{TARGET_ALIAS_ENV}",
+                "alias": f"{SOLR_CONFIGSET}-{TARGET_ALIAS_ENV}"
+                },
+            dag=dag)
+
         NOTIFY_SLACK = PythonOperator(
             task_id="success_slack_trigger",
             provide_context=True,
@@ -285,5 +306,7 @@ def create_dag(dag_id):
 
         PUBLISH.set_upstream(REFRESH_COLLECTION_FOR_ALIAS)
 
-        NOTIFY_SLACK.set_upstream(PUBLISH)
+        VALIDATE_ALIAS.set_upstream(PUBLISH)
+
+        NOTIFY_SLACK.set_upstream(VALIDATE_ALIAS)
     return dag
