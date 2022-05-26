@@ -99,4 +99,3 @@ class TestTemplate(unittest.TestCase):
         dag = create_dag("foo")
         task = dag.get_task("harvest_aggregator_data")
         self.assertEqual(task.env["FOLDER"], "funcake_foo/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated")
-        self.assertEqual(task.xcom_push_flag, True, "Enable xcom_push for reporting.")
