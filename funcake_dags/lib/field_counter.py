@@ -1,5 +1,5 @@
 from lxml.etree import XMLPullParser, QName
-from airflow.hooks.S3_hook import S3Hook
+from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from funcake_dags.lib.metadata_breakers import dc_breaker
 import logging
 
