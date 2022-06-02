@@ -4,10 +4,10 @@ import os
 from tulflow import harvest, tasks, transform, validate
 from tulflow.solr_api_utils import SolrApiUtils
 from airflow import DAG
-from airflow.operators.bash_operator import BashOperator
-from airflow.hooks.base_hook import BaseHook
+from airflow.operators.bash import BashOperator
+from airflow.hooks.base import BaseHook
 from airflow.models import Variable
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python import PythonOperator
 from funcake_dags.tasks.task_slack_posts import slackpostonfail, slackpostonsuccess
 from funcake_dags.lib.field_counter import field_count_report
 
@@ -57,7 +57,6 @@ def get_harvest_task(dag, config):
         return BashOperator(
                 task_id="harvest_aggregator_data",
                 bash_command="aggregator_data_transform_to_s3.sh ",
-                xcom_push=True,
                 env={**os.environ, **{
                     "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
                     "DAGID": dag.dag_id,
@@ -74,7 +73,6 @@ def get_harvest_task(dag, config):
     else:
         return PythonOperator(
                 task_id="harvest_oai",
-                provide_context=True,
                 python_callable=harvest.oai_to_s3,
                 op_kwargs={
                     "access_id": AIRFLOW_S3.login,
@@ -135,7 +133,6 @@ def create_dag(dag_id):
 
         HARVEST_FIELD_COUNT_REPORT = PythonOperator(
             task_id="harvest_field_count_report",
-            provide_context=True,
             python_callable=field_count_report,
             op_kwargs={
                 "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated/",
@@ -145,7 +142,6 @@ def create_dag(dag_id):
 
         HARVEST_SCHEMATRON_REPORT = PythonOperator(
             task_id="harvest_schematron_report",
-            provide_context=True,
             python_callable=validate.report_s3_schematron,
             op_kwargs={
                 "access_id": AIRFLOW_S3.login,
@@ -159,7 +155,6 @@ def create_dag(dag_id):
 
         HARVEST_FILTER = PythonOperator(
             task_id="harvest_filter",
-            provide_context=True,
             python_callable=validate.filter_s3_schematron,
             op_kwargs={
                 "access_id": AIRFLOW_S3.login,
@@ -193,7 +188,6 @@ def create_dag(dag_id):
 
         XSL_TRANSFORM_SCHEMATRON_REPORT = PythonOperator(
             task_id="xsl_transform_schematron_report",
-            provide_context=True,
             python_callable=validate.report_s3_schematron,
             op_kwargs={
                 "access_id": AIRFLOW_S3.login,
@@ -207,7 +201,6 @@ def create_dag(dag_id):
 
         XSL_TRANSFORM_FILTER = PythonOperator(
             task_id="xsl_transform_filter",
-            provide_context=True,
             python_callable=validate.filter_s3_schematron,
             op_kwargs={
                 "access_id": AIRFLOW_S3.login,
@@ -223,7 +216,6 @@ def create_dag(dag_id):
 
         TRANSFORM_FIELD_COUNT_REPORT = PythonOperator(
             task_id="transform_field_count_report",
-            provide_context=True,
             python_callable=field_count_report,
             op_kwargs={
                 "source_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
@@ -265,7 +257,6 @@ def create_dag(dag_id):
 
         VALIDATE_ALIAS = PythonOperator(
             task_id="validate_alias",
-            provide_context=True,
             python_callable=validate_alias,
             op_kwargs= {
                 "conn": SOLR_CONN,
@@ -276,7 +267,6 @@ def create_dag(dag_id):
 
         NOTIFY_SLACK = PythonOperator(
             task_id="success_slack_trigger",
-            provide_context=True,
             python_callable=slackpostonsuccess,
             dag=dag)
 

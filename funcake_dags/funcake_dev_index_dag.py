@@ -1,10 +1,10 @@
 """DAG to Harvest PA Digital Aggregated OAI-PMH XML & Index to SolrCloud."""
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.hooks.base_hook import BaseHook
+from airflow.hooks.base import BaseHook
 from airflow.models import Variable
-from airflow.operators.python_operator import PythonOperator
-from airflow.operators.bash_operator import BashOperator
+from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 from tulflow import harvest, tasks
 from funcake_dags.tasks.task_slack_posts import slackpostonfail, slackpostonsuccess
 
@@ -68,7 +68,6 @@ Tasks with custom logic are relegated to individual Python files.
 
 HARVEST_OAI = PythonOperator(
     task_id='harvest_oai',
-    provide_context=True,
     python_callable=harvest.oai_to_s3,
     op_kwargs={
         "oai_endpoint": FUNCAKE_OAI_ENDPT,
@@ -116,7 +115,6 @@ SOLR_ALIAS_SWAP = tasks.swap_sc_alias(DAG, SOLR_CONN.conn_id, COLLECTION, ALIAS)
 
 NOTIFY_SLACK = PythonOperator(
     task_id="success_slack_trigger",
-    provide_context=True,
     python_callable=slackpostonsuccess,
     dag=DAG
 )

@@ -45,7 +45,7 @@ class TestFieldCounter(unittest.TestCase):
         stats += "   average_completeness 33.333333\n"
 
         self.assertEqual.__self__.maxDiff = None
-        self.assertEqual(["INFO:root:" + stats], log.output)
+        self.assertIn("INFO:root:" + stats, log.output)
 
     @mock_s3
     def test_field_count_report_oai_pmh(self):
@@ -107,7 +107,7 @@ class TestFieldCounter(unittest.TestCase):
         stats += "   average_completeness 45.833333\n"
 
         self.assertEqual.__self__.maxDiff = None
-        self.assertEqual(["INFO:root:" + stats], log.output)
+        self.assertIn("INFO:root:" + stats, log.output)
 
     @mock_s3
     def test_field_count_report_collection(self):
@@ -142,7 +142,7 @@ class TestFieldCounter(unittest.TestCase):
         stats += "      wwww_completeness 0.000000\n"
         stats += "   average_completeness 37.777778\n"
         self.assertEqual.__self__.maxDiff = None
-        self.assertEqual(["INFO:root:" + stats], log.output)
+        self.assertIn("INFO:root:" + stats, log.output)
 
 
 
@@ -166,7 +166,7 @@ class TestFieldCounter(unittest.TestCase):
 
         stats = "Nothing to report. No records were found."
         self.assertEqual.__self__.maxDiff = None
-        self.assertEqual(["WARNING:root:" + stats], log.output)
+        self.assertIn("WARNING:root:" + stats, log.output)
 
 
     @mock_s3
@@ -188,4 +188,4 @@ class TestFieldCounter(unittest.TestCase):
         with self.assertLogs(level='INFO') as log:
             field_count_report(bucket, key)
 
-        self.assertIn("3/3", log.output[0])
+        self.assertIn("3/3", log.output[-1])
