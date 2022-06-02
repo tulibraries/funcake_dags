@@ -69,18 +69,22 @@ jobs:
 
 workflows:
   version: 2
-  funcake_dags_ci_cd:
+  run_tests:
     jobs:
       - lint_and_test
-      - request-prod-deploy:
-          type: approval
+  qa_deploy:
+    jobs:
+      - qa_deploy:
+          requires:
+            - lint_and_test
           filters:
             branches:
               only:
                 - main
-      - qa_deploy:
-          requires:
-            - lint_and_test
+  prod_deploy:
+    jobs:
+      - request-prod-deploy:
+          type: approval
           filters:
             branches:
               only:
