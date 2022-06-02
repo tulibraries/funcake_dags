@@ -74,17 +74,13 @@ workflows:
       - lint_and_test
   qa_deploy:
     jobs:
-      - lint_and_test
       - qa_deploy:
-          requires:
-            - lint_and_test
           filters:
             branches:
               only:
                 - main
   prod_deploy:
     jobs:
-      - lint_and_test
       - request-prod-deploy:
           type: approval
           filters:
@@ -93,7 +89,6 @@ workflows:
                 - main
       - prod_deploy:
           requires:
-            - lint_and_test
             - request-prod-deploy
           filters:
             branches:
