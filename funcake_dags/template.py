@@ -123,11 +123,11 @@ def create_dag(dag_id):
     Tasks with custom logic are relegated to individual Python files.
     """
     with dag:
-        SET_COLLECTION_NAME = PythonOperator(
+        SET_COLLECTION_NAME = BashOperator(
             task_id="set_collection_name",
-            python_callable=datetime.now().strftime,
-            op_args=["%Y-%m-%d_%H-%M-%S"],
-            dag=dag)
+            bash_command='echo ' + "{{ data_interval_start.strftime('%Y-%m-%d_%H-%M-%S') }}",
+            dag=dag
+        )
 
         HARVEST = get_harvest_task(dag, config)
 

@@ -20,7 +20,7 @@ FUNCAKE_SOLR_CONFIG = Variable.get("FUNCAKE_SOLR_CONFIG", deserialize_json=True)
 # {"configset": "funcake-8", "replication_factor": 4}
 CONFIGSET = FUNCAKE_SOLR_CONFIG.get("configset")
 REPLICATION_FACTOR = FUNCAKE_SOLR_CONFIG.get("replication_factor")
-TIMESTAMP = "{{ execution_date.strftime('%Y-%m-%d_%H-%M-%S') }}"
+TIMESTAMP = "{{ data_interval_start.strftime('%Y-%m-%d_%H-%M-%S') }}"
 COLLECTION = CONFIGSET + "-" + TIMESTAMP
 ALIAS = CONFIGSET + "-prod"
 if "://" in SOLR_CONN.host:
