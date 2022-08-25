@@ -19,7 +19,7 @@ importlib_metadata = "*"
 jinja2 = "==2.11.3"
 lxml = "==4.7.1"
 markupsafe= "==2.0.1"
-moto = "==2.0.6"
+moto = "==4.0.1"
 # numpy required in circleci context.
 numpy= "*"
 paramiko = "*"
