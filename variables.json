@@ -723,7 +723,8 @@
     "excluded_sets": [],
     "included_sets": [
       "1",
-      "2"
+      "2",
+      "3"
     ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
