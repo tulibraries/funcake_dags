@@ -2064,7 +2064,7 @@
  },
  "SWATHAVERFORD_TARGET_ALIAS_ENV": "dev",
  "TEMPLE_HARVEST_CONFIG": {
-   "endpoint": "https://digital.library.temple.edu/oai/oai.php",
+   "endpoint": "http://digital.library.temple.edu/oai/oai.php",
    "md_prefix": "oai_qdc",
    "all_sets": false,
    "excluded_sets": [],
