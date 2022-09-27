@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-apache-airflow = "==2.3.2"
+apache-airflow = "==2.4.0"
 apache-airflow-providers-amazon = "*"
 apache-airflow-providers-ftp = "*"
 apache-airflow-providers-http = "*"
@@ -12,14 +12,9 @@ apache-airflow-providers-sftp = "*"
 apache-airflow-providers-slack = "*"
 apache-airflow-providers-ssh = "*"
 boto3 = "*"
-cryptography = "==3.4.8"
-flask-openid = "==1.3.0"
-flask-sqlalchemy = "==2.4.4"
 importlib_metadata = "*"
-jinja2 = "==2.11.3"
-lxml = "==4.7.1"
-markupsafe= "==2.0.1"
-moto = "==2.0.6"
+lxml = "*"
+moto = "*"
 # numpy required in circleci context.
 numpy= "*"
 paramiko = "*"
@@ -32,7 +27,6 @@ setuptools = "*"
 sickle = "*"
 sshtunnel = "*"
 tulflow = "*"
-wtforms = "==2.3.3"
 
 [packages]
 
