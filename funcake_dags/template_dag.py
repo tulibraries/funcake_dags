@@ -51,6 +51,7 @@ dag_ids = [
     "lcp",
     "lehigh",
     "lehigh_csv",
+    "moravian",
     "mhac",
     "millersville",
     "pcom",
