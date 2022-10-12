@@ -755,6 +755,30 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "MILLERSVILLE_TARGET_ALIAS_ENV": "dev",
+  "MORAVIAN_HARVEST_CONFIG": {
+    "endpoint": "https://moravianhistoricalsociety.reclaim.hosting/oai",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "587",
+      "588",
+      "589",
+      "1334",
+      "2330",
+      "2331",
+      "2332",
+      "2333"
+    ],
+    "schematron_filter": "validations/ingest_oai_validation.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "omeka_moravian.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "MORAVIAN_TARGET_ALIAS_ENV": "dev",
   "PCOM_HARVEST_CONFIG": {
     "endpoint": "http://digitalcommons.pcom.edu/do/oai/",
     "md_prefix": "oai_dc",
