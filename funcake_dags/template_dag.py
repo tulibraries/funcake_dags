@@ -53,6 +53,7 @@ dag_ids = [
     "lehigh_csv",
     "mhac",
     "millersville",
+    "moravian",
     "pcom",
     "penn_digitalimages",
     "penn_holy",
