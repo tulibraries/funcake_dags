@@ -757,7 +757,7 @@
   "MILLERSVILLE_TARGET_ALIAS_ENV": "dev",
   "MORAVIAN_HARVEST_CONFIG": {
     "endpoint": "https://moravianhistoricalsociety.reclaim.hosting/oai",
-    "md_prefix": "oai_dc",
+    "md_prefix": "oai_dcterms",
     "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
