@@ -480,7 +480,8 @@
       "pitt_collection.366",
       "pitt_collection.375",
       "pitt_collection.380",
-      "pitt_collection.382"
+      "pitt_collection.382",
+      "pitt_collection.384"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
