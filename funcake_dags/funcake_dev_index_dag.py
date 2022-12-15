@@ -57,7 +57,7 @@ DAG = DAG(
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,
-    schedule_interval=None
+    schedule=None
 )
 
 """

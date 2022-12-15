@@ -53,7 +53,7 @@ def pytest_sessionstart():
     )
     s3 = Connection(
         conn_id="AIRFLOW_S3",
-        conn_type="AWS",
+        conn_type="aws",
         login="elephants-key",
         password="elephants-secret"
     )
