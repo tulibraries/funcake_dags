@@ -95,7 +95,7 @@ def create_dag(dag_id):
             default_args=DEFAULT_ARGS,
             catchup=False,
             max_active_runs=1,
-            schedule_interval=None)
+            schedule=None)
 
     config_name = name(dag_id) + "_HARVEST_CONFIG"
     config = Variable.get(config_name, deserialize_json=True)
