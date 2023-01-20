@@ -15,8 +15,9 @@ boto3 = "*"
 importlib_metadata = "*"
 lxml = "*"
 moto = "*"
-# numpy required in circleci context.
+# numpy and pandas required in circleci context.
 numpy = "*"
+pandas = "*"
 paramiko = "*"
 pexpect = "*"
 pylint = "*"
