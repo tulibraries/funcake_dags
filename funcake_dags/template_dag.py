@@ -40,6 +40,7 @@ dag_ids = [
     "chrc",
     "cpp",
     "curtis",
+    "docpitt",
     "dplah",
     "drexel_westphal",
     "fandm",
