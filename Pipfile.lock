@@ -1275,11 +1275,11 @@
         },
         "moto": {
             "hashes": [
-                "sha256:c8200ccaa9440c2e9daa0bd5e0bd768a719db5a2c82ea8d782f0e3fa09a3c5e2",
-                "sha256:dcd1d06662982cf3c94f36d6348251ccdcf62a1c5de5650425cb4e6f260ae7a0"
+                "sha256:304cb19eee0019cd13f7d87ca590a4694677469c383ab8f8439fcb6717c47037",
+                "sha256:f9bf72aec6aea49ebb1a46c8096b2c9629be58ecca3ecd8b51f781fea78148e2"
             ],
             "index": "pypi",
-            "version": "==4.1.3"
+            "version": "==4.1.4"
         },
         "multidict": {
             "hashes": [
