@@ -325,19 +325,19 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:5a9d19cdd8dcec679c483408f208027e01ab2087cbc66787790036087b6737de",
-                "sha256:6c4845243d1896019646d649f1f0ff4042cedcc5db3ecfba3dc2d611ea11cd08"
+                "sha256:043f8981d10c4e7c48736df4381dac557b46c5b369b0a450d8f3d7f5fdd24db5",
+                "sha256:b00f416832bc59863b96175045d2ebe067d9222289bce677c48fd72c006eaaad"
             ],
             "index": "pypi",
-            "version": "==1.26.71"
+            "version": "==1.26.102"
         },
         "botocore": {
             "hashes": [
-                "sha256:60c7a7bf8e2a288735e507007a6769be03dc24815f7dc5c7b59b12743f4a31cf",
-                "sha256:7bb60d9d4c49500df55dfb6005c16002703333ff5f69dada565167c8d493dfd5"
+                "sha256:4bae8f502507da18ff37c61cb18745cfb11d87a61dd0ea27e346adadff92aa3f",
+                "sha256:58b11c630d2044ea732ba4c403d29fab51e954465f9b3f7099cbf5ac0ce7ab47"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.29.101"
+            "version": "==1.29.102"
         },
         "cachelib": {
             "hashes": [
@@ -623,7 +623,7 @@
                 "sha256:a07ffd2351b8c678dfc4a856a3005f8067aea51d6ba6c700796a4d9e280f39f0",
                 "sha256:e5db55f3687856d8fbdab002ed78544e1c4559a130302693d839dfe8f93f2373"
             ],
-            "markers": "python_version >= '3.7'",
+            "markers": "python_version < '3.11'",
             "version": "==0.3.6"
         },
         "dnspython": {
@@ -1367,11 +1367,11 @@
         },
         "mypy-boto3-rds": {
             "hashes": [
-                "sha256:73dffe6d67412ebd7e4530290d4f4619a2194393c3d42b4b11812a180c343473",
-                "sha256:96729974cc2ecce6cd5fc79a24be22d8bc8dc88a7726eebc110ab8b9bae74ac4"
+                "sha256:9c502ab1cc014aafd8262e377655b9d870b4017670b3a063d735e18e9e257ebb",
+                "sha256:ba35ff784e3d6ba80820d7fa5165d6ef9b31660327f6ffe4eabe06751ddf7bdc"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.26.99"
+            "version": "==1.26.102"
         },
         "mypy-boto3-redshift-data": {
             "hashes": [
@@ -1690,10 +1690,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:8a8baaf1e237175b02f5c751eea67168043a749c843989e2b3015aa1ad9db68b",
-                "sha256:a27dcf612c05d2ebde626f7d506555f10dfc815b3eddccfaadfc7d99b11c9a07"
+                "sha256:1d8ce29db189191fb55338ee6d0387d82ab59f3d00eac103412d64e0ebd0c588",
+                "sha256:a151b3abb88eda1d4e34a9814df37de2a80e301e68ba0fd856fb9b46bfbbbffb"
             ],
-            "version": "==2023.2"
+            "version": "==2023.3"
         },
         "pytzdata": {
             "hashes": [
@@ -2110,7 +2110,7 @@
                 "sha256:5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb",
                 "sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4"
             ],
-            "markers": "python_version >= '3.7'",
+            "markers": "python_version < '3.10'",
             "version": "==4.5.0"
         },
         "uc-micro-py": {
