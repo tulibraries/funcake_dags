@@ -144,11 +144,11 @@
         },
         "apache-airflow-providers-amazon": {
             "hashes": [
-                "sha256:22da8bb9f50c120ab8f7dc36fc5ee95f5f6d013295945e77e2c6ceee2dd93119",
-                "sha256:cd7797778c97c21e8f2e807bcdc593cb231611191d8f197f9a0680e45478cb0d"
+                "sha256:0206eb2f537976eb782841d635abd3be13df89b0a9eb3683de86c994f7dcfdaa",
+                "sha256:16c05f5e8fd006ada54cac309a9b8fb5f0d0ab17ac4d8b8bc7dfa78bf7c9ed1a"
             ],
             "index": "pypi",
-            "version": "==8.0.0"
+            "version": "==8.1.0"
         },
         "apache-airflow-providers-common-sql": {
             "hashes": [
@@ -1404,6 +1404,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==1.26.109"
+        },
+        "mypy-boto3-s3": {
+            "hashes": [
+                "sha256:0e548b97c6a2589f7bff5d26a1ca101622749771379226e3ad0822629d0613c5",
+                "sha256:21e647caa18d98dbbc706597c9b27d41674f18850f42b2cfdb9a39b39820e470"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==1.26.127"
         },
         "numpy": {
             "hashes": [
