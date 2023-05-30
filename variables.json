@@ -1012,16 +1012,17 @@
     "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
-      "islandora_rg316",
-      "islandora_churchbuildings",
-      "islandora_spalding",
-      "islandora_oralhistories_collection",
       "islandora_audio_collection",
+      "islandora_churchbuildings",
+      "islandora_kgc",
       "islandora_maps",
+      "islandora_oralhistories_collection",
       "islandora_portraits",
-      "islandora_video_collection",
+      "islandora_rg316",
       "islandora_rns",
-      "islandora_slides_b34"
+      "islandora_slides_b34",
+      "islandora_spalding",
+      "islandora_video_collection"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
