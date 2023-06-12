@@ -1095,7 +1095,11 @@
       "pitt_collection.368",
       "pitt_collection.369",
       "pitt_collection.370",
-      "pitt_collection.378"
+      "pitt_collection.378",
+      "pitt_collection.383",
+      "pitt_collection.392",
+      "pitt_collection.393",
+      "pitt_collection.394"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
