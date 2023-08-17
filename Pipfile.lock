@@ -144,11 +144,11 @@
         },
         "apache-airflow-providers-amazon": {
             "hashes": [
-                "sha256:24214ce0b616c41bfcc78c8df9bb1a32e420cca81bad2783116bf6d3cb7dcc95",
-                "sha256:33c27a3c52f41c0e11195a3e81c0852e158d1e3e5767f58725b03049b77dbed3"
+                "sha256:7d6f7d85251fd386b4272d0a91029185d31b033307cb510a2f053e2f1f880fe6",
+                "sha256:9fe118305d1af12a1e1a4d2a09f5e3ca5bf2e4d1ec13343116bdbb961b95e874"
             ],
             "index": "pypi",
-            "version": "==8.4.0"
+            "version": "==8.5.1"
         },
         "apache-airflow-providers-common-sql": {
             "hashes": [
@@ -634,7 +634,7 @@
                 "sha256:57c6fbaaeaaf39c891292012060beb141791735dbb4004798328fc2c467402d8",
                 "sha256:8dcfae8c7460a2f84b4072e26f1c9f4101ca20c071649cb7c34e8b6a93d58984"
             ],
-            "markers": "python_version >= '3.8' and python_version < '4.0'",
+            "markers": "python_version >= '3.8' and python_version < '4'",
             "version": "==2.4.2"
         },
         "docutils": {
@@ -697,7 +697,7 @@
                 "sha256:ba56245ba43b71c8ae936784b867625dce8b9956faeedec2953222e57942fb0b",
                 "sha256:e0ef23d8c863746bd141046167073699e1a7b03c97169cbba70f05b8d9cd6b9e"
             ],
-            "markers": "python_version >= '3.7' and python_version < '4.0'",
+            "markers": "python_version >= '3.7' and python_version < '4'",
             "version": "==4.5.2"
         },
         "flask-limiter": {
@@ -1452,11 +1452,11 @@
         },
         "mypy-boto3-appflow": {
             "hashes": [
-                "sha256:75c2398544019f306bf04b33f674308eb6bda4de63f94d6307cf6c231616fcd5",
-                "sha256:ec67c248312ffb5534006be53b9baddb9cbb354a2c4f95349b1c3db2f02da72b"
+                "sha256:6bb79a6e25bdb8ec16f0ca2da5bcdebf77f3557385679fc8b82aa2816ffb6f28",
+                "sha256:9b5399ed18bcd8ff3cd6d82dac10f87090a1feea3d5ad7f9b6cb94ca21ed45b0"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.28.0"
+            "version": "==1.28.16"
         },
         "mypy-boto3-rds": {
             "hashes": [
