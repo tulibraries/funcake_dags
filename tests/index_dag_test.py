@@ -23,7 +23,6 @@ class TestFuncakeDevIndexDAG(unittest.TestCase):
             "create_collection",
             "combine_index",
             "solr_alias_swap",
-            "success_slack_trigger"
             ])
 
     def test_dag_task_order(self):
@@ -32,7 +31,6 @@ class TestFuncakeDevIndexDAG(unittest.TestCase):
             "create_collection": ["harvest_oai"],
             "combine_index": ["create_collection"],
             "solr_alias_swap": ["combine_index"],
-            "success_slack_trigger": ["solr_alias_swap"]
         }
 
         for task, upstream_tasks in expected_task_deps.items():
@@ -73,7 +71,6 @@ class TestFuncakeProdIndexDAG(unittest.TestCase):
             "create_collection",
             "combine_index",
             "solr_alias_swap",
-            "success_slack_trigger"
             ])
 
     def test_dag_task_order(self):
@@ -82,7 +79,6 @@ class TestFuncakeProdIndexDAG(unittest.TestCase):
             "create_collection": ["harvest_oai"],
             "combine_index": ["create_collection"],
             "solr_alias_swap": ["combine_index"],
-            "success_slack_trigger": ["solr_alias_swap"]
         }
 
         for task, upstream_tasks in expected_task_deps.items():

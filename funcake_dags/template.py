@@ -8,15 +8,19 @@ from airflow.operators.bash import BashOperator
 from airflow.hooks.base import BaseHook
 from airflow.models import Variable
 from airflow.operators.python import PythonOperator
-from funcake_dags.tasks.task_slack_posts import slackpostonfail, slackpostonsuccess
 from funcake_dags.lib.field_counter import field_count_report
+from airflow.providers.slack.notifications.slack import send_slack_notification
+
+slackpostonsuccess = send_slack_notification(channel="aggregator", username="airflow", text=":partygritty: {{ execution_date }} DAG {{ dag.dag_id }} success: {{ ti.log_url }}")
+slackpostonfail = send_slack_notification(channel="aggregator", username="airflow", text=":poop: Task failed: {{ dag.dag_id }} {{ ti.task_id }} {{ execution_date }} {{ ti.log_url }}")
 
 # Define the DAG
 DEFAULT_ARGS = {
     "owner": "dpla",
     "depends_on_past": False,
     "start_date": datetime(2019, 8, 27),
-    "on_failure_callback": slackpostonfail,
+    "on_failure_callback": [slackpostonfail],
+    "on_success_callback": [slackpostonsuccess],
     "retries": 0,
     "retry_delay": timedelta(minutes=10),
 }
@@ -265,12 +269,6 @@ def create_dag(dag_id):
                 },
             dag=dag)
 
-        NOTIFY_SLACK = PythonOperator(
-            task_id="success_slack_trigger",
-            python_callable=slackpostonsuccess,
-            dag=dag)
-
-
         # SET UP TASK DEPENDENCIES
         HARVEST.set_upstream(SET_COLLECTION_NAME)
 
@@ -297,6 +295,4 @@ def create_dag(dag_id):
         PUBLISH.set_upstream(REFRESH_COLLECTION_FOR_ALIAS)
 
         VALIDATE_ALIAS.set_upstream(PUBLISH)
-
-        NOTIFY_SLACK.set_upstream(VALIDATE_ALIAS)
     return dag

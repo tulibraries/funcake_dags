@@ -79,10 +79,6 @@ class TestTemplate(unittest.TestCase):
         self.assertEqual(task.op_kwargs["alias"], "funcake-oai-0-dev")
         self.assertEqual(task.op_kwargs["collection"], "funcake-oai-0-funcake_foo-dev")
 
-    def test_success_slack_trigger__task(self):
-        task = self.dag.get_task("success_slack_trigger")
-        self.assertIn(task.python_callable.__qualname__, "slackpostonsuccess")
-
     def test_all_task_are_linked_to_something(self):
         for task in self.dag.tasks:
             self.assertTrue(task.upstream_list != [] or task.downstream_list != [], "Expect all tasks to be linked to eachother.")

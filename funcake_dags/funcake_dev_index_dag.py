@@ -6,7 +6,10 @@ from airflow.models import Variable
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 from tulflow import harvest, tasks
-from funcake_dags.tasks.task_slack_posts import slackpostonfail, slackpostonsuccess
+from airflow.providers.slack.notifications.slack import send_slack_notification
+
+slackpostonsuccess = send_slack_notification(channel="aggregator", username="airflow", text=":partygritty: {{ execution_date }} DAG {{ dag.dag_id }} success: {{ ti.log_url }}")
+slackpostonfail = send_slack_notification(channel="aggregator", username="airflow", text=":poop: Task failed: {{ dag.dag_id }} {{ ti.task_id }} {{ execution_date }} {{ ti.log_url }}")
 
 """
 INIT SYSTEMWIDE VARIABLES
@@ -44,16 +47,17 @@ FUNCAKE_INDEX_BASH = AIRFLOW_HOME + "/dags/funcake_dags/scripts/index.sh "
 
 # Define the DAG
 DEFAULT_ARGS = {
-    'owner': 'dpla',
-    'depends_on_past': False,
-    'start_date': datetime(2019, 8, 27),
-    'on_failure_callback': slackpostonfail,
-    'retries': 0,
-    'retry_delay': timedelta(minutes=10),
+    "owner": "dpla",
+    "depends_on_past": False,
+    "start_date": datetime(2019, 8, 27),
+    "on_failure_callback": [slackpostonfail],
+    "on_success_callback": [slackpostonsuccess],
+    "retries": 0,
+    "retry_delay": timedelta(minutes=10),
 }
 
 DAG = DAG(
-    'funcake_dev_index',
+    "funcake_dev_index",
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,
@@ -67,7 +71,7 @@ Tasks with custom logic are relegated to individual Python files.
 """
 
 HARVEST_OAI = PythonOperator(
-    task_id='harvest_oai',
+    task_id="harvest_oai",
     python_callable=harvest.oai_to_s3,
     op_kwargs={
         "oai_endpoint": FUNCAKE_OAI_ENDPT,
@@ -93,7 +97,7 @@ CREATE_COLLECTION = tasks.create_sc_collection(
 )
 
 COMBINE_INDEX = BashOperator(
-    task_id='combine_index',
+    task_id="combine_index",
     bash_command=FUNCAKE_INDEX_BASH,
     env={
         "BUCKET": AIRFLOW_DATA_BUCKET,
@@ -113,14 +117,7 @@ COMBINE_INDEX = BashOperator(
 
 SOLR_ALIAS_SWAP = tasks.swap_sc_alias(DAG, SOLR_CONN.conn_id, COLLECTION, ALIAS)
 
-NOTIFY_SLACK = PythonOperator(
-    task_id="success_slack_trigger",
-    python_callable=slackpostonsuccess,
-    dag=DAG
-)
-
 # SET UP TASK DEPENDENCIES
 CREATE_COLLECTION.set_upstream(HARVEST_OAI)
 COMBINE_INDEX.set_upstream(CREATE_COLLECTION)
 SOLR_ALIAS_SWAP.set_upstream(COMBINE_INDEX)
-NOTIFY_SLACK.set_upstream(SOLR_ALIAS_SWAP)
