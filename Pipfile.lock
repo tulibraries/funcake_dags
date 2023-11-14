@@ -179,12 +179,12 @@
         },
         "apache-airflow-providers-http": {
             "hashes": [
-                "sha256:c9b08782031daa8c18ba62c2c8ae687659968d636fbf6b9fbed488d1fe4f0162",
-                "sha256:ca3cf6c209cb27144fd4d676ee5feef96a1ed67002f13bf4a8b74d859ef8b56c"
+                "sha256:839a456d705a35f2801f687b3daf0545632bde2e44142c44bc76ce36fd0b5678",
+                "sha256:ec2fbaeb997ebbc597e086f5cb6e7c92d7955854a1b54f4fc6549b7efb9b7daa"
             ],
             "index": "pypi",
             "markers": "python_version ~= '3.8'",
-            "version": "==4.6.0"
+            "version": "==4.7.0"
         },
         "apache-airflow-providers-imap": {
             "hashes": [
@@ -1250,11 +1250,11 @@
         },
         "jsonschema-specifications": {
             "hashes": [
-                "sha256:05adf340b659828a004220a9613be00fa3f223f2b82002e273dee62fd50524b1",
-                "sha256:c91a50404e88a1f6ba40636778e2ee08f6e24c5613fe4c53ac24578a5a7f72bb"
+                "sha256:c9b234904ffe02f079bf91b14d79987faa685fd4b39c377a0996954c0090b9ca",
+                "sha256:f596778ab612b3fd29f72ea0d990393d0540a5aab18bf0407a46632eab540779"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==2023.7.1"
+            "version": "==2023.11.1"
         },
         "lazy-object-proxy": {
             "hashes": [
@@ -2219,11 +2219,11 @@
         },
         "referencing": {
             "hashes": [
-                "sha256:449b6669b6121a9e96a7f9e410b245d471e8d48964c67113ce9afe50c8dd7bdf",
-                "sha256:794ad8003c65938edcdbc027f1933215e0d0ccc0291e3ce20a4d87432b59efc0"
+                "sha256:381b11e53dd93babb55696c71cf42aef2d36b8a150c49bf0bc301e36d536c882",
+                "sha256:cc28f2c88fbe7b961a7817a0abc034c09a1e36358f82fedb4ffdf29a25398863"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==0.30.2"
+            "version": "==0.31.0"
         },
         "requests": {
             "hashes": [
@@ -2727,12 +2727,11 @@
         },
         "werkzeug": {
             "hashes": [
-                "sha256:554b257c74bbeb7a0d254160a4f8ffe185243f52a52035060b761ca62d977f03",
-                "sha256:bba1f19f8ec89d4d607a3bd62f1904bd2e609472d93cd85e9d4e178f472c3748"
+                "sha256:2e1ccc9417d4da358b9de6f174e3ac094391ea1d4fbef2d667865d819dfd0afe",
+                "sha256:56433961bc1f12533306c624f3be5e744389ac61d722175d543e1751285da612"
             ],
-            "index": "pypi",
-            "markers": "python_version >= '3.8'",
-            "version": "==2.3.8"
+            "markers": "python_version >= '3.7'",
+            "version": "==2.2.3"
         },
         "wrapt": {
             "hashes": [
