@@ -1033,6 +1033,7 @@
       "islandora_rns",
       "islandora_slides_b34",
       "islandora_spalding",
+      "islandora_tehran_community_school",
       "islandora_video_collection"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
