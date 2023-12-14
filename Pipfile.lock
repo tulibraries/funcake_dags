@@ -194,12 +194,12 @@
         },
         "apache-airflow-providers-slack": {
             "hashes": [
-                "sha256:478d7b4cc86920d092e6b8cb1d95fb2a3d89d0e8bc9b6b81de0bd14101273678",
-                "sha256:d4412e3b3bae53480eb219a0d1e8f3953cc7c8c4e1b83759bce0af866f84d5c5"
+                "sha256:e3ade1bcee0d7fc84301d1f3de34abadf996d1c29465aa65b02016cd163eb86a",
+                "sha256:f80be973514f56527d3038bbff2a719adac14a52bf00f5ff8d56cadecfc7c92e"
             ],
             "index": "pypi",
             "markers": "python_version ~= '3.8'",
-            "version": "==8.4.0"
+            "version": "==8.5.0"
         },
         "apache-airflow-providers-sqlite": {
             "hashes": [
@@ -699,11 +699,11 @@
         },
         "flask-jwt-extended": {
             "hashes": [
-                "sha256:061ef3d25ed5743babe4964ab38f36d870e6d2fd8a126bab5d77ddef8a01932b",
-                "sha256:eaec42af107dcb919785a4b3766c09ffba9f286b92a8d58603933f28fd4db6a3"
+                "sha256:63a28fc9731bcc6c4b8815b6f954b5904caa534fc2ae9b93b1d3ef12930dca95",
+                "sha256:9215d05a9413d3855764bcd67035e75819d23af2fafb6b55197eb5a3313fdfb2"
             ],
             "markers": "python_version >= '3.7' and python_version < '4'",
-            "version": "==4.5.3"
+            "version": "==4.6.0"
         },
         "flask-limiter": {
             "hashes": [
@@ -2513,11 +2513,11 @@
         },
         "slack-sdk": {
             "hashes": [
-                "sha256:2a8513505cced20ceee22b5b49c11d9545caa6234b56bf0ad47133ea5b357d10",
-                "sha256:9d6ebc4ff74e7983e1b27dbdb0f2bb6fc3c2a2451694686eaa2be23bbb085a73"
+                "sha256:d1600211eaa37c71a5f92daf4404074c3e6b3f5359a37c93c818b39d88ab4ca0",
+                "sha256:f80f0d15f0fce539b470447d2a07b03ecdad6b24f69c1edd05d464cf21253a06"
             ],
             "markers": "python_full_version >= '3.6.0'",
-            "version": "==3.23.0"
+            "version": "==3.26.1"
         },
         "sniffio": {
             "hashes": [
