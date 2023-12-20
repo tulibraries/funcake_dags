@@ -18,8 +18,6 @@ These DAGs are expecting to be run within an Airflow installation akin to the on
 **Libraries & Packages**
 
 - Python: Version as specified in `.python-version`.
-- Pip: 18.1+
-- Pipenv: 2020-11-15+
 - Python Package Dependencies: see the [Pipfile](Pipfile)
 - Docker 20.10+
 - Docker-Compose: 1.27+
@@ -32,33 +30,15 @@ Variables are listed in [variables.json](variables.json).
 **Airflow Connections**
 - `SOLRCLOUD`: An HTTP Connection used to connect to SolrCloud.
 - `AIRFLOW_S3`: An AWS (not S3 with latest Airflow upgrade) Connection used to manage AWS credentials (which we use to interact with our Airflow Data S3 Bucket).
-- `AIRFLOW_CONN_SLACK_WEBHOOK`: Slack failure notifications
-- `FUNCAKE_SLACK_WEBHOOK`: Slack success notifications
+- `slack_api_default`: Used to report DAG run successes and failures to our internal slack channels.
 
 ## Local Development
+Local development relies on the  [Airflow Docker Dev Setup submodule](https://github.com/tulibraries/airflow-docker-dev-setup).
 
-This project uses the UNIX `make` command to build, run, stop, configure, and test DAGS for local development. Steps to get started follow.
-
-### Up and running
-
-Clone https://github.com/tulibraries/ansible_playbook_airflow locally; in a shell at the top level of that repository, run `make up` then git clone/pull your working funcake_dags code to ansible_playbook_airflow/dags/funcake-dags. This shows & runs your development DAG code in the Airflow docker containers, with a webserver at http://localhost:8080.
-
-Open a terminal and execute the following commands:
-
-```
-$ git clone https://github.com/tulibraries/funcake_dags.git
-$ cd funcake_dags
-$ make up
-```
-
-Wait for Airflow and associated servers to build and start up. This may take several minutes.
-
-Open a browser and visit http://localhost:8010 to verify  Airflow server is running.
+This project uses the UNIX `make` command to build, run, stop, configure, and test DAGS for local development. These commands are written to first run the script to change into the submodule directory to use and access the development setup. See the [Makefile](Makefile) for the complete list of commands available.
+ 
 
 On initial startup, the dashboard may display an empty or partial list of DAGs and the status at the top may show the Broken DAG error message indicating that a connection or variable is missing. Create the connection and copy it's attributes from the [TUL Production Airflow Server Connections](http://localhost:8010/admin/connection/) or [TUL QA Airflow Server Connections](http://localhost:8010/admin/connection/).  Create the variable and copy it's value from the [TUL Production Airflow Server Variables](http://localhost:8010/admin/variable/) or [TUL QA Airflow Server Variables](http://localhost:8010/admin/variable/).
-
-Specific Make targets and their descriptions are documented in [Airflow Docket Dev Setup](airflow-docker-dev-setup/README.md).
-
 
 ### Related Documentation and Projects
 
@@ -66,6 +46,7 @@ Specific Make targets and their descriptions are documented in [Airflow Docket D
 - [Ansible Playbook Airflow](https://github.com/tulibraries/ansible-playbook-airflow)
 - [Apache Airflow](https://airflow.apache.org/docs/)
 - [CircleCI](https://circleci.com/docs/2.0/configuration-reference/)
+- [tulflow](https://github.com/tulibraries/tulflow)
 
 
 ## Linting & Testing
@@ -106,4 +87,6 @@ $ make -f airflow-docker-dev-setup/Makefile test
 
 ## Deployment
 
-CircleCI checks (lints and tests) code and deploys to the QA and Prod servers when development branches are merged into the `main` branch. See the [CircleCI configuration file](cob_datapipeline/.circleci/config.yml) for details.
+QA: CircleCI checks (lints and tests) code and deploys to the QA server when development branches are merged into the `main` branch. 
+
+Production: When a development branch is merged into `main` it creates a request_prod_deploy job.  To deploy code to the production server, you will need to go to the circleCI User Interface and approve the pending job. See the [CircleCI configuration file](cob_datapipeline/.circleci/config.yml) for details.
