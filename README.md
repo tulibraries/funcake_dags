@@ -35,7 +35,7 @@ Variables are listed in [variables.json](variables.json).
 ## Local Development
 Local development relies on the  [Airflow Docker Dev Setup submodule](https://github.com/tulibraries/airflow-docker-dev-setup).
 
-This project uses the UNIX `make` command to build, run, stop, configure, and test DAGS for local development. These commands are written to first run the script to change into the submodule directory to use and access the development setup. See the [Makefile](Makefile) for the complete list of commands available.
+This project uses the UNIX `make` command to build, run, stop, configure, and test DAGS for local development. These commands first run a script to change into the submodule directory that is used for the development setup. See the [Makefile](Makefile) for the complete list of commands available.
  
 
 On initial startup, the dashboard may display an empty or partial list of DAGs and the status at the top may show the Broken DAG error message indicating that a connection or variable is missing. Create the connection and copy it's attributes from the [TUL Production Airflow Server Connections](http://localhost:8010/admin/connection/) or [TUL QA Airflow Server Connections](http://localhost:8010/admin/connection/).  Create the variable and copy it's value from the [TUL Production Airflow Server Variables](http://localhost:8010/admin/variable/) or [TUL QA Airflow Server Variables](http://localhost:8010/admin/variable/).
