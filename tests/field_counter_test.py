@@ -1,11 +1,11 @@
 from funcake_dags.lib.field_counter import field_count_report
 import unittest
 import boto3
-from moto import mock_s3
+from moto import mock_aws
 
 class TestFieldCounter(unittest.TestCase):
 
-    @mock_s3
+    @mock_aws
     def test_field_count_report_csv_xml(self):
         bucket = "tulib-airflow-prod"
         key = "funcake_free_library_of_philadelphia/2019-12-12_17-17-40/new-updated/"
@@ -47,7 +47,7 @@ class TestFieldCounter(unittest.TestCase):
         self.assertEqual.__self__.maxDiff = None
         self.assertIn("INFO:root:" + stats, log.output)
 
-    @mock_s3
+    @mock_aws
     def test_field_count_report_oai_pmh(self):
         bucket = "tulib-airflow-prod"
         key = "foobar/2019-12-12_17-17-40/new-updated/"
@@ -109,7 +109,7 @@ class TestFieldCounter(unittest.TestCase):
         self.assertEqual.__self__.maxDiff = None
         self.assertIn("INFO:root:" + stats, log.output)
 
-    @mock_s3
+    @mock_aws
     def test_field_count_report_collection(self):
         bucket = "tulib-airflow-prod"
         key = "foobar/2019-12-12_17-17-40/transformed-filtered/"
@@ -146,7 +146,7 @@ class TestFieldCounter(unittest.TestCase):
 
 
 
-    @mock_s3
+    @mock_aws
     def test_field_count_report_with_no_records(self):
         bucket = "tulib-airflow-prod"
         key = "foobar/2019-12-12_17-17-40/transformed-filtered/"
@@ -169,7 +169,7 @@ class TestFieldCounter(unittest.TestCase):
         self.assertIn("WARNING:root:" + stats, log.output)
 
 
-    @mock_s3
+    @mock_aws
     def test_field_count_report_with_record_tag(self):
         bucket = "tulib-airflow-prod"
         key = "foobar/2019-12-12_17-17-40/transformed-filtered/"
