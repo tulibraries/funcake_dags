@@ -818,6 +818,24 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "MORAVIAN_TARGET_ALIAS_ENV": "dev",
+  "PAB_HARVEST_CONFIG": {
+    "endpoint": "https://www.philadelphiabuildings.org/pab/oai.cfm/PADigital",
+    "md_prefix": "oai_qdc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [
+      "institution:3CE009B0-DAB8-482B-9BA145F8415E6AE2",
+      "collection:9C45F5C2-155D-010A-021DB7FEFEEFC914"
+    ],
+    "schematron_filter": "validations/ingest_oai_validation.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/custom_pab.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "PAB_TARGET_ALIAS_ENV": "dev",
   "PCOM_HARVEST_CONFIG": {
     "endpoint": "http://digitalcommons.pcom.edu/do/oai/",
     "md_prefix": "oai_dc",
