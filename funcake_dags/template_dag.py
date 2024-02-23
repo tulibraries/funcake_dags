@@ -55,6 +55,7 @@ dag_ids = [
     "mhac",
     "millersville",
     "moravian",
+    "pab",
     "pcom",
     "penn_digitalimages",
     "penn_holy",
