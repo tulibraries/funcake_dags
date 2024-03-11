@@ -517,7 +517,10 @@
       "pitt_collection.388",
       "pitt_collection.390",
       "pitt_collection.391",
-      "pitt_collection.397"
+      "pitt_collection.397",
+      "pitt_collection.415",
+      "pitt_collection.417",
+      "pitt_collection.418"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
@@ -1130,6 +1133,7 @@
       "pitt_collection.370",
       "pitt_collection.378",
       "pitt_collection.383",
+      "pitt_collection.389",
       "pitt_collection.392",
       "pitt_collection.393",
       "pitt_collection.394",
@@ -1142,7 +1146,8 @@
       "pitt_collection.408",
       "pitt_collection.409",
       "pitt_collection.410",
-      "pitt_collection.411"
+      "pitt_collection.411",
+      "pitt_collection.412"
       ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
