@@ -101,6 +101,21 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "BRYNMAWR_TARGET_ALIAS_ENV": "dev",
+  "CABRINI_HARVEST_CONFIG": {
+    "endpoint": "https://cdm17305.contentdm.oclc.org/oai/oai.php",
+    "md_prefix": "oai_qdc",
+    "all_sets": true,
+    "excluded_sets": [],
+    "included_sets": [],
+    "schematron_filter": "validations/ingest_oai_validation.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/cdm_generic.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "CABRINI_TARGET_ALIAS_ENV": "dev",
   "CHRC_HARVEST_CONFIG": {
     "endpoint": "https://omeka.chrc-phila.org/oai",
     "md_prefix": "oai_dcq",
