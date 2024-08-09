@@ -27,9 +27,9 @@ TIMESTAMP = "{{ data_interval_start.strftime('%Y-%m-%d_%H-%M-%S') }}"
 COLLECTION = CONFIGSET + "-" + TIMESTAMP
 ALIAS = CONFIGSET + "-prod"
 if "://" in SOLR_CONN.host:
-    SOLR_COLL_ENDPT = SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
+    SOLR_COLL_ENDPT = SOLR_CONN.host + "/solr/" + COLLECTION
 else:
-    SOLR_COLL_ENDPT = "http://" + SOLR_CONN.host + ":" + str(SOLR_CONN.port) + "/solr/" + COLLECTION
+    SOLR_COLL_ENDPT = "https://" + SOLR_CONN.host + "/solr/" + COLLECTION
 
 # Combine OAI Harvest Variables
 FUNCAKE_OAI_CONFIG = Variable.get("FUNCAKE_OAI_CONFIG", deserialize_json=True)
