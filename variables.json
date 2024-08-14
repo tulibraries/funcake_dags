@@ -1,16 +1,16 @@
 {
   "AIRFLOW_DATA_BUCKET": "tulib-airflow-prod",
   "DPLAH_TARGET_ALIAS_ENV": "dev",
-  "FUNCAKE_OAI_SOLR_CONFIGSET": "funcake-oai-3",
+  "FUNCAKE_OAI_SOLR_CONFIGSET": "funcake-oai-4",
   "FUNCAKE_OAI_CONFIG": {
-    "endpoint": "https://funnelcake.padigital.org/oai_dev",
+    "endpoint": "https://funnelcake.temple.edu/oai_dev",
     "all_sets": true,
     "excluded_sets": [],
     "included_sets": [],
     "md_prefix": "oai_dc"
   },
   "FUNCAKE_SOLR_CONFIG": {
-    "configset": "funcake-3",
+    "configset": "funcake-4",
     "replication_factor": 4
   },
   "ALLEGHENY_HARVEST_CONFIG": {
