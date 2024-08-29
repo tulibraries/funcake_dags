@@ -129,7 +129,7 @@ def create_dag(dag_id):
     with dag:
         SET_COLLECTION_NAME = BashOperator(
             task_id="set_collection_name",
-            bash_command='echo ' + "{{ data_interval_start.strftime('%Y-%m-%d_%H-%M-%S') }}",
+            bash_command='echo ' + "{{ logical_date.strftime('%Y-%m-%d_%H-%M-%S') }}",
             dag=dag
         )
 

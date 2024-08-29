@@ -26,7 +26,7 @@ class TestTemplate(unittest.TestCase):
 
     def test_set_collection_name_task(self):
         task = self.dag.get_task("set_collection_name")
-        self.assertEqual(task.bash_command, "echo {{ data_interval_start.strftime('%Y-%m-%d_%H-%M-%S') }}")
+        self.assertEqual(task.bash_command, "echo {{ logical_date.strftime('%Y-%m-%d_%H-%M-%S') }}")
 
     def test_harvest_oai_task(self):
         task = self.dag.get_task("harvest_oai")
