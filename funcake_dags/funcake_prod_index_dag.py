@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.hooks.base import BaseHook
 from airflow.models import Variable
+from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 from tulflow import harvest, tasks
@@ -51,7 +52,6 @@ DEFAULT_ARGS = {
     "depends_on_past": False,
     "start_date": datetime(2019, 8, 27),
     "on_failure_callback": [slackpostonfail],
-    "on_success_callback": [slackpostonsuccess],
     "retries": 0,
     "retry_delay": timedelta(minutes=10),
 }
@@ -115,8 +115,12 @@ COMBINE_INDEX = BashOperator(
 )
 
 SOLR_ALIAS_SWAP = tasks.swap_sc_alias(DAG, SOLR_CONN.conn_id, COLLECTION, ALIAS)
+SUCCESS = EmptyOperator(
+        task_id='success',
+        on_success_callback=[slackpostonsuccess])
 
 # SET UP TASK DEPENDENCIES
 CREATE_COLLECTION.set_upstream(HARVEST_OAI)
 COMBINE_INDEX.set_upstream(CREATE_COLLECTION)
 SOLR_ALIAS_SWAP.set_upstream(COMBINE_INDEX)
+SUCCESS.set_upstream(SOLR_ALIAS_SWAP)

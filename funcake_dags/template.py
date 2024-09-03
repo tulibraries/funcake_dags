@@ -20,7 +20,6 @@ DEFAULT_ARGS = {
     "depends_on_past": False,
     "start_date": datetime(2019, 8, 27),
     "on_failure_callback": [slackpostonfail],
-    "on_success_callback": [slackpostonsuccess],
     "retries": 0,
     "retry_delay": timedelta(minutes=10),
 }
@@ -267,6 +266,7 @@ def create_dag(dag_id):
                 "collection": f"{SOLR_CONFIGSET}-{dag_id}-{TARGET_ALIAS_ENV}",
                 "alias": f"{SOLR_CONFIGSET}-{TARGET_ALIAS_ENV}"
                 },
+            on_success_callback=[slackpostonsuccess],
             dag=dag)
 
         # SET UP TASK DEPENDENCIES
