@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "314f5e742f3a18ad3c6c47aa098fff4c10e2468a0780b30b668795f2360aa324"
+            "sha256": "4d226fd470c4000a77dffd824543869cd9dd9bdfbfbf8365b4d119b5e97eb56a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -240,12 +240,12 @@
         },
         "apache-airflow-providers-slack": {
             "hashes": [
-                "sha256:408f29cb17086d9003c413869cb1b3f05297276caf2c80abdc7dd1e73d14a7f1",
-                "sha256:6afce534d6f950f4d729fc9a113b2086b354a6b6a20514f7a9cdd3f6b98f5721"
+                "sha256:3d6574949e5f304eb9a894e33a3feb5eade2a128e95fa77cbe784b6e55f54ad6",
+                "sha256:b80f602307aab6605d142e931e1c17c3316272ea20e8980b8efe772f1dad55fc"
             ],
             "index": "pypi",
             "markers": "python_version ~= '3.8'",
-            "version": "==8.7.1"
+            "version": "==8.9.0"
         },
         "apache-airflow-providers-smtp": {
             "hashes": [
@@ -1023,7 +1023,7 @@
                 "sha256:fd096eb7ffef17c456cfa587523c5f92321ae02427ff955bebe9e3c63bc9f0da",
                 "sha256:fe754d231288e1e64323cfad462fcee8f0288654c10bdf4f603a39ed923bef33"
             ],
-            "markers": "python_version >= '3' and (platform_machine == 'aarch64' or (platform_machine == 'ppc64le' or (platform_machine == 'x86_64' or (platform_machine == 'amd64' or (platform_machine == 'AMD64' or (platform_machine == 'win32' or platform_machine == 'WIN32'))))))",
+            "markers": "python_version >= '3' and platform_machine == 'aarch64' or (platform_machine == 'ppc64le' or (platform_machine == 'x86_64' or (platform_machine == 'amd64' or (platform_machine == 'AMD64' or (platform_machine == 'win32' or platform_machine == 'WIN32')))))",
             "version": "==3.0.3"
         },
         "grpcio": {
@@ -2103,7 +2103,7 @@
                 "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3",
                 "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.9.0.post0"
         },
         "python-nvd3": {
@@ -2508,7 +2508,7 @@
                 "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
                 "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.16.0"
         },
         "slack-sdk": {
