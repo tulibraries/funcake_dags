@@ -50,7 +50,7 @@ On initial startup, the dashboard may display an empty or partial list of DAGs a
 
 ### Make Commands
 
-#### rebuld-pipfile:
+#### rebuild-pipfile:
 Used to rebuild Pipfile while making sure that airflow-constraints are met.
 
 #### compare-dependencies:
