@@ -22,15 +22,13 @@ pysftp = "*"
 pytest = "==8.3.2"
 requests-mock = "==1.12.1"
 s3fs = "==2024.6.1"
-setuptools = "*"
+setuptools = "74.0.0"
 sickle = "*"
 sshtunnel = "==0.4.0"
 tulflow = "*"
-
 # numpy and pandas required in circleci context.
 numpy = "==1.26.4"
 pandas = "==2.1.4"
-
 
 [packages]
 

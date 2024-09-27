@@ -1,3 +1,6 @@
 [submodule "airflow-docker-dev-setup"]
 	path = airflow-docker-dev-setup
 	url = git@github.com:tulibraries/airflow-docker-dev-setup.git
+[submodule ".circleci/shared-scripts"]
+	path = .circleci/shared-scripts
+	url = git@github.com:tulibraries/shared-scripts.git

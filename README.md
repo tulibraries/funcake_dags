@@ -48,6 +48,15 @@ On initial startup, the dashboard may display an empty or partial list of DAGs a
 - [CircleCI](https://circleci.com/docs/2.0/configuration-reference/)
 - [tulflow](https://github.com/tulibraries/tulflow)
 
+### Make Commands
+
+#### rebuld-pipfile:
+Used to rebuild Pipfile while making sure that airflow-constraints are met.
+
+#### compare-dependencies:
+Used to automatically check if a new dependency does not match upstream airflow contraints.
+
+
 
 ## Linting & Testing
 
