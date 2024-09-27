@@ -12,12 +12,26 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
+      - run: git submodule init; git submodule update
       - run:
-          name: 'Run Pylint & Pytest'
+          name: 'Install Dependencies'
           command: |
             SLUGIFY_USES_TEXT_UNIDECODE=yes pipenv install --dev
-            pipenv run pylint funcake_dags -E
-            PYTHONPATH=. pipenv run pytest
+
+      - run:
+          name: 'Check Airflow Constraints'
+          command: |
+            make compare-dependencies
+
+      - run:
+          name: 'Run Pylint'
+          command: |
+            make lint
+
+      - run:
+          name: 'Run Pytest'
+          command: |
+            make test
   qa_deploy:
     docker:
       - image: cimg/python:3.12.3
