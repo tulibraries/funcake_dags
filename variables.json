@@ -552,6 +552,7 @@
     "all_sets": false,
     "excluded_sets": [],
     "included_sets": [
+      "collection:AYA",
       "collection:College+Archives+Image+Collection",
       "collection:General+Eisenhower+at+Lafayette%3A+Founders%27+Day+1946",
       "collection:Gerald+and+Rella+Warner+Dutch+East+Indies+Negatives",
@@ -562,7 +563,8 @@
       "collection:Lafayette+Magazine+archive",
       "collection:Marquis+de+Lafayette+Prints+Collection",
       "collection:Marquis+Magazine",
-      "collection:McKelvy+House" 
+      "collection:McKelvy+House",
+      "collection:Pacific+War+Postcards" 
     ],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
