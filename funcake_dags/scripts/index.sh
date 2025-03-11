@@ -16,6 +16,7 @@ set -aux
 git clone https://github.com/tulibraries/$INDEXER.git tmp/$INDEXER
 cd tmp/$INDEXER
 gem install bundler
+bundle config set force_ruby_platform true
 bundle install
 
 # grab list of items from designated aws bucket (creds are envvars), then index each item
