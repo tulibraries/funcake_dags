@@ -36,7 +36,7 @@ load-vars:
 	$(INTO-SUBMODULE) && $(MAKE) load-vars
 
 compare-dependencies:
-	.circleci/shared-scripts/compare_dependencies.sh
+	.github/shared-scripts/compare_dependencies.sh
 
 lint:
 	pipenv run pylint funcake_dags -E
@@ -45,7 +45,7 @@ test:
 	PYTHONPATH=. pipenv run pytest
 
 build-requirements:
-	.circleci/shared-scripts/build-requirements.sh
+	.github/shared-scripts/build-requirements.sh
 
 rebuild-pipfile: build-requirements
 	pipenv --rm

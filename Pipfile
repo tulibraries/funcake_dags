@@ -15,6 +15,7 @@ flask-session = "==0.5.0"
 importlib_metadata = "==6.11.0"
 lxml = "==5.3.0"
 moto = "==5.0.11"
+pandas = "==2.1.4"
 paramiko = "==3.5.0"
 pexpect = "==4.9.0"
 pylint = "*"
@@ -26,11 +27,8 @@ setuptools = "75.8.0"
 sickle = "*"
 sshtunnel = "==0.4.0"
 tulflow = "*"
-# numpy and pandas required in circleci context.
-numpy = "==1.26.4"
-pandas = "==2.1.4"
 
 [packages]
 
 [requires]
-python_version = "3.12.4"
+python_version = "3.12"
