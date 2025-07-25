@@ -50,4 +50,4 @@ build-requirements:
 rebuild-pipfile: build-requirements
 	pipenv --rm
 	rm -f Pipfile.lock
-	pipenv install --dev --requirements pipfile-requirements.txt
+	pipenv install --dev --requirements requirements.txt
