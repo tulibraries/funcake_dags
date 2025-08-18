@@ -1,5 +1,5 @@
 from funcake_dags.template import create_dag
-from airflow import DAG # Required or airflow-webserver skips file.
+from airflow import DAG  # Required or airflow-webserver skips file.
 
 """
 This file will automatically create a dag for every dag_id added to the dag_ids array below.
@@ -73,6 +73,7 @@ dag_ids = [
     "power_psa",
     "shi",
     "slipperyrock",
+    "statelibrary",
     "statelibrary_csv",
     "susqu",
     "swathaverford",
@@ -85,7 +86,7 @@ dag_ids = [
     "villanova",
     "westchester",
     "widener"
-	]
+]
 for dag_id in dag_ids:
     dag = create_dag(dag_id)
     globals()[dag.dag_id] = dag
