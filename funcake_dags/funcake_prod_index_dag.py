@@ -111,6 +111,7 @@ COMBINE_INDEX = BashOperator(
         "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME,
         "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME
     },
+        execution_timeout=timedelta(hours=6),
     dag=DAG
 )
 
