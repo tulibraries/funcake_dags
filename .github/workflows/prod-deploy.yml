@@ -64,4 +64,4 @@ jobs:
         working-directory: ansible-playbook-airflow
         run: |
           pipenv run ansible-galaxy install -r requirements.yml
-          pipenv run ansible-playbook -i inventory/prod playbook.yml --tags "jumphost,role::airflow::dags" --vault-password-file "$HOME/.vault" -e 'ansible_ssh_port=9229' -e funcake_branch=$FUNCAKE_BRANCH
+          pipenv run ansible-playbook -i inventory/prod playbook.yml --tags "jumphost,role::airflow::dags" --vault-password-file "$HOME/.vault" -e 'ansible_ssh_port=9229' -e 'funcake_dags_branch=main'
