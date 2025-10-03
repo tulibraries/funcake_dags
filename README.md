@@ -1,6 +1,5 @@
 # PA Digital Aggregator DAGs
 
-[![CircleCI](https://circleci.com/gh/tulibraries/funcake_dags.svg?style=svg)](https://circleci.com/gh/tulibraries/funcake_dags)
 ![pylint Score](https://mperlet.github.io/pybadge/badges/9.47.svg)
 
 This repository contains files related to Airflow DAGs (Directed Acyclic Graphs, e.g. data processing workflows) used for PA Digital aggregation processes.
@@ -45,7 +44,6 @@ On initial startup, the dashboard may display an empty or partial list of DAGs a
 - [Airflow Docker Development Setup](https://github.com/tulibraries/airflow-docker-dev-setup)
 - [Ansible Playbook Airflow](https://github.com/tulibraries/ansible-playbook-airflow)
 - [Apache Airflow](https://airflow.apache.org/docs/)
-- [CircleCI](https://circleci.com/docs/2.0/configuration-reference/)
 - [tulflow](https://github.com/tulibraries/tulflow)
 
 ### Make Commands
@@ -79,7 +77,7 @@ Use `pytest` to run unit and functional tests on this project.
 $ pipenv run pytest
 ```
 
-`lint` and `pytest` are run automatically by CircleCI on each pull request.
+`lint` and `pytest` are run automatically by GitHub actions on each pull request.
 
 
 You may also test using `airflow-docker-dev-setup/Makefile`
@@ -96,6 +94,6 @@ $ make -f airflow-docker-dev-setup/Makefile test
 
 ## Deployment
 
-QA: CircleCI checks (lints and tests) code and deploys to the QA server when development branches are merged into the `main` branch. 
+QA: GitHub action checks (lints and tests) code and deploys to the QA server when development branches are merged into the `main` branch. 
 
-Production: When a development branch is merged into `main` it creates a request_prod_deploy job.  To deploy code to the production server, you will need to go to the circleCI User Interface and approve the pending job. See the [CircleCI configuration file](cob_datapipeline/.circleci/config.yml) for details.
+Production: When a development branch is merged into `main` it creates a request_prod_deploy job.  To deploy code to the production server, you will need to  approve the pending job in the #aggregator channel on Slack. You will see a GitHub action notification that says Deployment review requested, waiting for review. Click on the link and follow the instructions.
