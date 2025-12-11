@@ -76,21 +76,6 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "BLOOMSBURG_TARGET_ALIAS_ENV": "dev",
-  "BRYNMAWR_HARVEST_CONFIG": {
-    "endpoint": "https://digitalcollections.tricolib.brynmawr.edu/oai/request",
-    "md_prefix": "oai_dc",
-    "all_sets": false,
-    "excluded_sets": [],
-    "included_sets": [],
-    "schematron_filter": "validations/ingest_oai_validation.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
-    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "main",
-    "xsl_filename": "transforms/islandora_trico.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx"
-  },
-  "BRYNMAWR_TARGET_ALIAS_ENV": "dev",
   "CHRC_HARVEST_CONFIG": {
     "endpoint": "https://omeka.chrc-phila.org/oai",
     "md_prefix": "oai_dcq",
@@ -2358,21 +2343,6 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "SUSQU_TARGET_ALIAS_ENV": "dev",
-  "SWATHAVERFORD_HARVEST_CONFIG": {
-    "endpoint": "https://digitalcollections.tricolib.brynmawr.edu/oai/request",
-    "md_prefix": "oai_dc",
-    "all_sets": false,
-    "excluded_sets": [],
-    "included_sets": [],
-    "schematron_filter": "validations/ingest_oai_validation.sch",
-    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
-    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
-    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
-    "xsl_branch": "main",
-    "xsl_filename": "transforms/islandora_trico.xsl",
-    "xsl_repository": "tulibraries/aggregator_mdx"
-  },
-  "SWATHAVERFORD_TARGET_ALIAS_ENV": "dev",
   "TEMPLE_HARVEST_CONFIG": {
     "endpoint": "https://digital.library.temple.edu/oai/oai.php",
     "md_prefix": "oai_qdc",
@@ -2490,6 +2460,21 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "TJU_EASTFALLS_TARGET_ALIAS_ENV": "dev",
+  "TRICO_HARVEST_CONFIG": {
+    "endpoint": "https://digitalcollections.tricolib.brynmawr.edu/oai/request",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [],
+    "schematron_filter": "validations/ingest_oai_validation.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/islandora_trico.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "TRICO_TARGET_ALIAS_ENV": "dev",
   "URSINUS_HARVEST_CONFIG": {
     "endpoint": "http://digitalcommons.ursinus.edu/do/oai/",
     "md_prefix": "oai_dc",
