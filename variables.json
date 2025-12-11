@@ -943,24 +943,11 @@
   },
   "PENNSTATE_TARGET_ALIAS_ENV": "dev",
   "PHS_HARVEST_CONFIG": {
-    "endpoint": "https://digital.history.pcusa.org/oai2/oai.php",
+    "endpoint": "https://digital.history.pcusa.org/oai/request",
     "md_prefix": "oai_dc",
     "all_sets": false,
     "excluded_sets": [],
-    "included_sets": [
-      "islandora_audio_collection",
-      "islandora_churchbuildings",
-      "islandora_kgc",
-      "islandora_maps",
-      "islandora_oralhistories_collection",
-      "islandora_portraits",
-      "islandora_rg316",
-      "islandora_rns",
-      "islandora_slides_b34",
-      "islandora_spalding",
-      "islandora_tehran_community_school",
-      "islandora_video_collection"
-    ],
+    "included_sets": [],
     "schematron_filter": "validations/ingest_oai_validation.sch",
     "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
     "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
@@ -2473,6 +2460,21 @@
     "xsl_repository": "tulibraries/aggregator_mdx"
   },
   "TJU_EASTFALLS_TARGET_ALIAS_ENV": "dev",
+  "TRICO_HARVEST_CONFIG": {
+    "endpoint": "https://digitalcollections.tricolib.brynmawr.edu/oai/request",
+    "md_prefix": "oai_dc",
+    "all_sets": false,
+    "excluded_sets": [],
+    "included_sets": [],
+    "schematron_filter": "validations/ingest_oai_validation.sch",
+    "schematron_report": "validations/padigital_missing_thumbnailURL.sch",
+    "schematron_xsl_filter": "validations/padigital_reqd_fields.sch",
+    "schematron_xsl_report": "validations/padigital_missing_thumbnailURL.sch",
+    "xsl_branch": "main",
+    "xsl_filename": "transforms/islandora_trico.xsl",
+    "xsl_repository": "tulibraries/aggregator_mdx"
+  },
+  "TRICO_TARGET_ALIAS_ENV": "dev",
   "URSINUS_HARVEST_CONFIG": {
     "endpoint": "http://digitalcommons.ursinus.edu/do/oai/",
     "md_prefix": "oai_dc",
