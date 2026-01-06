@@ -66,3 +66,13 @@ jobs:
         run: |
           pipenv run ansible-galaxy install -r requirements.yml
           pipenv run ansible-playbook -i inventory/prod playbook.yml --tags "jumphost,role::airflow::dags" --vault-password-file "$HOME/.vault" -e 'ansible_ssh_port=9229' -e 'funcake_dags_branch=main'
+
+  notify_on_failure:
+    if: failure()
+    needs: [prod-deploy]
+    uses: tulibraries/.github/.github/workflows/slack-notify.yml@main
+    with:
+      repo: ${{ github.repository }}
+      run_id: ${{ github.run_id }}
+      workflow: ${{ github.workflow }}
+    secrets: inherit
