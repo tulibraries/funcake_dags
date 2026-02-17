@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-aiobotocore = "==2.19.0"
+aiobotocore = "==2.20.0"
 apache-airflow = "==2.10.5"
 apache-airflow-providers-amazon = "==9.2.0"
 apache-airflow-providers-sftp = "==5.0.0"
