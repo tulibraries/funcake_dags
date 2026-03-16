@@ -3013,11 +3013,11 @@
         },
         "tulflow": {
             "hashes": [
-                "sha256:42d71709ac27efe1e4059393a2513fe8ebd75ae600b4da35a744869d2a52316e",
-                "sha256:51c27863e88675d34a1a52e8d4dead8056f33737bd692a4ff041a4a1d42e0169"
+                "sha256:773c64693f778e762937f38afa4347986710786ba6dbf6b60bf2bfc6cd1445c9",
+                "sha256:d955a48215821bba745ac0c337bda0e8d381a5ba66289e38f630cde4f3e033e1"
             ],
             "index": "pypi",
-            "version": "==0.12.14"
+            "version": "==0.12.15"
         },
         "typing-extensions": {
             "hashes": [
