@@ -1,15 +1,15 @@
 """
 A maintenance workflow to clean out the task logs in funcake_dags to avoid those getting too big.
 """
-from airflow.models import DAG, Variable
-from airflow.configuration import conf
-from airflow.operators.bash import BashOperator
-from airflow.operators.empty import EmptyOperator
-from datetime import timedelta
 import os
 import logging
 import jinja2
-import airflow
+
+from airflow.sdk import DAG, Variable
+from airflow.configuration import conf
+from airflow.providers.standard.operators.empty import EmptyOperator
+from airflow.providers.standard.operators.bash import BashOperator
+from datetime import datetime, timedelta, timezone
 from airflow.providers.slack.notifications.slack import send_slack_notification
 
 slackpostonfail = send_slack_notification(channel="infra_alerts", username="airflow", text=":poop: Task failed: {{ dag.dag_id }} {{ ti.task_id }} {{ execution_date }} {{ ti.log_url }}")
@@ -17,14 +17,12 @@ slackpostonfail = send_slack_notification(channel="infra_alerts", username="airf
 
 # airflow-log-cleanup
 DAG_ID = os.path.basename(__file__).replace(".pyc", "").replace(".py", "")
-START_DATE = airflow.utils.dates.days_ago(1)
+START_DATE = datetime.now(timezone.utc) - timedelta(days=1)
 BASE_LOG_FOLDER = conf.get("logging", "BASE_LOG_FOLDER")
 # How often to Run. @daily - Once a day at Midnight
-SCHEDULE_INTERVAL = "@weekly"
+SCHEDULE = "@weekly"
 # Who is listed as the owner of this DAG in the Airflow Web Server
 DAG_OWNER_NAME = "maintenance"
-# List of email address to send email alerts to if this job fails
-ALERT_EMAIL_ADDRESSES = ["svc.libdev@temple.edu"]
 # Length to retain the log files if not already provided in the conf. If this
 # is set to 30, the job will remove those files that are 30 days old or older
 DEFAULT_MAX_LOG_AGE_IN_DAYS = Variable.get(
@@ -77,9 +75,6 @@ if ENABLE_DELETE_CHILD_LOG.lower() == "true":
 default_args = {
     'owner': DAG_OWNER_NAME,
     'depends_on_past': False,
-    'email': ALERT_EMAIL_ADDRESSES,
-    'email_on_failure': False,
-    'email_on_retry': False,
     'start_date': START_DATE,
     'on_failure_callback': slackpostonfail,
     'retries': 1,
@@ -89,7 +84,7 @@ default_args = {
 dag = DAG(
     DAG_ID,
     default_args=default_args,
-    schedule_interval=SCHEDULE_INTERVAL,
+    schedule=SCHEDULE,
     start_date=START_DATE,
     template_undefined=jinja2.Undefined
 )
@@ -182,19 +177,19 @@ if [ ! -f """ + str(LOG_CLEANUP_PROCESS_LOCK_FILE) + """ ]; then
     echo "Running Cleanup Process..."
 
     FIND_STATEMENT="find ${BASE_LOG_FOLDER}/*/* -type f -mtime +${MAX_LOG_AGE_IN_DAYS}"
-    DELETE_STMT="${FIND_STATEMENT} -exec rm -f {} \;"
+    DELETE_STMT="${FIND_STATEMENT} -exec rm -f {} \\;"
 
     cleanup "${FIND_STATEMENT}" "${DELETE_STMT}"
     CLEANUP_EXIT_CODE=$?
 
     FIND_STATEMENT="find ${BASE_LOG_FOLDER}/*/* -type d -empty"
-    DELETE_STMT="${FIND_STATEMENT} -prune -exec rm -rf {} \;"
+    DELETE_STMT="${FIND_STATEMENT} -prune -exec rm -rf {} \\;"
 
     cleanup "${FIND_STATEMENT}" "${DELETE_STMT}"
     CLEANUP_EXIT_CODE=$?
 
     FIND_STATEMENT="find ${BASE_LOG_FOLDER}/* -type d -empty"
-    DELETE_STMT="${FIND_STATEMENT} -prune -exec rm -rf {} \;"
+    DELETE_STMT="${FIND_STATEMENT} -prune -exec rm -rf {} \\;"
 
     cleanup "${FIND_STATEMENT}" "${DELETE_STMT}"
     CLEANUP_EXIT_CODE=$?

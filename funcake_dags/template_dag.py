@@ -1,5 +1,5 @@
 from funcake_dags.template import create_dag
-from airflow import DAG  # Required or airflow-webserver skips file.
+from airflow.sdk import DAG  # Required or airflow-webserver skips file.
 
 """
 This file will automatically create a dag for every dag_id added to the dag_ids array below.
