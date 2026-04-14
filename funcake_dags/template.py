@@ -1,13 +1,12 @@
 """DAG Template for DPLA OAI & Index ("Publish") to SolrCloud."""
-from datetime import datetime, timedelta
 import os
+
+from datetime import datetime, timedelta
 from tulflow import harvest, tasks, transform, validate
 from tulflow.solr_api_utils import SolrApiUtils
-from airflow import DAG
-from airflow.operators.bash import BashOperator
-from airflow.hooks.base import BaseHook
-from airflow.models import Variable
-from airflow.operators.python import PythonOperator
+from airflow.sdk import DAG, Connection, Variable
+from airflow.providers.standard.operators.python import PythonOperator
+from airflow.providers.standard.operators.bash import BashOperator
 from funcake_dags.lib.field_counter import field_count_report
 from airflow.providers.slack.notifications.slack import send_slack_notification
 
@@ -24,19 +23,12 @@ DEFAULT_ARGS = {
     "retry_delay": timedelta(minutes=10),
 }
 
-AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
-
-AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
-
-AIRFLOW_APP_HOME = Variable.get("AIRFLOW_HOME")
-
-AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
-
+SOLR_CONN_ID = "SOLRCLOUD-WRITER"
+AIRFLOW_DATA_BUCKET = "{{ var.value.AIRFLOW_DATA_BUCKET }}"
+AIRFLOW_APP_HOME = "{{ var.value.AIRFLOW_HOME }}"
+AIRFLOW_USER_HOME = "{{ var.value.AIRFLOW_USER_HOME }}"
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
-
-SOLR_CONN = BaseHook.get_connection("SOLRCLOUD-WRITER")
-
-SOLR_CONFIGSET = Variable.get("FUNCAKE_OAI_SOLR_CONFIGSET", default_var="funcake-oai-0")
+SOLR_CONFIGSET = "{{ var.value.get('FUNCAKE_OAI_SOLR_CONFIGSET', 'funcake-oai-0') }}"
 
 
 def namespace(dag_id):
@@ -67,8 +59,8 @@ def get_harvest_task(dag, config):
                     "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME,
                     "BUCKET": AIRFLOW_DATA_BUCKET,
                     "FOLDER": dag.dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
-                    "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
-                    "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+                    "AWS_ACCESS_KEY_ID": "{{ conn.get('AIRFLOW_S3').login }}",
+                    "AWS_SECRET_ACCESS_KEY": "{{ conn.get('AIRFLOW_S3').password }}",
                     "TIMESTAMP": "{{ ti.xcom_pull(task_ids='set_collection_name') }}"
                     }},
                 dag=dag)
@@ -78,8 +70,8 @@ def get_harvest_task(dag, config):
                 task_id="harvest_oai",
                 python_callable=harvest.oai_to_s3,
                 op_kwargs={
-                    "access_id": AIRFLOW_S3.login,
-                    "access_secret": AIRFLOW_S3.password,
+                    "access_id": "{{ conn.get('AIRFLOW_S3').login }}",
+                    "access_secret": "{{ conn.get('AIRFLOW_S3').password }}",
                     "all_sets": config.get("all_sets", False),
                     "bucket_name": AIRFLOW_DATA_BUCKET,
                     "excluded_sets": config.get("excluded_sets", []),
@@ -98,6 +90,7 @@ def create_dag(dag_id):
             default_args=DEFAULT_ARGS,
             catchup=False,
             max_active_runs=1,
+            render_template_as_native_obj=True,
             schedule=None)
 
     config_name = name(dag_id) + "_HARVEST_CONFIG"
@@ -118,7 +111,7 @@ def create_dag(dag_id):
     XSL_FILENAME = config.get("xsl_filename")
 
     target_alias_env_name = name(dag_id) + "_TARGET_ALIAS_ENV"
-    TARGET_ALIAS_ENV = Variable.get(target_alias_env_name, default_var="dev")
+    TARGET_ALIAS_ENV = "{{ var.value.get('" + target_alias_env_name + "', 'dev') }}"
 
     """
     CREATE TASKS
@@ -147,8 +140,8 @@ def create_dag(dag_id):
             task_id="harvest_schematron_report",
             python_callable=validate.report_s3_schematron,
             op_kwargs={
-                "access_id": AIRFLOW_S3.login,
-                "access_secret": AIRFLOW_S3.password,
+                "access_id": "{{ conn.get('AIRFLOW_S3').login }}",
+                "access_secret": "{{ conn.get('AIRFLOW_S3').password }}",
                 "bucket": AIRFLOW_DATA_BUCKET,
                 "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated",
                 "schematron_filename": SCHEMATRON_REPORT,
@@ -160,8 +153,8 @@ def create_dag(dag_id):
             task_id="harvest_filter",
             python_callable=validate.filter_s3_schematron,
             op_kwargs={
-                "access_id": AIRFLOW_S3.login,
-                "access_secret": AIRFLOW_S3.password,
+                "access_id": "{{ conn.get('AIRFLOW_S3').login }}",
+                "access_secret": "{{ conn.get('AIRFLOW_S3').password }}",
                 "bucket": AIRFLOW_DATA_BUCKET,
                 "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/new-updated-filtered/",
                 "report_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/harvest_filter",
@@ -175,8 +168,8 @@ def create_dag(dag_id):
             task_id="xsl_transform",
             bash_command=SCRIPTS_PATH + "/transform.sh ",
             env={**os.environ, **{
-                "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
-                "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+                "AWS_ACCESS_KEY_ID": "{{ conn.get('AIRFLOW_S3').login }}",
+                "AWS_SECRET_ACCESS_KEY": "{{ conn.get('AIRFLOW_S3').password }}",
                 "BUCKET": AIRFLOW_DATA_BUCKET,
                 "DAG_ID": dag_id,
                 "DAG_TS": "{{ ti.xcom_pull(task_ids='set_collection_name') }}",
@@ -193,8 +186,8 @@ def create_dag(dag_id):
             task_id="xsl_transform_schematron_report",
             python_callable=validate.report_s3_schematron,
             op_kwargs={
-                "access_id": AIRFLOW_S3.login,
-                "access_secret": AIRFLOW_S3.password,
+                "access_id": "{{ conn.get('AIRFLOW_S3').login }}",
+                "access_secret": "{{ conn.get('AIRFLOW_S3').password }}",
                 "bucket": AIRFLOW_DATA_BUCKET,
                 "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed",
                 "schematron_filename": SCHEMATRON_XSL_REPORT,
@@ -206,8 +199,8 @@ def create_dag(dag_id):
             task_id="xsl_transform_filter",
             python_callable=validate.filter_s3_schematron,
             op_kwargs={
-                "access_id": AIRFLOW_S3.login,
-                "access_secret": AIRFLOW_S3.password,
+                "access_id": "{{ conn.get('AIRFLOW_S3').login }}",
+                "access_secret": "{{ conn.get('AIRFLOW_S3').password }}",
                 "bucket": AIRFLOW_DATA_BUCKET,
                 "destination_prefix": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
                 "schematron_filename": SCHEMATRON_XSL_FILTER,
@@ -226,11 +219,28 @@ def create_dag(dag_id):
             },
             dag=dag)
 
-        REFRESH_COLLECTION_FOR_ALIAS = tasks.refresh_sc_collection_for_alias(
-            sc_conn=SOLR_CONN,
-            sc_coll_name=f"{SOLR_CONFIGSET}-{dag_id}-{TARGET_ALIAS_ENV}",
-            sc_alias=f"{SOLR_CONFIGSET}-{TARGET_ALIAS_ENV}",
-            configset=SOLR_CONFIGSET,
+        def refresh_collection_for_alias(conn_id, collection, alias, configset, **args):
+            conn = Connection.get(conn_id)
+
+            SolrApiUtils.remove_and_recreate_collection_from_alias(
+                collection=collection,
+                configset=configset,
+                alias=alias,
+                solr_url=conn.host,
+                solr_port=conn.port,
+                solr_auth_user=conn.login or "",
+                solr_auth_pass=conn.password or "",
+            )
+
+        REFRESH_COLLECTION_FOR_ALIAS = PythonOperator(
+            task_id="refresh_sc_collection_for_alias",
+            python_callable=refresh_collection_for_alias,
+            op_kwargs={
+                "conn_id": SOLR_CONN_ID,
+                "collection": f"{SOLR_CONFIGSET}-{dag_id}-{TARGET_ALIAS_ENV}",
+                "alias": f"{SOLR_CONFIGSET}-{TARGET_ALIAS_ENV}",
+                "configset": SOLR_CONFIGSET,
+            },
             dag=dag)
 
         PUBLISH = BashOperator(
@@ -240,16 +250,22 @@ def create_dag(dag_id):
                 "BUCKET": AIRFLOW_DATA_BUCKET,
                 "FOLDER": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
                 "INDEXER": "oai_index",
-                "FUNCAKE_OAI_SOLR_URL": tasks.get_solr_url(SOLR_CONN, SOLR_CONFIGSET + "-" + dag_id + "-" + TARGET_ALIAS_ENV),
-                "SOLR_AUTH_USER": SOLR_CONN.login or "",
-                "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
-                "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
-                "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+                "FUNCAKE_OAI_SOLR_URL": (
+                    "{{ conn.get('SOLRCLOUD-WRITER').host if '://' in conn.get('SOLRCLOUD-WRITER').host "
+                    "else 'http://' + conn.get('SOLRCLOUD-WRITER').host }}{{ ':' ~ conn.get('SOLRCLOUD-WRITER').port "
+                    "if conn.get('SOLRCLOUD-WRITER').port else '' }}/solr/"
+                    + SOLR_CONFIGSET + "-" + dag_id + "-" + TARGET_ALIAS_ENV
+                ),
+                "SOLR_AUTH_USER": "{{ conn.get('SOLRCLOUD-WRITER').login or '' }}",
+                "SOLR_AUTH_PASSWORD": "{{ conn.get('SOLRCLOUD-WRITER').password or '' }}",
+                "AWS_ACCESS_KEY_ID": "{{ conn.get('AIRFLOW_S3').login }}",
+                "AWS_SECRET_ACCESS_KEY": "{{ conn.get('AIRFLOW_S3').password }}",
                 "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
             }},
             dag=dag)
 
-        def validate_alias(conn, collection, alias, **args):
+        def validate_alias(conn_id, collection, alias, **args):
+            conn = Connection.get(conn_id)
             login = conn.login
             password = conn.password
             url = conn.host + (f":{conn.port}" if conn.port else "")
@@ -262,7 +278,7 @@ def create_dag(dag_id):
             task_id="validate_alias",
             python_callable=validate_alias,
             op_kwargs= {
-                "conn": SOLR_CONN,
+                "conn_id": SOLR_CONN_ID,
                 "collection": f"{SOLR_CONFIGSET}-{dag_id}-{TARGET_ALIAS_ENV}",
                 "alias": f"{SOLR_CONFIGSET}-{TARGET_ALIAS_ENV}"
                 },

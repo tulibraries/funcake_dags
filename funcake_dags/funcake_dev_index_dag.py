@@ -1,11 +1,9 @@
 """DAG to Harvest PA Digital Aggregated OAI-PMH XML & Index to SolrCloud."""
 from datetime import datetime, timedelta
-from airflow import DAG
-from airflow.hooks.base import BaseHook
-from airflow.models import Variable
-from airflow.operators.empty import EmptyOperator
-from airflow.operators.python import PythonOperator
-from airflow.operators.bash import BashOperator
+from airflow.sdk import DAG
+from airflow.providers.standard.operators.empty import EmptyOperator
+from airflow.providers.standard.operators.python import PythonOperator
+from airflow.providers.standard.operators.bash import BashOperator
 from tulflow import harvest, tasks
 from airflow.providers.slack.notifications.slack import send_slack_notification
 
@@ -19,31 +17,30 @@ initialized here if not found (i.e. if this is a new installation) & defaults ex
 """
 
 # Get Solr URL & Collection Name for indexing info; error out if not entered
-SOLR_CONN = BaseHook.get_connection("SOLRCLOUD-WRITER")
-FUNCAKE_SOLR_CONFIG = Variable.get("FUNCAKE_SOLR_CONFIG", deserialize_json=True)
+SOLR_CONN_ID = "SOLRCLOUD-WRITER"
+
 # {"configset": "funcake-8", "replication_factor": 4}
-CONFIGSET = FUNCAKE_SOLR_CONFIG.get("configset")
-REPLICATION_FACTOR = FUNCAKE_SOLR_CONFIG.get("replication_factor")
+CONFIGSET = "{{ var.json.FUNCAKE_SOLR_CONFIG.configset }}"
+REPLICATION_FACTOR = "{{ var.json.FUNCAKE_SOLR_CONFIG.replication_factor }}"
 TIMESTAMP = "{{ logical_date.strftime('%Y-%m-%d_%H-%M-%S') }}"
 COLLECTION = CONFIGSET + "-" + TIMESTAMP
 ALIAS = CONFIGSET + "-dev"
-if "://" in SOLR_CONN.host:
-    SOLR_COLL_ENDPT = SOLR_CONN.host + "/solr/" + COLLECTION
-else:
-    SOLR_COLL_ENDPT = "https://" + SOLR_CONN.host + "/solr/" + COLLECTION
+SOLR_COLL_ENDPT = (
+    "{{ conn.get('SOLRCLOUD-WRITER').host if '://' in conn.get('SOLRCLOUD-WRITER').host "
+    "else 'https://' + conn.get('SOLRCLOUD-WRITER').host }}/solr/"
+    + COLLECTION
+)
 
 # Combine OAI Harvest Variables
-FUNCAKE_OAI_CONFIG = Variable.get("FUNCAKE_OAI_CONFIG", deserialize_json=True)
-FUNCAKE_OAI_ENDPT = FUNCAKE_OAI_CONFIG.get("endpoint")
-FUNCAKE_OAI_SET = FUNCAKE_OAI_CONFIG.get("included_sets")
-FUNCAKE_MD_PREFIX = FUNCAKE_OAI_CONFIG.get("md_prefix")
-AIRFLOW_S3 = BaseHook.get_connection("AIRFLOW_S3")
-AIRFLOW_DATA_BUCKET = Variable.get("AIRFLOW_DATA_BUCKET")
+FUNCAKE_OAI_ENDPT = "{{ var.json.FUNCAKE_OAI_CONFIG.endpoint }}"
+FUNCAKE_OAI_SET = "{{ var.json.FUNCAKE_OAI_CONFIG.included_sets }}"
+FUNCAKE_MD_PREFIX = "{{ var.json.FUNCAKE_OAI_CONFIG.md_prefix }}"
+AIRFLOW_DATA_BUCKET = "{{ var.value.AIRFLOW_DATA_BUCKET }}"
 
 # Indexing Script to Solr
-AIRFLOW_APP_HOME = Variable.get("AIRFLOW_HOME")
-AIRFLOW_HOME = Variable.get("AIRFLOW_HOME")
-AIRFLOW_USER_HOME = Variable.get("AIRFLOW_USER_HOME")
+AIRFLOW_APP_HOME = "{{ var.value.AIRFLOW_HOME }}"
+AIRFLOW_HOME = "{{ var.value.AIRFLOW_HOME }}"
+AIRFLOW_USER_HOME = "{{ var.value.AIRFLOW_USER_HOME }}"
 FUNCAKE_INDEX_BASH = AIRFLOW_HOME + "/dags/funcake_dags/scripts/index.sh "
 
 # Define the DAG
@@ -61,6 +58,7 @@ DAG = DAG(
     default_args=DEFAULT_ARGS,
     catchup=False,
     max_active_runs=1,
+    render_template_as_native_obj=True,
     schedule=None
 )
 
@@ -79,8 +77,8 @@ HARVEST_OAI = PythonOperator(
         "included_sets": FUNCAKE_OAI_SET,
         "bucket_name": AIRFLOW_DATA_BUCKET,
         "records_per_file": 1000,
-        "access_id": AIRFLOW_S3.login,
-        "access_secret": AIRFLOW_S3.password,
+        "access_id": "{{ conn.get('AIRFLOW_S3').login }}",
+        "access_secret": "{{ conn.get('AIRFLOW_S3').password }}",
         "timestamp": TIMESTAMP,
     },
     dag=DAG
@@ -90,7 +88,7 @@ HARVEST_OAI = PythonOperator(
 # this is ticketed for fix; either make class or dictionary for solr args
 CREATE_COLLECTION = tasks.create_sc_collection(
     DAG,
-    SOLR_CONN.conn_id,
+    SOLR_CONN_ID,
     COLLECTION,
     REPLICATION_FACTOR,
     CONFIGSET
@@ -104,10 +102,10 @@ COMBINE_INDEX = BashOperator(
         "FOLDER": DAG.dag_id + "/" + TIMESTAMP + "/new-updated/",
         "INDEXER": "funnel_cake_index",
         "SOLR_URL": SOLR_COLL_ENDPT,
-        "SOLR_AUTH_USER": SOLR_CONN.login or "",
-        "SOLR_AUTH_PASSWORD": SOLR_CONN.password or "",
-        "AWS_ACCESS_KEY_ID": AIRFLOW_S3.login,
-        "AWS_SECRET_ACCESS_KEY": AIRFLOW_S3.password,
+        "SOLR_AUTH_USER": "{{ conn.get('SOLRCLOUD-WRITER').login or '' }}",
+        "SOLR_AUTH_PASSWORD": "{{ conn.get('SOLRCLOUD-WRITER').password or '' }}",
+        "AWS_ACCESS_KEY_ID": "{{ conn.get('AIRFLOW_S3').login }}",
+        "AWS_SECRET_ACCESS_KEY": "{{ conn.get('AIRFLOW_S3').password }}",
         "AIRFLOW_HOME": AIRFLOW_HOME,
         "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME,
         "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME
@@ -115,7 +113,7 @@ COMBINE_INDEX = BashOperator(
     dag=DAG
 )
 
-SOLR_ALIAS_SWAP = tasks.swap_sc_alias(DAG, SOLR_CONN.conn_id, COLLECTION, ALIAS)
+SOLR_ALIAS_SWAP = tasks.swap_sc_alias(DAG, SOLR_CONN_ID, COLLECTION, ALIAS)
 SUCCESS = EmptyOperator(
         task_id='success',
         on_success_callback=[slackpostonsuccess])
