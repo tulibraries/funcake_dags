@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "43902ef8c1a25fe8c8bdde52437a7776a0d93ff1b5b41d0c7af633d96d9e101a"
+            "sha256": "e8184f870f2f0711fc797499acfacc90a0ae175f162c1319f94efd3d99023eb4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -251,12 +251,12 @@
         },
         "apache-airflow-providers-amazon": {
             "hashes": [
-                "sha256:0454f27a333c29135084b84c7a4d0fa9549004296b5d60130b2182023d9851a1",
-                "sha256:21166c9b0160ce21af0ef380443fa10d73893accdb8b8052ded3d9a37fd50881"
+                "sha256:5c3b597ad9dd399c579fcf61c75401820f8ff283f8f5e42511eda59dd4110323",
+                "sha256:dce283129605723988bcf4254bbb00b2452c479e8f6e64c3c8e6fe52b8681819"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==9.23.0"
+            "version": "==9.25.0"
         },
         "apache-airflow-providers-common-compat": {
             "hashes": [
@@ -3681,11 +3681,11 @@
         },
         "rich": {
             "hashes": [
-                "sha256:07e7adb4690f68864777b1450859253bed81a99a31ac321ac1817b2313558952",
-                "sha256:817e02727f2b25b40ef56f5aa2217f400c8489f79ca8f46ea2b70dd5e14558a9"
+                "sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb",
+                "sha256:edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36"
             ],
-            "markers": "python_full_version >= '3.8.0'",
-            "version": "==14.3.4"
+            "markers": "python_full_version >= '3.9.0'",
+            "version": "==15.0.0"
         },
         "rich-argparse": {
             "hashes": [
@@ -3843,11 +3843,11 @@
         },
         "sagemaker-studio": {
             "hashes": [
-                "sha256:3c1f63a510c4b4ef8058ead8ec04ef088c41f10b2aa76569abaa9a471de6f6ec",
-                "sha256:49e5fcd12cebefd9cf415498f891834253688aee184ef00f25ac0df221f9fff0"
+                "sha256:0961f9983d93f9710d2a11bc2af69ae99af0f295db80112b792428c884cd167c",
+                "sha256:d16e54710ac17d232d2d5ba6735d158d072074b076c0c50b9d4b57dc5c01b0af"
             ],
-            "markers": "python_version >= '3.10'",
-            "version": "==1.1.13"
+            "markers": "python_version >= '3.9'",
+            "version": "==1.0.26"
         },
         "scramp": {
             "hashes": [
