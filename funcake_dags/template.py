@@ -10,8 +10,8 @@ from airflow.providers.standard.operators.bash import BashOperator
 from funcake_dags.lib.field_counter import field_count_report
 from airflow.providers.slack.notifications.slack import send_slack_notification
 
-slackpostonsuccess = send_slack_notification(channel="aggregator", username="airflow", text=":partygritty: {{ execution_date }} DAG {{ dag.dag_id }} success: {{ ti.log_url }}")
-slackpostonfail = send_slack_notification(channel="aggregator", username="airflow", text=":poop: Task failed: {{ dag.dag_id }} {{ ti.task_id }} {{ execution_date }} {{ ti.log_url }}")
+slackpostonsuccess = send_slack_notification(channel="aggregator", username="airflow", text=":partygritty: {{ logical_date }} DAG {{ dag.dag_id }} success: {{ ti.log_url }}")
+slackpostonfail = send_slack_notification(channel="aggregator", username="airflow", text=":poop: Task failed: {{ dag.dag_id }} {{ ti.task_id }} {{ logical_date }} {{ ti.log_url }}")
 
 # Define the DAG
 DEFAULT_ARGS = {
@@ -52,7 +52,7 @@ def get_harvest_task(dag, config):
         return BashOperator(
                 task_id="harvest_aggregator_data",
                 bash_command="aggregator_data_transform_to_s3.sh ",
-                env={**os.environ, **{
+                env={**{
                     "PATH": os.environ.get("PATH", "") + ":" + SCRIPTS_PATH,
                     "DAGID": dag.dag_id,
                     "HOME": AIRFLOW_USER_HOME,
@@ -167,7 +167,7 @@ def create_dag(dag_id):
         XSL_TRANSFORM = BashOperator(
             task_id="xsl_transform",
             bash_command=SCRIPTS_PATH + "/transform.sh ",
-            env={**os.environ, **{
+            env={**{
                 "AWS_ACCESS_KEY_ID": "{{ conn.get('AIRFLOW_S3').login }}",
                 "AWS_SECRET_ACCESS_KEY": "{{ conn.get('AIRFLOW_S3').password }}",
                 "BUCKET": AIRFLOW_DATA_BUCKET,
@@ -246,7 +246,7 @@ def create_dag(dag_id):
         PUBLISH = BashOperator(
             task_id="publish",
             bash_command=SCRIPTS_PATH + "/index.sh ",
-            env={**os.environ, **{
+            env={**{
                 "BUCKET": AIRFLOW_DATA_BUCKET,
                 "FOLDER": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
                 "INDEXER": "oai_index",
@@ -260,7 +260,8 @@ def create_dag(dag_id):
                 "SOLR_AUTH_PASSWORD": "{{ conn.get('SOLRCLOUD-WRITER').password or '' }}",
                 "AWS_ACCESS_KEY_ID": "{{ conn.get('AIRFLOW_S3').login }}",
                 "AWS_SECRET_ACCESS_KEY": "{{ conn.get('AIRFLOW_S3').password }}",
-                "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME
+                "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME,
+                "AIRFLOW_HOME": AIRFLOW_APP_HOME
             }},
             dag=dag)
 
