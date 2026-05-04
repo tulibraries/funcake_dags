@@ -3655,11 +3655,11 @@
         },
         "tulflow": {
             "hashes": [
-                "sha256:5d2ef17513c18c12c9f794a71d2475de158bbca625aa145d7884d2fd261497be",
-                "sha256:daeaad31db722bd1744e8cc25222ddbe53b2f079a793d13b9c2c92830c00869a"
+                "sha256:6a099b93d7bc9f9d53a57e8aeea1cf9b4c1a902d54b1f209acb9feb3f331ff2b",
+                "sha256:7a721ad993e72afbbfec7d8ceb6028ff8ea5d70912406660c4ca31504974e9d3"
             ],
             "index": "pypi",
-            "version": "==1.1.0"
+            "version": "==1.1.1"
         },
         "typer": {
             "hashes": [
