@@ -107,6 +107,9 @@ venv.bak/
 .docker
 dags
 data
+logs/
+airflow.cfg
+airflow.db*
 
 constraints-*.txt
 pipfile-requirements.txt
