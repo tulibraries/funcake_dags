@@ -30,6 +30,8 @@ AIRFLOW_USER_HOME = "{{ var.value.AIRFLOW_USER_HOME }}"
 SCRIPTS_PATH = AIRFLOW_APP_HOME + "/dags/funcake_dags/scripts"
 SOLR_CONFIGSET = "{{ var.value.get('FUNCAKE_OAI_SOLR_CONFIGSET', 'funcake-oai-0') }}"
 
+def bash_env(values):
+    return {key: "" if value is None else str(value) for key, value in values.items()}
 
 def namespace(dag_id):
     if dag_id[0:8] != "funcake_":
@@ -167,7 +169,7 @@ def create_dag(dag_id):
         XSL_TRANSFORM = BashOperator(
             task_id="xsl_transform",
             bash_command=SCRIPTS_PATH + "/transform.sh ",
-            env={**{
+            env=bash_env({
                 "AWS_ACCESS_KEY_ID": "{{ conn.get('AIRFLOW_S3').login }}",
                 "AWS_SECRET_ACCESS_KEY": "{{ conn.get('AIRFLOW_S3').password }}",
                 "BUCKET": AIRFLOW_DATA_BUCKET,
@@ -179,7 +181,7 @@ def create_dag(dag_id):
                 "XSL_BRANCH": XSL_BRANCH,
                 "XSL_FILENAME": XSL_FILENAME,
                 "XSL_REPO": XSL_REPO,
-            }},
+            }),
             dag=dag)
 
         XSL_TRANSFORM_SCHEMATRON_REPORT = PythonOperator(
@@ -246,7 +248,7 @@ def create_dag(dag_id):
         PUBLISH = BashOperator(
             task_id="publish",
             bash_command=SCRIPTS_PATH + "/index.sh ",
-            env={**{
+            env=bash_env({
                 "BUCKET": AIRFLOW_DATA_BUCKET,
                 "FOLDER": dag_id + "/{{ ti.xcom_pull(task_ids='set_collection_name') }}/transformed-filtered/",
                 "INDEXER": "oai_index",
@@ -261,8 +263,8 @@ def create_dag(dag_id):
                 "AWS_ACCESS_KEY_ID": "{{ conn.get('AIRFLOW_S3').login }}",
                 "AWS_SECRET_ACCESS_KEY": "{{ conn.get('AIRFLOW_S3').password }}",
                 "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME,
-                "AIRFLOW_HOME": AIRFLOW_APP_HOME
-            }},
+                "AIRFLOW_HOME": AIRFLOW_APP_HOME,
+            }),
             dag=dag)
 
         def validate_alias(conn_id, collection, alias, **args):
