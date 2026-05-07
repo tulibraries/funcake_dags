@@ -48,7 +48,7 @@ do
 
 	java -jar $SAXON_CP -xsl:$SCRIPTS_PATH/batch-transform.xsl -s:$SOURCE_XML-2.xml -o:$SOURCE_XML-transformed.xml -t
 	COUNT=$(cat $SOURCE_XML-transformed.xml | grep -o "<oai_dc:dc" | wc -l || echo 0)
-	TOTAL_TRANSFORMED=$(expr $TOTAL_TRANSFORMED + $COUNT)
+	TOTAL_TRANSFORMED=$((TOTAL_TRANSFORMED + COUNT))
 	aws s3 cp $SOURCE_XML-transformed.xml s3://$BUCKET/$TRANSFORM_XML
 
 	TEMPFILE=$(mktemp /tmp/identifier-output-$DAG_ID.XXXXXX)
