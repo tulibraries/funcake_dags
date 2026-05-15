@@ -43,6 +43,7 @@ dag_ids = [
     "curtis",
     "docpitt",
     "dplah",
+    "drexel_com",
     "drexel_westphal",
     "fandm",
     "free_library",
