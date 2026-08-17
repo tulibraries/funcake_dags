@@ -7,8 +7,8 @@ from airflow.providers.standard.operators.bash import BashOperator
 from tulflow import harvest, tasks
 from airflow.providers.slack.notifications.slack import send_slack_notification
 
-slackpostonsuccess = send_slack_notification(channel="aggregator", username="airflow", text=":partygritty: {{ execution_date }} DAG {{ dag.dag_id }} success: {{ ti.log_url }}")
-slackpostonfail = send_slack_notification(channel="aggregator", username="airflow", text=":poop: Task failed: {{ dag.dag_id }} {{ ti.task_id }} {{ execution_date }} {{ ti.log_url }}")
+slackpostonsuccess = send_slack_notification(channel="aggregator", username="airflow", text=":partygritty: {{ logical_date }} DAG {{ dag.dag_id }} success: {{ ti.log_url }}")
+slackpostonfail = send_slack_notification(channel="aggregator", username="airflow", text=":poop: Task failed: {{ dag.dag_id }} {{ ti.task_id }} {{ logical_date }} {{ ti.log_url }}")
 
 """
 INIT SYSTEMWIDE VARIABLES
