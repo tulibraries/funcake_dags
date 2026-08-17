@@ -10,7 +10,7 @@
     "md_prefix": "oai_dc"
   },
   "FUNCAKE_SOLR_CONFIG": {
-    "configset": "funcake-4",
+    "configset": "funcake-5",
     "replication_factor": 4
   },
   "ALLEGHENY_HARVEST_CONFIG": {
