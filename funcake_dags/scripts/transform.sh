@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
-set -e pipefail
-set -oux
+set -Eeuo pipefail
+set -x
+
+error_handler() {
+    local exit_code=$?
+    echo "ERROR: Command failed with exit code ${exit_code}" >&2
+    echo "ERROR: Line ${BASH_LINENO[0]}: ${BASH_COMMAND}" >&2
+    exit "${exit_code}"
+}
+
+trap error_handler ERR
 
 # Ensure old tmp files are removed
 rm -f /tmp/identifier-output-$DAG_ID.*
@@ -47,12 +56,12 @@ do
 	echo "</collection>" >> $SOURCE_XML-2.xml
 
 	java -jar $SAXON_CP -xsl:$SCRIPTS_PATH/batch-transform.xsl -s:$SOURCE_XML-2.xml -o:$SOURCE_XML-transformed.xml -t
-	COUNT=$(cat $SOURCE_XML-transformed.xml | grep -o "<oai_dc:dc" | wc -l || echo 0)
+	COUNT=$(grep -o "<oai_dc:dc" "$SOURCE_XML-transformed.xml" | wc -l || echo 0)
 	TOTAL_TRANSFORMED=$((TOTAL_TRANSFORMED + COUNT))
 	aws s3 cp $SOURCE_XML-transformed.xml s3://$BUCKET/$TRANSFORM_XML
 
 	TEMPFILE=$(mktemp /tmp/identifier-output-$DAG_ID.XXXXXX)
-	cat $SOURCE_XML-transformed.xml | grep "^<dcterms:identifier>\|</dcterms:identifier>$" >> $TEMPFILE || true
+	grep "^<dcterms:identifier>\|</dcterms:identifier>$" "$SOURCE_XML-transformed.xml" >> "$TEMPFILE" || true
 done
 
 IDENTIFIER_FILE=$(mktemp /tmp/all-identifiers-$DAG_ID.XXXXXX)
@@ -61,7 +70,7 @@ do
 	sort --u $file
 done | sort -u > $IDENTIFIER_FILE
 
-UNIQUE_RECORD_COUNT=$(cat $IDENTIFIER_FILE | wc -l)
+UNIQUE_RECORD_COUNT=$(wc -l < "$IDENTIFIER_FILE")
 
 
 echo "Total Records transformed: $TOTAL_TRANSFORMED"
