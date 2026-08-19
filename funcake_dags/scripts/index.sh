@@ -19,9 +19,30 @@ gem install bundler
 bundle config set force_ruby_platform true
 bundle install
 
+# Disable Traject's automatic commit on indexer shutdown so Airflow can
+# perform one explicit Solr commit after all indexing tasks finish.
+sed -i.bak 's/"solr_writer.commit_on_close": true/"solr_writer.commit_on_close": false/' lib/$INDEXER.rb
+rm lib/$INDEXER.rb.bak
+
+# grab list of items from designated aws bucket (creds are envvars), then index each item
+if [ -n "$DATA" ]; then
+  RESP=$(echo "$DATA" | jq -r '.[]')
+else
+  RESP=`aws s3 ls s3://$BUCKET/$FOLDER | awk '{print $4}'`
+fi
+
 TEMPFILE=$(mktemp /tmp/index-output.XXXXXX)
 PUBLISH_TASK_REPORT=$AIRFLOW_HOME/dags/funcake_dags/scripts/publish_task_report.rb
 
+for record_set in `echo $RESP`
+do
+  if [ -n "$DATA" ]; then
+    source_key=$record_set
+  else
+    source_key=$FOLDER$record_set
+  fi
+  bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$source_key) 2>&1 | tee -a $TEMPFILE
+done
 report_and_cleanup() {
   rc=$?
   cat "$TEMPFILE" | ruby "$PUBLISH_TASK_REPORT" || true
