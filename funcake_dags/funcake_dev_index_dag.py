@@ -1,9 +1,11 @@
 """DAG to Harvest PA Digital Aggregated OAI-PMH XML & Index to SolrCloud."""
 from datetime import datetime, timedelta
 from airflow.sdk import DAG
+from airflow.providers.amazon.aws.operators.s3 import S3ListOperator
 from airflow.providers.standard.operators.empty import EmptyOperator
 from airflow.providers.standard.operators.python import PythonOperator
 from airflow.providers.standard.operators.bash import BashOperator
+from airflow.providers.http.operators.http import HttpOperator
 from tulflow import harvest, tasks
 from airflow.providers.slack.notifications.slack import send_slack_notification
 
@@ -94,12 +96,21 @@ CREATE_COLLECTION = tasks.create_sc_collection(
     CONFIGSET
 )
 
+LIST_INDEX_FILES = S3ListOperator(
+    task_id="list_index_files",
+    bucket=AIRFLOW_DATA_BUCKET,
+    prefix=DAG.dag_id + "/" + TIMESTAMP + "/new-updated/",
+    delimiter="/",
+    aws_conn_id="AIRFLOW_S3",
+    dag=DAG
+)
+
 COMBINE_INDEX = BashOperator(
     task_id="combine_index",
     bash_command=FUNCAKE_INDEX_BASH,
     env={
         "BUCKET": AIRFLOW_DATA_BUCKET,
-        "FOLDER": DAG.dag_id + "/" + TIMESTAMP + "/new-updated/",
+        "DATA": "{{ ti.xcom_pull(task_ids='list_index_files') | tojson }}",
         "INDEXER": "funnel_cake_index",
         "SOLR_URL": SOLR_COLL_ENDPT,
         "SOLR_AUTH_USER": "{{ conn.get('SOLRCLOUD-WRITER').login or '' }}",
@@ -113,6 +124,14 @@ COMBINE_INDEX = BashOperator(
     dag=DAG
 )
 
+SOLR_COMMIT = HttpOperator(
+    task_id="solr_commit",
+    method="GET",
+    http_conn_id=SOLR_CONN_ID,
+    endpoint="/solr/" + COLLECTION + "/update?commit=true",
+    dag=DAG
+)
+
 SOLR_ALIAS_SWAP = tasks.swap_sc_alias(DAG, SOLR_CONN_ID, COLLECTION, ALIAS)
 SUCCESS = EmptyOperator(
         task_id='success',
@@ -120,6 +139,8 @@ SUCCESS = EmptyOperator(
 
 # SET UP TASK DEPENDENCIES
 CREATE_COLLECTION.set_upstream(HARVEST_OAI)
-COMBINE_INDEX.set_upstream(CREATE_COLLECTION)
-SOLR_ALIAS_SWAP.set_upstream(COMBINE_INDEX)
+LIST_INDEX_FILES.set_upstream(CREATE_COLLECTION)
+COMBINE_INDEX.set_upstream(LIST_INDEX_FILES)
+SOLR_COMMIT.set_upstream(COMBINE_INDEX)
+SOLR_ALIAS_SWAP.set_upstream(SOLR_COMMIT)
 SUCCESS.set_upstream(SOLR_ALIAS_SWAP)
