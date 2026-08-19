@@ -7,7 +7,7 @@ export PATH="$AIRFLOW_USER_HOME/.rbenv/shims:$AIRFLOW_USER_HOME/.rbenv/bin:$PATH
 
 
 # have any error in following cause bash script to fail
-set -e pipefail
+set -eo pipefail
 # export / set all environment variables passed here by task for pick-up by subprocess
 set -aux
 
@@ -32,7 +32,7 @@ else
 fi
 
 TEMPFILE=$(mktemp /tmp/index-output.XXXXXX)
-trap 'rm -f $TEMPFILE' EXIT
+PUBLISH_TASK_REPORT=$AIRFLOW_HOME/dags/funcake_dags/scripts/publish_task_report.rb
 
 for record_set in `echo $RESP`
 do
@@ -43,10 +43,28 @@ do
   fi
   bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$source_key) 2>&1 | tee -a $TEMPFILE
 done
+report_and_cleanup() {
+  rc=$?
+  cat "$TEMPFILE" | ruby "$PUBLISH_TASK_REPORT" || true
+  rm -f "$TEMPFILE" || true
+  exit $rc
+}
+trap report_and_cleanup EXIT
 
-PUBLISH_TASK_REPORT=$AIRFLOW_HOME/dags/funcake_dags/scripts/publish_task_report.rb
-cat $TEMPFILE | ruby $PUBLISH_TASK_REPORT
+# grab list of items from designated aws bucket (creds are envvars), then index each item
+RESP=$(aws s3 ls "s3://$BUCKET/$FOLDER" | awk '{print $4}')
+if [ -z "$RESP" ]; then echo "ERROR: no record sets found at s3://$BUCKET/$FOLDER"; exit 1; fi
+RESP_COUNT=$(echo $RESP | wc -w | tr -d '[:space:]')
 
-INGEST_COUNT=$(grep 'finished Traject::Indexer\#process:.*records in.*seconds' $TEMPFILE | wc -l);
-RESP_COUNT=$(echo $RESP | wc -w)
-if [ $INGEST_COUNT -ne $RESP_COUNT ]; then echo ERROR: The ingest file count does not match number of files from source; exit 1; fi
+i=0
+for record_set in $RESP
+do
+  i=$((i+1))
+  url=$(aws s3 presign "s3://$BUCKET/$FOLDER$record_set")
+  bundle exec $INDEXER ingest "$url" 2>&1 | tee -a "$TEMPFILE"
+  INGEST_COUNT=$(grep -c 'finished Traject::Indexer\#process:.*records in.*seconds' "$TEMPFILE" || true)
+  if [ "$INGEST_COUNT" -ne "$i" ]; then
+    echo "ERROR: no completion line for record set $record_set (batch $i of $RESP_COUNT, indexed $INGEST_COUNT)"
+    exit 1
+  fi
+done
