@@ -25,24 +25,8 @@ sed -i.bak 's/"solr_writer.commit_on_close": true/"solr_writer.commit_on_close":
 rm lib/$INDEXER.rb.bak
 
 # grab list of items from designated aws bucket (creds are envvars), then index each item
-if [ -n "$DATA" ]; then
-  RESP=$(echo "$DATA" | jq -r '.[]')
-else
-  RESP=`aws s3 ls s3://$BUCKET/$FOLDER | awk '{print $4}'`
-fi
-
 TEMPFILE=$(mktemp /tmp/index-output.XXXXXX)
 PUBLISH_TASK_REPORT=$AIRFLOW_HOME/dags/funcake_dags/scripts/publish_task_report.rb
-
-for record_set in `echo $RESP`
-do
-  if [ -n "$DATA" ]; then
-    source_key=$record_set
-  else
-    source_key=$FOLDER$record_set
-  fi
-  bundle exec $INDEXER ingest $(aws s3 presign s3://$BUCKET/$source_key) 2>&1 | tee -a $TEMPFILE
-done
 report_and_cleanup() {
   rc=$?
   cat "$TEMPFILE" | ruby "$PUBLISH_TASK_REPORT" || true
@@ -52,15 +36,33 @@ report_and_cleanup() {
 trap report_and_cleanup EXIT
 
 # grab list of items from designated aws bucket (creds are envvars), then index each item
-RESP=$(aws s3 ls "s3://$BUCKET/$FOLDER" | awk '{print $4}')
-if [ -z "$RESP" ]; then echo "ERROR: no record sets found at s3://$BUCKET/$FOLDER"; exit 1; fi
+if [ -n "$DATA" ]; then
+  RESP=$(echo "$DATA" | jq -r '.[]')
+else
+  RESP=$(aws s3 ls "s3://$BUCKET/$FOLDER" | awk '{print $4}')
+fi
+
+if [ -z "$RESP" ]; then
+  if [ -n "$DATA" ]; then
+    echo "ERROR: no record sets provided in DATA"
+  else
+    echo "ERROR: no record sets found at s3://$BUCKET/$FOLDER"
+  fi
+  exit 1
+fi
+
 RESP_COUNT=$(echo $RESP | wc -w | tr -d '[:space:]')
 
 i=0
 for record_set in $RESP
 do
   i=$((i+1))
-  url=$(aws s3 presign "s3://$BUCKET/$FOLDER$record_set")
+  if [ -n "$DATA" ]; then
+    source_key=$record_set
+  else
+    source_key=$FOLDER$record_set
+  fi
+  url=$(aws s3 presign "s3://$BUCKET/$source_key")
   bundle exec $INDEXER ingest "$url" 2>&1 | tee -a "$TEMPFILE"
   INGEST_COUNT=$(grep -c 'finished Traject::Indexer\#process:.*records in.*seconds' "$TEMPFILE" || true)
   if [ "$INGEST_COUNT" -ne "$i" ]; then
