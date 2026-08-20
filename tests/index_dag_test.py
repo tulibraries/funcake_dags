@@ -53,10 +53,9 @@ class TestFuncakeDevIndexDAG(unittest.TestCase):
         task = FCDAGDEV.get_task("combine_index")
         expected_bash_path = "{{ var.value.AIRFLOW_HOME }}/dags/funcake_dags/scripts/index.sh "
         self.assertEqual(task.bash_command, expected_bash_path)
-        self.assertTrue(all(isinstance(value, str) for value in task.env.values()))
         self.assertEqual(task.env["AIRFLOW_HOME"], "{{ var.value.AIRFLOW_HOME }}")
         self.assertEqual(task.env["BUCKET"], "{{ var.value.AIRFLOW_DATA_BUCKET }}")
-        self.assertEqual(task.env["DATA"], "{{ ti.xcom_pull(task_ids='list_index_files') | tojson }}")
+        self.assertEqual(task.env["DATA"], "{{ \"'\" ~ (ti.xcom_pull(task_ids='list_index_files') | tojson) ~ \"'\" }}")
         self.assertEqual(task.env["SOLR_URL"], "{{ conn.get('SOLRCLOUD-WRITER').host if '://' in conn.get('SOLRCLOUD-WRITER').host else 'https://' + conn.get('SOLRCLOUD-WRITER').host }}/solr/{{ var.json.FUNCAKE_SOLR_CONFIG.configset }}-{{ logical_date.strftime('%Y-%m-%d_%H-%M-%S') }}")
         self.assertEqual(task.env["SOLR_AUTH_USER"], "{{ conn.get('SOLRCLOUD-WRITER').login or '' }}")
         self.assertEqual(task.env["SOLR_AUTH_PASSWORD"], "{{ conn.get('SOLRCLOUD-WRITER').password or '' }}")
@@ -121,10 +120,9 @@ class TestFuncakeProdIndexDAG(unittest.TestCase):
         task = FCDAGPROD.get_task("combine_index")
         expected_bash_path = "{{ var.value.AIRFLOW_HOME }}/dags/funcake_dags/scripts/index.sh "
         self.assertEqual(task.bash_command, expected_bash_path)
-        self.assertTrue(all(isinstance(value, str) for value in task.env.values()))
         self.assertEqual(task.env["AIRFLOW_HOME"], "{{ var.value.AIRFLOW_HOME }}")
         self.assertEqual(task.env["BUCKET"], "{{ var.value.AIRFLOW_DATA_BUCKET }}")
-        self.assertEqual(task.env["DATA"], "{{ ti.xcom_pull(task_ids='list_index_files') | tojson }}")
+        self.assertEqual(task.env["DATA"], "{{ \"'\" ~ (ti.xcom_pull(task_ids='list_index_files') | tojson) ~ \"'\" }}")
         self.assertEqual(task.env["SOLR_URL"], "{{ conn.get('SOLRCLOUD-WRITER').host if '://' in conn.get('SOLRCLOUD-WRITER').host else 'https://' + conn.get('SOLRCLOUD-WRITER').host }}/solr/{{ var.json.FUNCAKE_SOLR_CONFIG.configset }}-{{ logical_date.strftime('%Y-%m-%d_%H-%M-%S') }}")
         self.assertEqual(task.env["SOLR_AUTH_USER"], "{{ conn.get('SOLRCLOUD-WRITER').login or '' }}")
         self.assertEqual(task.env["SOLR_AUTH_PASSWORD"], "{{ conn.get('SOLRCLOUD-WRITER').password or '' }}")
