@@ -45,6 +45,10 @@ AIRFLOW_HOME = "{{ var.value.AIRFLOW_HOME }}"
 AIRFLOW_USER_HOME = "{{ var.value.AIRFLOW_USER_HOME }}"
 FUNCAKE_INDEX_BASH = AIRFLOW_HOME + "/dags/funcake_dags/scripts/index.sh "
 
+
+def bash_env(values):
+    return {key: "" if value is None else str(value) for key, value in values.items()}
+
 # Define the DAG
 DEFAULT_ARGS = {
     "owner": "dpla",
@@ -107,7 +111,7 @@ LIST_INDEX_FILES = S3ListOperator(
 COMBINE_INDEX = BashOperator(
     task_id="combine_index",
     bash_command=FUNCAKE_INDEX_BASH,
-    env={
+    env=bash_env({
         "BUCKET": AIRFLOW_DATA_BUCKET,
         "DATA": "{{ ti.xcom_pull(task_ids='list_index_files') | tojson }}",
         "INDEXER": "funnel_cake_index",
@@ -119,7 +123,7 @@ COMBINE_INDEX = BashOperator(
         "AIRFLOW_HOME": AIRFLOW_HOME,
         "AIRFLOW_USER_HOME": AIRFLOW_USER_HOME,
         "AIRFLOW_APP_HOME": AIRFLOW_APP_HOME
-    },
+    }),
     dag=DAG
 )
 

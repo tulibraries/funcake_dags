@@ -53,6 +53,7 @@ class TestFuncakeDevIndexDAG(unittest.TestCase):
         task = FCDAGDEV.get_task("combine_index")
         expected_bash_path = "{{ var.value.AIRFLOW_HOME }}/dags/funcake_dags/scripts/index.sh "
         self.assertEqual(task.bash_command, expected_bash_path)
+        self.assertTrue(all(isinstance(value, str) for value in task.env.values()))
         self.assertEqual(task.env["AIRFLOW_HOME"], "{{ var.value.AIRFLOW_HOME }}")
         self.assertEqual(task.env["BUCKET"], "{{ var.value.AIRFLOW_DATA_BUCKET }}")
         self.assertEqual(task.env["DATA"], "{{ ti.xcom_pull(task_ids='list_index_files') | tojson }}")
@@ -120,6 +121,7 @@ class TestFuncakeProdIndexDAG(unittest.TestCase):
         task = FCDAGPROD.get_task("combine_index")
         expected_bash_path = "{{ var.value.AIRFLOW_HOME }}/dags/funcake_dags/scripts/index.sh "
         self.assertEqual(task.bash_command, expected_bash_path)
+        self.assertTrue(all(isinstance(value, str) for value in task.env.values()))
         self.assertEqual(task.env["AIRFLOW_HOME"], "{{ var.value.AIRFLOW_HOME }}")
         self.assertEqual(task.env["BUCKET"], "{{ var.value.AIRFLOW_DATA_BUCKET }}")
         self.assertEqual(task.env["DATA"], "{{ ti.xcom_pull(task_ids='list_index_files') | tojson }}")
