@@ -20,7 +20,7 @@ rm -f /tmp/all-identifiers-$DAG_ID.*
 
 SAXON_VERSION=9.9.1-5
 SAXON_DOWNLOAD_SHA1=c1f413a1b810dbf0d673ffd3b27c8829a82ac31c
-SAXON_CP=/tmp/saxon/saxon-$SAXON_VERSION.jar
+SAXON_CP=${SAXON_CP:-/tmp/saxon/saxon-$SAXON_VERSION.jar}
 
 if [ ! -f $SAXON_CP ]; then
 	mkdir -p /tmp/saxon && \
@@ -41,6 +41,21 @@ fi
 
 TOTAL_TRANSFORMED=0
 RESP=`aws s3api list-objects --bucket $BUCKET --prefix ${DAG_ID}/${DAG_TS}/${SOURCE}`
+OBJECT_COUNT=$(
+  printf "%s\n" "$RESP" |
+    jq -r '(.Contents // []) | length'
+)
+
+if [ "$OBJECT_COUNT" -eq 0 ]; then
+	echo "No source files found at s3://$BUCKET/${DAG_ID}/${DAG_TS}/${SOURCE}" >&2
+	exit 1
+fi
+
+OBJECTS=$(
+  printf "%s\n" "$RESP" |
+    jq -r '(.Contents // [])[] | [.Key, (.Size | tostring)] | @tsv'
+)
+
 SKIPPED_EMPTY_FILES=0
 PROCESSED_FILES=0
 
@@ -74,7 +89,7 @@ do
 
 	TEMPFILE=$(mktemp /tmp/identifier-output-$DAG_ID.XXXXXX)
 	grep "^<dcterms:identifier>\|</dcterms:identifier>$" "$SOURCE_XML-transformed.xml" >> "$TEMPFILE" || true
-done < <(echo "$RESP" | jq -r '.Contents[]? | [.Key, (.Size | tostring)] | @tsv')
+done <<< "$OBJECTS"
 
 IDENTIFIER_FILE=$(mktemp /tmp/all-identifiers-$DAG_ID.XXXXXX)
 shopt -s nullglob
