@@ -33,6 +33,16 @@ class TransformScriptTest(unittest.TestCase):
         self.assertEqual(uploads, "")
         self.assertEqual(transformed_files, [])
 
+    def test_fails_when_listing_only_contains_directory_markers(self):
+        result, uploads, transformed_files = self._run_script(
+            '{"Contents":[{"Key":"funcake_test/2021-03-23_17-25-10/new-updated-filtered/","Size":0}]}'
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("No source files found", result.stderr)
+        self.assertEqual(uploads, "")
+        self.assertEqual(transformed_files, [])
+
     def test_processes_non_empty_objects_and_skips_empty_ones(self):
         listing = """{
             "Contents": [
@@ -54,6 +64,24 @@ class TransformScriptTest(unittest.TestCase):
             ],
         )
         self.assertEqual(len(transformed_files), 2)
+
+    def test_handles_transformed_files_with_zero_records(self):
+        listing = """{
+            "Contents": [
+                {"Key":"funcake_test/2021-03-23_17-25-10/new-updated-filtered/file1.xml","Size":100}
+            ]
+        }"""
+        result, uploads, transformed_files = self._run_script(listing, java_mode="transform_zero_records")
+
+        self.assertEqual(result.returncode, 0, msg=result.stderr)
+        self.assertIn("Total Records transformed: 0", result.stdout)
+        self.assertIn("Files transformed: 1", result.stdout)
+        self.assertIn("Empty files skipped: 0", result.stdout)
+        self.assertEqual(
+            uploads.strip().splitlines(),
+            ["s3://test-bucket/funcake_test/2021-03-23_17-25-10/transformed/file1.xml"],
+        )
+        self.assertEqual(len(transformed_files), 1)
 
     def _run_script(self, listing_json: str, java_mode: str = "fail"):
         tempdir = tempfile.mkdtemp()
@@ -93,11 +121,12 @@ import sys
 query = sys.argv[-1]
 payload = json.load(sys.stdin)
 contents = payload.get("Contents") or []
-if query == "(.Contents // []) | length":
-    print(len(contents))
-elif query == "(.Contents // [])[] | [.Key, (.Size | tostring)] | @tsv":
+if query == '(.Contents // []) | map(select(.Key | endswith("/") | not)) | length':
+    print(len([item for item in contents if not item["Key"].endswith("/")]))
+elif query == '(.Contents // [])[] | select(.Key | endswith("/") | not) | [.Key, (.Size | tostring)] | @tsv':
     for item in contents:
-        print(f"{item['Key']}\\t{item['Size']}")
+        if not item["Key"].endswith("/"):
+            print(f"{item['Key']}\\t{item['Size']}")
 else:
     raise SystemExit(f"unexpected jq query: {query}")
 """,
@@ -157,6 +186,15 @@ printf 'java should not run for zero-byte inputs\\n' >&2
 exit 1
 """
 
+        transformed_payload = """<root>
+<oai_dc:dc xmlns:oai_dc="urn:oai_dc"/>
+<dcterms:identifier>id</dcterms:identifier>
+</root>"""
+        if java_mode == "transform_zero_records":
+            transformed_payload = """<root>
+<dcterms:identifier>id</dcterms:identifier>
+</root>"""
+
         return f"""#!/usr/bin/env bash
 set -euo pipefail
 output=""
@@ -176,10 +214,7 @@ fi
 mkdir -p "$(dirname "$output")"
 if [[ "$output" == *"-transformed.xml" ]]; then
   cat <<'EOF' > "$output"
-<root>
-<oai_dc:dc xmlns:oai_dc="urn:oai_dc"/>
-<dcterms:identifier>id</dcterms:identifier>
-</root>
+{transformed_payload}
 EOF
 else
   cat <<'EOF' > "$output"

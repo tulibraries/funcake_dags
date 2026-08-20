@@ -43,7 +43,7 @@ TOTAL_TRANSFORMED=0
 RESP=`aws s3api list-objects --bucket $BUCKET --prefix ${DAG_ID}/${DAG_TS}/${SOURCE}`
 OBJECT_COUNT=$(
   printf "%s\n" "$RESP" |
-    jq -r '(.Contents // []) | length'
+    jq -r '(.Contents // []) | map(select(.Key | endswith("/") | not)) | length'
 )
 
 if [ "$OBJECT_COUNT" -eq 0 ]; then
@@ -53,7 +53,7 @@ fi
 
 OBJECTS=$(
   printf "%s\n" "$RESP" |
-    jq -r '(.Contents // [])[] | [.Key, (.Size | tostring)] | @tsv'
+    jq -r '(.Contents // [])[] | select(.Key | endswith("/") | not) | [.Key, (.Size | tostring)] | @tsv'
 )
 
 SKIPPED_EMPTY_FILES=0
@@ -83,7 +83,7 @@ do
 	echo "</collection>" >> $SOURCE_XML-2.xml
 
 	java -jar $SAXON_CP -xsl:$SCRIPTS_PATH/batch-transform.xsl -s:$SOURCE_XML-2.xml -o:$SOURCE_XML-transformed.xml -t
-	COUNT=$(grep -o "<oai_dc:dc" "$SOURCE_XML-transformed.xml" | wc -l || echo 0)
+	COUNT=$(grep -o "<oai_dc:dc" "$SOURCE_XML-transformed.xml" | wc -l || :)
 	TOTAL_TRANSFORMED=$((TOTAL_TRANSFORMED + COUNT))
 	aws s3 cp $SOURCE_XML-transformed.xml s3://$BUCKET/$TRANSFORM_XML
 
