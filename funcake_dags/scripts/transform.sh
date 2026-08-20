@@ -41,8 +41,20 @@ fi
 
 TOTAL_TRANSFORMED=0
 RESP=`aws s3api list-objects --bucket $BUCKET --prefix ${DAG_ID}/${DAG_TS}/${SOURCE}`
-for SOURCE_XML in `echo $RESP | jq -r '.Contents[].Key'`
+SKIPPED_EMPTY_FILES=0
+PROCESSED_FILES=0
+
+while IFS=$'\t' read -r SOURCE_XML SOURCE_SIZE
 do
+  [ -n "${SOURCE_XML:-}" ] || continue
+
+  if [ "${SOURCE_SIZE:-0}" -eq 0 ]; then
+    echo "Skipping empty source file: $SOURCE_XML"
+    SKIPPED_EMPTY_FILES=$((SKIPPED_EMPTY_FILES + 1))
+    continue
+  fi
+
+  PROCESSED_FILES=$((PROCESSED_FILES + 1))
   SOURCE_URL=$(aws s3 presign s3://$BUCKET/$SOURCE_XML)
   echo Reading from $SOURCE_URL
 
@@ -62,16 +74,27 @@ do
 
 	TEMPFILE=$(mktemp /tmp/identifier-output-$DAG_ID.XXXXXX)
 	grep "^<dcterms:identifier>\|</dcterms:identifier>$" "$SOURCE_XML-transformed.xml" >> "$TEMPFILE" || true
-done
+done < <(echo "$RESP" | jq -r '.Contents[]? | [.Key, (.Size | tostring)] | @tsv')
 
 IDENTIFIER_FILE=$(mktemp /tmp/all-identifiers-$DAG_ID.XXXXXX)
-for file in /tmp/identifier-output-$DAG_ID.*;
-do
-	sort --u $file
-done | sort -u > $IDENTIFIER_FILE
+shopt -s nullglob
+IDENTIFIER_FILES=(/tmp/identifier-output-$DAG_ID.*)
+
+if [ ${#IDENTIFIER_FILES[@]} -gt 0 ]; then
+	for file in "${IDENTIFIER_FILES[@]}"
+	do
+		sort --u "$file"
+	done | sort -u > "$IDENTIFIER_FILE"
+else
+	: > "$IDENTIFIER_FILE"
+fi
+
+shopt -u nullglob
 
 UNIQUE_RECORD_COUNT=$(wc -l < "$IDENTIFIER_FILE")
 
 
 echo "Total Records transformed: $TOTAL_TRANSFORMED"
 echo "Unique Record Count: $UNIQUE_RECORD_COUNT"
+echo "Files transformed: $PROCESSED_FILES"
+echo "Empty files skipped: $SKIPPED_EMPTY_FILES"
