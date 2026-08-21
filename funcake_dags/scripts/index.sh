@@ -36,14 +36,14 @@ report_and_cleanup() {
 trap report_and_cleanup EXIT
 
 # grab list of items from designated aws bucket (creds are envvars), then index each item
-if [ -n "$DATA" ]; then
+if [ -n "${DATA:-}" ]; then
   RESP=$(echo "$DATA" | jq -r '.[]')
 else
   RESP=$(aws s3 ls "s3://$BUCKET/$FOLDER" | awk '{print $4}')
 fi
 
 if [ -z "$RESP" ]; then
-  if [ -n "$DATA" ]; then
+  if [ -n "${DATA:-}" ]; then
     echo "ERROR: no record sets provided in DATA"
   else
     echo "ERROR: no record sets found at s3://$BUCKET/$FOLDER"
@@ -57,7 +57,7 @@ i=0
 for record_set in $RESP
 do
   i=$((i+1))
-  if [ -n "$DATA" ]; then
+  if [ -n "${DATA:-}" ]; then
     source_key=$record_set
   else
     source_key=$FOLDER$record_set
