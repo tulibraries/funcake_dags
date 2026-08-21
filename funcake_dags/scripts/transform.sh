@@ -58,6 +58,7 @@ OBJECTS=$(
 
 SKIPPED_EMPTY_FILES=0
 PROCESSED_FILES=0
+ZERO_RECORD_OUTPUT_FILES=0
 
 while IFS=$'\t' read -r SOURCE_XML SOURCE_SIZE
 do
@@ -85,6 +86,10 @@ do
 	java -jar $SAXON_CP -xsl:$SCRIPTS_PATH/batch-transform.xsl -s:$SOURCE_XML-2.xml -o:$SOURCE_XML-transformed.xml -t
 	COUNT=$(grep -o "<oai_dc:dc" "$SOURCE_XML-transformed.xml" | wc -l || :)
 	TOTAL_TRANSFORMED=$((TOTAL_TRANSFORMED + COUNT))
+	if [ "$COUNT" -eq 0 ]; then
+		echo "No transformed records found in output for: $SOURCE_XML"
+		ZERO_RECORD_OUTPUT_FILES=$((ZERO_RECORD_OUTPUT_FILES + 1))
+	fi
 	aws s3 cp $SOURCE_XML-transformed.xml s3://$BUCKET/$TRANSFORM_XML
 
 	TEMPFILE=$(mktemp /tmp/identifier-output-$DAG_ID.XXXXXX)
@@ -113,3 +118,4 @@ echo "Total Records transformed: $TOTAL_TRANSFORMED"
 echo "Unique Record Count: $UNIQUE_RECORD_COUNT"
 echo "Files transformed: $PROCESSED_FILES"
 echo "Empty files skipped: $SKIPPED_EMPTY_FILES"
+echo "Files with 0 transformed records: $ZERO_RECORD_OUTPUT_FILES"
