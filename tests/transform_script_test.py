@@ -22,6 +22,7 @@ class TransformScriptTest(unittest.TestCase):
         self.assertIn("Skipping empty source file", result.stdout)
         self.assertIn("Files transformed: 0", result.stdout)
         self.assertIn("Empty files skipped: 1", result.stdout)
+        self.assertIn("Files with 0 transformed records: 0", result.stdout)
         self.assertEqual(uploads, "")
         self.assertEqual(transformed_files, [])
 
@@ -56,6 +57,7 @@ class TransformScriptTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, msg=result.stderr)
         self.assertIn("Files transformed: 2", result.stdout)
         self.assertIn("Empty files skipped: 1", result.stdout)
+        self.assertIn("Files with 0 transformed records: 0", result.stdout)
         self.assertEqual(
             uploads.strip().splitlines(),
             [
@@ -77,6 +79,8 @@ class TransformScriptTest(unittest.TestCase):
         self.assertIn("Total Records transformed: 0", result.stdout)
         self.assertIn("Files transformed: 1", result.stdout)
         self.assertIn("Empty files skipped: 0", result.stdout)
+        self.assertIn("No transformed records found in output for:", result.stdout)
+        self.assertIn("Files with 0 transformed records: 1", result.stdout)
         self.assertEqual(
             uploads.strip().splitlines(),
             ["s3://test-bucket/funcake_test/2021-03-23_17-25-10/transformed/file1.xml"],
