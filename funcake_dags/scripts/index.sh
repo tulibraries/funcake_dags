@@ -27,6 +27,15 @@ rm lib/$INDEXER.rb.bak
 # grab list of items from designated aws bucket (creds are envvars), then index each item
 TEMPFILE=$(mktemp /tmp/index-output.XXXXXX)
 PUBLISH_TASK_REPORT=$AIRFLOW_HOME/dags/funcake_dags/scripts/publish_task_report.rb
+
+solr_curl() {
+  if [ -n "${SOLR_AUTH_USER:-}" ]; then
+    curl -fsS -u "${SOLR_AUTH_USER}:${SOLR_AUTH_PASSWORD:-}" "$@"
+  else
+    curl -fsS "$@"
+  fi
+}
+
 report_and_cleanup() {
   rc=$?
   cat "$TEMPFILE" | ruby "$PUBLISH_TASK_REPORT" || true
@@ -70,3 +79,20 @@ do
     exit 1
   fi
 done
+
+SOLR_BASE_URL="${FUNCAKE_OAI_SOLR_URL%/}"
+if ! solr_curl -X POST "${SOLR_BASE_URL}/update?commit=true" >/dev/null; then
+  echo "ERROR: unable to commit Solr collection after publish"
+  exit 1
+fi
+
+SOLR_COUNT_RESPONSE=$(solr_curl "${SOLR_BASE_URL}/select?q=*:*&rows=0&wt=json")
+SOLR_PUBLISHED_COUNT=$(printf '%s' "$SOLR_COUNT_RESPONSE" | jq -r '.response.numFound // empty' 2>/dev/null || true)
+
+if ! [[ "${SOLR_PUBLISHED_COUNT:-}" =~ ^[0-9]+$ ]]; then
+  echo "ERROR: unable to parse published record count from Solr response"
+  exit 1
+fi
+
+export SOLR_PUBLISHED_COUNT
+echo "Published Record Count: $SOLR_PUBLISHED_COUNT"

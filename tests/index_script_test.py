@@ -30,12 +30,39 @@ class IndexScriptTest(unittest.TestCase):
         self.assertNotIn("DATA: unbound variable", result.stdout + result.stderr)
         self.assertIn("ERROR: no record sets provided in DATA", result.stdout)
 
-    def _run_script(self, data: str | None = None):
+    def test_publish_succeeds_when_solr_commit_and_count_succeed(self):
+        result = self._run_script(
+            data='["set1.xml"]',
+            bundle_output="finished Traject::Indexer#process: 2 records in 0.1 seconds\n",
+            solr_count="2",
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("Published Record Count: 2", result.stdout)
+
+    def test_publish_fails_when_solr_commit_fails(self):
+        result = self._run_script(
+            data='["set1.xml"]',
+            bundle_output="finished Traject::Indexer#process: 2 records in 0.1 seconds\n",
+            curl_commit_exit=1,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("ERROR: unable to commit Solr collection after publish", result.stdout)
+
+    def _run_script(
+        self,
+        data: str | None = None,
+        bundle_output: str = "",
+        solr_count: str = "0",
+        curl_commit_exit: int = 0,
+    ):
         tempdir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, tempdir, ignore_errors=True)
         tempdir_path = Path(tempdir)
         bin_dir = tempdir_path / "bin"
         bin_dir.mkdir()
+        (tempdir_path / ".bashrc").write_text("", encoding="utf-8")
 
         report_dir = tempdir_path / "dags" / "funcake_dags" / "scripts"
         report_dir.mkdir(parents=True)
@@ -53,8 +80,55 @@ EOF
 """,
         )
         self._write_executable(bin_dir / "gem", "#!/usr/bin/env bash\nexit 0\n")
-        self._write_executable(bin_dir / "bundle", "#!/usr/bin/env bash\nexit 0\n")
-        self._write_executable(bin_dir / "aws", "#!/usr/bin/env bash\nexit 0\n")
+        self._write_executable(
+            bin_dir / "bundle",
+            f"""#!/usr/bin/env bash
+if [ "$1" = "exec" ]; then
+  printf %s {bundle_output!r}
+fi
+exit 0
+""",
+        )
+        self._write_executable(
+            bin_dir / "aws",
+            """#!/usr/bin/env bash
+if [ "$1" = "s3" ] && [ "$2" = "presign" ]; then
+  printf "http://example.test/presigned\\n"
+fi
+exit 0
+""",
+        )
+        self._write_executable(
+            bin_dir / "curl",
+            f"""#!/usr/bin/env bash
+args="$*"
+if [[ "$args" == *"/update?commit=true"* ]]; then
+  exit {curl_commit_exit}
+fi
+if [[ "$args" == *"/select?q=*:*&rows=0&wt=json"* ]]; then
+  printf '{{"response":{{"numFound":{solr_count}}}}}\\n'
+  exit 0
+fi
+exit 0
+""",
+        )
+        self._write_executable(
+            bin_dir / "jq",
+            """#!/usr/bin/env python3
+import json
+import sys
+
+payload = json.load(sys.stdin)
+query = sys.argv[-1]
+if query == ".[]":
+    for item in payload:
+        print(item)
+elif query == ".response.numFound // empty":
+    print(payload["response"]["numFound"])
+else:
+    raise SystemExit(f"unsupported jq query: {query}")
+""",
+        )
         self._write_executable(
             bin_dir / "ruby",
             """#!/usr/bin/env bash
