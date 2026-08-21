@@ -82,7 +82,7 @@ done
 
 if [ -n "${FUNCAKE_OAI_SOLR_URL:-}" ]; then
   SOLR_BASE_URL="${FUNCAKE_OAI_SOLR_URL%/}"
-  if ! solr_curl -X POST "${SOLR_BASE_URL}/update?commit=true" >/dev/null; then
+  if ! solr_curl "${SOLR_BASE_URL}/update?commit=true" >/dev/null; then
     echo "ERROR: unable to commit Solr collection after publish"
     exit 1
   fi
