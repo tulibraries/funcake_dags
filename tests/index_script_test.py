@@ -50,12 +50,23 @@ class IndexScriptTest(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("ERROR: unable to commit Solr collection after publish", result.stdout)
 
+    def test_index_mode_with_solr_url_only_skips_template_publish_verification(self):
+        result = self._run_script(
+            data='["set1.xml"]',
+            bundle_output="finished Traject::Indexer#process: 2 records in 0.1 seconds\n",
+            include_funcake_oai_solr_url=False,
+        )
+
+        self.assertEqual(result.returncode, 0)
+        self.assertNotIn("Published Record Count:", result.stdout)
+
     def _run_script(
         self,
         data: str | None = None,
         bundle_output: str = "",
         solr_count: str = "0",
         curl_commit_exit: int = 0,
+        include_funcake_oai_solr_url: bool = True,
     ):
         tempdir = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, tempdir, ignore_errors=True)
@@ -144,14 +155,16 @@ printf "{ 'published': '0' }\\n"
                 "AIRFLOW_USER_HOME": tempdir,
                 "BUCKET": "test-bucket",
                 "FOLDER": "test-prefix/",
-                "FUNCAKE_OAI_SOLR_URL": "http://example.test/solr/core",
                 "HOME": tempdir,
                 "INDEXER": "oai_index",
                 "PATH": f"{bin_dir}:{env['PATH']}",
+                "SOLR_URL": "http://example.test/solr/core",
                 "SOLR_AUTH_PASSWORD": "",
                 "SOLR_AUTH_USER": "",
             }
         )
+        if include_funcake_oai_solr_url:
+            env["FUNCAKE_OAI_SOLR_URL"] = "http://example.test/solr/core"
         if data is not None:
             env["DATA"] = data
 

@@ -80,19 +80,21 @@ do
   fi
 done
 
-SOLR_BASE_URL="${FUNCAKE_OAI_SOLR_URL%/}"
-if ! solr_curl -X POST "${SOLR_BASE_URL}/update?commit=true" >/dev/null; then
-  echo "ERROR: unable to commit Solr collection after publish"
-  exit 1
+if [ -n "${FUNCAKE_OAI_SOLR_URL:-}" ]; then
+  SOLR_BASE_URL="${FUNCAKE_OAI_SOLR_URL%/}"
+  if ! solr_curl -X POST "${SOLR_BASE_URL}/update?commit=true" >/dev/null; then
+    echo "ERROR: unable to commit Solr collection after publish"
+    exit 1
+  fi
+
+  SOLR_COUNT_RESPONSE=$(solr_curl "${SOLR_BASE_URL}/select?q=*:*&rows=0&wt=json")
+  SOLR_PUBLISHED_COUNT=$(printf '%s' "$SOLR_COUNT_RESPONSE" | jq -r '.response.numFound // empty' 2>/dev/null || true)
+
+  if ! [[ "${SOLR_PUBLISHED_COUNT:-}" =~ ^[0-9]+$ ]]; then
+    echo "ERROR: unable to parse published record count from Solr response"
+    exit 1
+  fi
+
+  export SOLR_PUBLISHED_COUNT
+  echo "Published Record Count: $SOLR_PUBLISHED_COUNT"
 fi
-
-SOLR_COUNT_RESPONSE=$(solr_curl "${SOLR_BASE_URL}/select?q=*:*&rows=0&wt=json")
-SOLR_PUBLISHED_COUNT=$(printf '%s' "$SOLR_COUNT_RESPONSE" | jq -r '.response.numFound // empty' 2>/dev/null || true)
-
-if ! [[ "${SOLR_PUBLISHED_COUNT:-}" =~ ^[0-9]+$ ]]; then
-  echo "ERROR: unable to parse published record count from Solr response"
-  exit 1
-fi
-
-export SOLR_PUBLISHED_COUNT
-echo "Published Record Count: $SOLR_PUBLISHED_COUNT"
