@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d21da5778a79192b6c0380465c778fe50778b1317315d9a2285479860c52eb4d"
+            "sha256": "bf71a5d7edf582461d8f14a9e20573a78f5340e922ed187463e28b8f90a859e8"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -27,12 +27,12 @@
         },
         "aiobotocore": {
             "hashes": [
-                "sha256:680bde7c64679a821a9312641b759d9497f790ba8b2e88c6959e6273ee765b8e",
-                "sha256:c64d871ed5491a6571948dd48eabd185b46c6c23b64e3afd0c059fc7593ada30"
+                "sha256:5d344e97c518b010bea167c7f7ba4f9e785f9d2b8ac7af4fd00846c62f2c0a10",
+                "sha256:7354659eac9ba6034675b3ea178330b7de97c45989d6fda1bf01d3da167b6135"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==3.7.0"
+            "version": "==3.9.0"
         },
         "aiofiles": {
             "hashes": [
@@ -528,11 +528,11 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:cc5b15eaec3c6eac05d8012cb5ef17ebe891beb88a16ca13c374bfaece1241e6",
-                "sha256:e933b31a2d644253e1d029d7d39e99ba41b87e29300534f189744cc438cdf928"
+                "sha256:6c01f85f0ff9863076f4c761e74ee3aa96c5ccc1ad09fc1efd62ef8f2d22bf57",
+                "sha256:aafc741f1b10f6fd63253eaf6ea029680c1ff436d87e1b8969d62aefa0c76976"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==1.43.0"
+            "version": "==1.43.56"
         },
         "cachelib": {
             "hashes": [
@@ -1378,11 +1378,11 @@
         },
         "idna": {
             "hashes": [
-                "sha256:7f952cbe720b688055e3f87de14f5c3e5fdaa8bc3928985c4077ca689de849a2",
-                "sha256:ffb385a7e039654cef1ab9ef32c6fafe283c0c0467bba1d9029738ce4a14a848"
+                "sha256:5e0811a4383b21dc5838069f801c4fb62113b7447663d2530d2bd6e77b49bf15",
+                "sha256:815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4"
             ],
             "markers": "python_version >= '3.9'",
-            "version": "==3.18"
+            "version": "==3.19"
         },
         "importlib-metadata": {
             "hashes": [
