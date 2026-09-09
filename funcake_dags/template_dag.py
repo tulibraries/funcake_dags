@@ -36,7 +36,6 @@ dag_ids = [
     "aps",
     "aps_static",
     "bloomsburg",
-    "cabrini",
     "chrc",
     "cpp",
     "curtis",
