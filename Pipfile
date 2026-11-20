@@ -33,6 +33,7 @@ sshtunnel = "*"
 tulflow = "*"
 
 [packages]
+tulflow = "*"
 
 [requires]
 python_version = "3.12"
